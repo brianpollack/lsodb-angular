@@ -1,0 +1,200 @@
+/* form starting stylings ------------------------------- */
+.ec-group {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.ec-input {
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 300px;
+  border: none;
+  border-bottom: 1px solid #757575;
+}
+.ec-input:focus {
+  outline: none;
+}
+
+/* ICON ======================================= */
+.ec-form-icon {
+  /*  position: absolute;
+    top: 5px;
+    left: 0; */
+  padding: 9px 8px;
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  /* left: 5px; */
+  top: 5px;
+  transition: 0.3s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.ec-input:focus ~ .ec-form-icon {
+  top: -25px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+.ec-input:not(:focus):not(:placeholder-shown) ~ .ec-form-icon {
+  top: -25px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+/* LABEL ======================================= */
+.label {
+  color: #999;
+  font-size: 1rem;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 35px;
+  top: 10px;
+  transition: 0.3s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.ec-input::placeholder {
+  color: transparent;
+}
+
+/* inactive state */
+.ec-input:empty ~ .label {
+  top: 10px;
+  font-size: 14px;
+  color: #5264ae;
+}
+/* active state */
+.ec-input:focus ~ .label {
+  top: -20px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+.ec-input:not(:focus):not(:placeholder-shown) ~ .label {
+  top: -20px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+/* input:not(empty) ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: rgb(153, 51, 56);
+} */
+
+/* BOTTOM BARS ================================= */
+.ec-bar {
+  position: relative;
+  display: block;
+  width: 300px;
+}
+.ec-bar:before,
+.ec-bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #5264ae;
+  transition: 0.3s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.ec-bar:before {
+  left: 50%;
+}
+.ec-bar:after {
+  right: 50%;
+}
+
+/* active state */
+.ec-input:focus ~ .ec-bar:before,
+.ec-input:focus ~ .ec-bar:after {
+  width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.ec-highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* active state */
+.ec-input:focus ~ .ec-highlight {
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+  from {
+    background: #5264ae;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+@-moz-keyframes inputHighlighter {
+  from {
+    background: #5264ae;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+@keyframes inputHighlighter {
+  from {
+    background: #5264ae;
+  }
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@font-face {
+  font-family: "password";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://jsbin-user-assets.s3.amazonaws.com/rafaelcastrocouto/password.ttf);
+}
+
+.ec-input.key {
+  color: rgb(15, 15, 15);
+  font-family: "password";
+  /* width: 100px; height: 16px;   */
+}
+
+
+/* .side-menu-toggle {
+  cursor: pointer;
+} */
+
+/* .side-bar{
+  display: none;
+  transition: all .5s cubic-bezier(0.9, 0, 0.3, 1.3);
+} */
+
+/* #side-menu-toggle:checked ~ .side-bar {
+  display: block;
+  transition: all .5s ease ;
+} */
+
+.ec-field {
+  width: 75%;
+}

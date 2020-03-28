@@ -1,0 +1,124 @@
+.ec-sidenav-container {
+ background: var(--foreground-color);
+  width: 250px;
+  height: cal(100% - 130px);
+  position: fixed;
+  top: 61px;
+  left: 0px;
+  bottom: 0;
+  /* display: none; */
+  /* visibility: visible; */
+  /* overflow-x: hidden; */
+  /* padding-top: 100px; */
+  z-index: 999;
+  /* height: calc(100% - 100px); */
+  /* animation: fadeIn 0.5s ease ; */
+  transition:all 1s ;
+
+}
+
+.menu-show .ec-sidenav-container {
+  display: block;
+  animation: fadeOut  0.5s ease ;
+}
+
+.menu-hide .ec-sidenav-container {
+
+
+  /* background-color: aqua; */
+  /* animation: fadeIn 0.5s ease; */
+  /* display: none; */
+  /* visibility: hidden; */
+
+  display: none;
+}
+
+
+
+.ec-sidenav-card {
+  padding-top: 1rem;
+  overflow-y: hidden;
+}
+
+.ec-sidenav-card ul {
+  padding-left: 0px;
+  padding-right: 20px;
+     list-style: none;
+}
+
+.ec-sidenav-card ul li  {
+
+  /* margin: 25px 25px 25px 0; */
+  padding: 15px 20px 15px 20px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-bottom: 5px;
+  
+  
+}
+
+.ec-sidenav-card ul li:hover,
+.ec-sidenav-card ul li:focus
+ {
+  /* width: 170px; */
+  border-radius: 0 50px 50px 0 ;
+ 
+  background: var(--theme-color-5);
+}
+
+.ec-sidenav-card ul li p i {
+  margin-right: 15px;
+}
+
+.ec-sidenav-card ul li p {
+  margin: 0;
+  padding: 0;
+  color: rgb(13, 13, 14);
+  pointer-events: none;
+}
+
+/* .ec-sidenav-card ul li p:hover,
+.ec-sidenav-card ul li p:focus {
+  color: var(--foreground-color);
+  background: var(--theme-color-5);
+} */
+
+.ec-sidenav-card ul  .menu-active {
+  /* width: 170px; */
+  border-radius: 0 50px 50px 0 ;
+ 
+  background: var(--theme-color-5);
+ 
+}
+
+
+
+
+@keyframes fadeOut {
+  0% {
+    /* opacity: 1; */
+    transform: translateX(-80px);
+    /* background-color: black; */
+  }
+  100% {
+    /* opacity: 0; */
+    transform: translateY(0);
+    /* background-color: blueviolet; */
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    /* opacity: 1; */
+    transform: translateY(0px);
+    /* background-color: black; */
+  }
+  100% {
+    /* opacity: 0; */
+    transform: translateX(-200px);
+    /* display: none; */
+    /* background-color: blueviolet; */
+  }
+}
+
+

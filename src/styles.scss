@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+
+// icon files
+@import "./assets/icons/fontawesome/css/all.min.css";
+
+//   bootstrap theme
+@import "./assets/css/bootstrap.min.css";
+@import "./assets/css/gogo.light.orange.css";
+@import "./assets/css/main.css";
+@import "./assets/css/ec-form.css";
+@import "./assets/css/ec-sidemenu.css";
+
+html,
+body {
+  height: 100vh;
+  
+}
+body {
+  margin: 0;
+  font-family: Nunito, Roboto, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // overflow-y: scroll;
+}

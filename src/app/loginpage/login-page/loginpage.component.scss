@@ -1,0 +1,27 @@
+:host {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 70px 1fr 70px;
+    // background: rgb(209, 81, 81);
+//   header grid
+    .header-grid {
+      grid-row: 1;
+      margin-bottom: 2rem;
+    }
+//   page grid
+    .pages-grid {
+      grid-row: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background-color: black;
+  
+      
+    }
+//   footer grid
+    .footer-grid {
+      grid-row: 3;
+      width: 100%;
+    }
+  }
+  

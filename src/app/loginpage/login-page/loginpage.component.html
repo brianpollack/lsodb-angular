@@ -1,0 +1,95 @@
+<!--  header start  -->
+<div class="header-grid main main-raised fixed-top ml-3 mr-3">
+  <div class="navbar">
+    <div class="logo d-flex flex-row align-items-center navbar-left">
+      <img
+        src="../../../assets/img/lsodb-logo.svg"
+        class="logo-img"
+        alt="logo"
+      />
+      <span class="pl-2 h1 font-weight-bold">LSO-DB</span>
+    </div>
+  </div>
+</div>
+<!-- page content -->
+<div class="pages-grid ">
+  <!-- <h2>{{ pageTitle | splitWord | titlecase }} -->
+  <mat-card class="ec-width-2">
+    <mat-card-content class="justify-content-center">
+      <div class="text-center mb-2">
+        <i class="fal fa-fingerprint fa-2x ec-icon mb-1"></i>
+        <h5>{{ pageTitle | splitWord | titlecase }}</h5>
+        <span class="text-semi-muted">Enter your credential below</span>
+      </div>
+    </mat-card-content>
+
+    <mat-card-content class="text-center">
+      <form autocomplete="off" [formGroup]="loginForm" >
+         <!-- email field -->
+          <mat-form-field class="ec-field mb-1">
+            <mat-label
+              ><span><i class="fas fa-at "></i></span> Email</mat-label
+            >
+            <input matInput formControlName="loginEmail" type="email" placeholder="Ex. pat@example.com" />
+            <mat-error
+             *ngIf="loginForm.get('loginEmail').errors?.email">
+              <i class="fas fa-times-circle"></i> Email is not valid  
+            </mat-error>
+            <mat-error
+             *ngIf="loginForm.get('loginEmail').errors?.required">
+              <i class="fas fa-times-circle"></i> Email is Required!  
+            </mat-error>
+          </mat-form-field>
+
+           <!-- password field -->
+          <mat-form-field class="ec-field mb-1">
+            <mat-label
+              ><span><i class="fas fa-key "></i></span> Password</mat-label
+            >
+            <input matInput formControlName="loginPassword" type="password" placeholder="password" />
+            <mat-error 
+            *ngIf="loginForm.get('loginPassword').errors?.required"
+            >
+              <i class="fas fa-times-circle"></i> Password is Required!  
+            </mat-error>
+            <mat-error 
+            *ngIf="loginForm.get('loginPassword').errors?.minlength"
+            >
+              <i class="fas fa-times-circle"></i> Password must have minimum 6 characters  
+            </mat-error>
+          </mat-form-field>
+          
+          <div class='mt-3 mb-3 d-flex justify-content-center '>
+            <button class='btn btn-primary btn-block btn-xs ec-font-1 w-70'>
+              Login <i class='fal fa-arrow-circle-right'></i>
+            </button>
+          </div>
+
+          <div class='mt-3 mb-3 ec-font-0 d-flex justify-content-center '>
+            Forget Password ?
+          </div>
+          
+      </form>
+      
+         
+
+         
+        
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- footer  -->
+<div class="footer-grid main main-footer-raised fixed-bottom   ml-3 mr-3">
+  <div
+    class="d-flex flex-row justify-content-between  p-3 font-weight-bold ec-footer"
+  >
+    <p class="ec-black ec-font-1">
+      This Project is designed and guided by Easy-Cloud
+    </p>
+    <p class="ec-black ec-font-1">Mentor Mr.Sakar .SR</p>
+    <p class="ec-black ec-font-1">
+      Mail: sakar@easy-cloud.in <span> phone: 9362496202</span>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 70px 1fr 70px;
+
+  .header-grid {
+    grid-row: 1;
+    margin-bottom: 2rem;
+  }
+
+  .pages-grid {
+    grid-row: 2;
+
+    .page-subgrid {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      justify-content: center;
+      align-content: center;
+
+      .homepage-image {
+        grid-row: 1;
+
+        .image-bg {
+          width: 100%;
+          height: 200px;
+        }
+      }
+
+      .homepage-title {
+        grid-row: 2;
+        text-align: center;
+        /* width: 50%; */
+        .title {
+          /* width: 50%; */
+          margin-top: 35px;
+          margin-bottom: 20px;
+          text-transform: uppercase;
+
+          letter-spacing: 8px;
+          font-size: 25px;
+          font-weight: 500;
+        }
+      }
+
+      .hompage-card {
+        grid-row: 3;
+        margin-bottom: 45px;
+        display: flex;
+        flex-direction: row;
+
+        justify-content: center;
+
+        .mt-card{
+            width: 300px;
+        }
+      }
+    }
+  }
+
+  .footer-grid {
+    grid-row: 3;
+    width: 100%;
+  }
+}
