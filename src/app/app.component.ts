@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'lsodb-client';
+
+  constructor() {
+    localStorage.removeItem('user');
+  }
 }
