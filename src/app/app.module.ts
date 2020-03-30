@@ -8,7 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { appModuleMaterials } from "./app.module.materials";
 // custom Module
 import { LandingPageModule } from "./landing-page/landing-page.module";
-import { LoginpageModule } from './loginpage/loginpage.module';
+import { LoginpageModule } from './Auth/auth.module';
+
 
 @NgModule({
   declarations: [
