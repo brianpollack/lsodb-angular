@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/firebase/auth.service'
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'lsodb-client';
 
-  constructor() {
-    localStorage.removeItem('user');
+  constructor(  private authService: AuthService ) {
+
+    this.authService.SignOut();
+    // localStorage.removeItem('user');
   }
 }
