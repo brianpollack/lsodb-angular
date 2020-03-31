@@ -1,8 +1,11 @@
+aside{
+  float: left;
+}
 .ec-sidenav-container {
  background: var(--foreground-color);
-  width: 250px;
-  height: cal(100% - 130px);
-  position: fixed;
+  /* width: 250px; */
+  height: calc(100vh - 130px);
+  /* position: fixed; */
   top: 61px;
   left: 0px;
   bottom: 0;
@@ -18,7 +21,7 @@
 }
 
 .menu-show .ec-sidenav-container {
-  display: block;
+  /* display: block; */
   animation: fadeOut  0.5s ease ;
 }
 
@@ -26,24 +29,27 @@
 
 
   /* background-color: aqua; */
-  /* animation: fadeIn 0.5s ease; */
+  animation: fadeOut 0.5s ease;
   /* display: none; */
   /* visibility: hidden; */
 
-  display: none;
+  /* display: none; */
 }
 
-
+.es-sidenave-title{
+  width: 250px;
+}
 
 .ec-sidenav-card {
   padding-top: 1rem;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .ec-sidenav-card ul {
   padding-left: 0px;
   padding-right: 20px;
      list-style: none;
+     width: 250px;
 }
 
 .ec-sidenav-card ul li  {
@@ -83,13 +89,15 @@
   background: var(--theme-color-5);
 } */
 
-.ec-sidenav-card ul  .menu-active {
-  /* width: 170px; */
+/* .ec-sidenav-card ul  .active {
+  width: 170px;
   border-radius: 0 50px 50px 0 ;
  
   background: var(--theme-color-5);
  
-}
+} */
+
+
 
 
 
@@ -110,14 +118,14 @@
 @keyframes fadeIn {
   0% {
     /* opacity: 1; */
-    transform: translateY(0px);
-    /* background-color: black; */
+    transform: translateX(80px);
+    background-color: black;
   }
   100% {
     /* opacity: 0; */
-    transform: translateX(-200px);
+    transform: translateY(0);
     /* display: none; */
-    /* background-color: blueviolet; */
+    background-color: blueviolet;
   }
 }
 

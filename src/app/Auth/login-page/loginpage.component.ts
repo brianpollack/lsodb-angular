@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, Validators } from "@angular/forms";
 import { CustomValidators } from 'ngx-custom-validators'
 import { AuthService } from './../../services/firebase/auth.service';
-
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { IUser } from '../../models/user';
 
 @Component({
@@ -13,11 +13,17 @@ import { IUser } from '../../models/user';
 })
 export class LoginpageComponent implements OnInit {
 
-  pageTitle: string = '';
+  public config1: ToasterConfig = new ToasterConfig({
+    positionClass: "toast-top-right",
+    showCloseButton: true,
+    animation: "fade"
+  });
+
+  pageTitle: string = "";
 
   loginUser: IUser = {
-    email: '',
-    password: ''
+    email: "",
+    password: ""
   };
   // loginForm: FormGroup;
 
@@ -25,17 +31,27 @@ export class LoginpageComponent implements OnInit {
     private activeRouter: ActivatedRoute,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
     // this.pageTitle =  this.activeRouter.params.value.pageName;
     this.activeRouter.paramMap.subscribe((params: ParamMap) => {
       this.pageTitle = params.get('pageName');
+    });
 
-    })
-    // console.log();
-    // this.formInit();
+    setTimeout(() => {
+      if(this.pageTitle === "" ) {
+
+        console.log( this.pageTitle );
+        this.router.navigateByUrl('/home');
+      }else {
+        console.log(this.pageTitle);
+      }
+    }, 1000);
+    
+
   }
 
   // form group infomation 
@@ -51,25 +67,37 @@ export class LoginpageComponent implements OnInit {
     this.loginUser.email = this.loginForm.value.loginEmail;
     this.loginUser.password = this.loginForm.value.loginPassword;
 
+    let isAuthenticated: boolean = false;
+    let error: any = null;
     // console.log(this.authService.SignIn( this.loginUser))
 
     this.authService.SignIn(this.loginUser).then(res => {
       try {
         if (res) {
-          // console.log(res);
-          this.router.navigateByUrl('/test');
+          isAuthenticated = res;
         } else {
-          // console.log(res);
-          this.router.navigateByUrl('/login');
+          isAuthenticated = res;
         }
       }
       catch (err) {
-        console.log(err);
+        error = err;
       }
 
-    }
+    })
 
-    )
-    console.log(this.loginForm.value);
+    setTimeout(() => {
+      if(error === null){
+        if (isAuthenticated) {
+          this.router.navigateByUrl('/masterdashboard');
+        } else {
+          this.toasterService.pop("warning", "Invalid credentials", "Try again with correct credentials");
+          this.loginForm.reset();
+          this.router.navigateByUrl('/login');
+        }
+      }else {
+        this.toasterService.pop("warning", "Server Error", "Try again with correct credentials");
+        this.loginForm.reset();
+      }
+    }, 1000);
   }
 }

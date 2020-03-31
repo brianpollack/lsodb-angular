@@ -12,16 +12,33 @@ export class AuthGuard implements CanActivate {
     public authService: AuthService,
     public router: Router
   ) { }
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    this.authService.isLoggedIn().then( res =>
+      {
+        console.log(res)
+        if (res !== true) {
+          
+          console.log('auth gurd');
+          this.router.navigateByUrl('/home');
+        } 
 
-    if (this.authService.isLoggedIn !== true) {
+      }) 
+     
+        
+        // else {
+        //   return tr
 
-      // console.log('auth gurd');
-      this.router.navigateByUrl('/home');
-    }
-    return true;
+    // if (this.authService.isLoggedIn() !== true) {
+
+    //   console.log('auth gurd');
+    //   this.router.navigateByUrl('/home');
+    // }
+
+
+      return true;
   }
 
 }
