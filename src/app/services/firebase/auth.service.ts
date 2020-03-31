@@ -20,7 +20,6 @@ export class AuthService {
     logged in and setting up null when logged out */
     
     this.authFire.authState.subscribe(user => {
-      console.log(user);
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
@@ -42,25 +41,17 @@ export class AuthService {
     .then(res =>{
       retVal = true;
       this.SetUserData(res.user);
-      // console.log(this.userData);
-      // console.log(`Loging user ${JSON.stringify(res)}`);
-      // this.authUser = {}
-      // return retVal;
     })
     .catch(err =>{
       retVal = false;
-      // console.log(`Login Error: ${err}`)
-      // this.userData = this.authFire.authState;
-      // return retVal;
     });
 
    return retVal;
   }
 
    // Returns true when user is looged in and email is verified
-   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    
+    async isLoggedIn(): Promise<boolean> {
+     const user = await JSON.parse( await localStorage.getItem('user'));
     return (user !== null && user.email !== "") ? true : false;
   }
 

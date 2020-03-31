@@ -11,7 +11,7 @@ export class AppComponent {
 
   constructor(  private authService: AuthService ) {
 
-    this.authService.SignOut();
+    // this.authService.SignOut();
     // localStorage.removeItem('user');
   }
 }

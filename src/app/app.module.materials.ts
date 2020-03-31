@@ -16,7 +16,9 @@ import {
   MatRadioModule,
   MatTabsModule,
   MatCardModule,
-  MatTableModule
+  MatTableModule,
+  MatSidenavModule,
+  MatButtonToggleModule
 } from "@angular/material";
 import { summaryFileName } from "@angular/compiler/src/aot/util";
 import { from } from "rxjs";
@@ -34,7 +36,9 @@ export const appModuleMaterials = [
   MatRadioModule,
   MatTabsModule,
   MatTableModule,  
-  MatCardModule
+  MatCardModule,
+  MatSidenavModule,
+  MatButtonToggleModule
   // NgxSelectModule,
   // ToasterModule
 

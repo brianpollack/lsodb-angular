@@ -1,0 +1,132 @@
+<!--  header start  -->
+<div class="header-grid main main-raised fixed-top ml-3 mr-3">
+  <div class="navbar">
+    <div class="logo d-flex flex-row align-items-center navbar-left">
+      <img
+        src="../../../assets/img/lsodb-logo.svg"
+        class="logo-img"
+        alt="logo"
+      />
+      <span class="pl-2 h1 font-weight-bold">LSO-DB</span>
+
+      <div class="ml-5">
+
+        <mat-button-toggle #toggleBtn>
+            <i class=" fas fa-bars ec-font-2  ec-header-icon"></i>
+        </mat-button-toggle>
+
+        <!-- <button type="button" mat-button (click)="drawer.toggle()">
+            Toggle sidenav
+          </button> -->
+          
+        <!-- <button (click)="onToggle()" >
+          <i class=" fas fa-bars ec-font-2  ec-header-icon"></i>
+        </button> -->
+        <!-- {{ toggleBtn.checked}} -->
+      </div>
+    </div>
+
+    <!-- <mat-drawer-container class="ec-side-nav">
+        <mat-drawer mode="side" opened>Drawer content</mat-drawer>
+      </mat-drawer-container> -->
+  </div>
+</div>
+
+<!-- pages -->
+<div class="pages-grid">
+    <!-- <mat-drawer-container > -->
+        <!-- <mat-drawer #drawer > -->
+            <div class="page-subgrid">
+            <div class="side-nav-grid " *ngIf= "toggleBtn.checked" [@inOutAnimation]  >
+                
+                <div class="ec-sidenav-container main-raised"  >
+                  <div class="ec-sidenav-card">
+                    <div class="ec-font-1 text-center mb-5 es-sidenave-title">Dashboard Menu</div>
+            
+                    <ul class="side-menu" id="menu">
+            
+                      <li class="menu-link " routerLink="masterdashboard" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <p>
+                          <i class="fal fa-tachometer-alt-average" ></i>
+                          <span>Dashboard</span>
+                        </p>
+                      </li>
+            
+                      <li class="menu-link " routerLink="livestock" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
+                        <p>
+                          <i class="fal fa-paw"></i>
+                          <span>Livestock</span>
+                        </p>
+                      </li>
+            
+                      <li class="menu-link " routerLink="breeds" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <p>
+                          <i class="fal fa-ram"></i>
+                          <span>Livestock Breeds</span>
+                        </p>
+                      </li>
+            
+                      <!-- <li class="menu-link " routerLink="users">
+                        <p>
+                          <i class="fal fa-poll-people"></i>
+                          <span>Livestock Owners</span>
+                        </p>
+                      </li> -->
+            
+                      <li class="menu-link " routerLink="country" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <p>
+                          <i class="fal fa-map-marked-alt"></i>
+                          <span>States</span>
+                        </p>
+                      </li>
+            
+                      <li class="menu-link " routerLink="users" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
+                        <p>
+                          <i class="fal fa-user-friends"></i>
+                          <span>Users</span>
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+            
+            </div>
+
+            <!-- sidenav -->
+        <!-- </mat-drawer> -->
+        
+    <!-- </mat-drawer-container> -->
+    <!-- <div *ngIf = "toggleBtn.checked">
+
+        sidemenu
+       
+
+    </div> -->
+   
+
+  <!--  -->
+  <div class="content-grid">
+
+      <router-outlet></router-outlet>
+  </div>
+</div>
+</div>
+
+<!-- footer  -->
+<div class="footer-grid main main-footer-raised fixed-bottom   ml-3 mr-3">
+  <div
+    class="d-flex flex-row justify-content-between  p-3 font-weight-bold ec-footer"
+  >
+    <p class="ec-black ec-font-1">
+      This Project is designed and guided by Easy-Cloud
+    </p>
+    <p class="ec-black ec-font-1">Mentor Mr.Sakar .SR</p>
+    <p class="ec-black ec-font-1">
+      Mail: sakar@easy-cloud.in <span> phone: 9362496202</span>
+    </p>
+  </div>
+</div>
+
+<div>
+  <!-- <router-outlet></router-outlet> -->
+</div>
