@@ -1,0 +1,21 @@
+.dashboard-grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+}
+
+.dashboard-grid .ds-title {
+  grid-column: 1 / -1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.dashboard-grid .ds-content {
+  grid-column: 1 /-1;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+/*# sourceMappingURL=livestock-details.component.css.map */

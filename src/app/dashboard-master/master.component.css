@@ -1,0 +1,57 @@
+:host {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 70px 1fr 70px;
+      grid-template-rows: 70px 1fr 70px;
+}
+
+:host .header-grid {
+  -ms-grid-row: 1;
+  grid-row: 1;
+  margin-bottom: 2rem;
+}
+
+:host .pages-grid {
+  -ms-grid-row: 2;
+  grid-row: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+:host .pages-grid .page-subgrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+}
+
+:host .pages-grid .page-subgrid .side-nav-grid {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+:host .pages-grid .page-subgrid .content-grid {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+:host .footer-grid {
+  -ms-grid-row: 3;
+  grid-row: 3;
+  width: 100%;
+}
+
+.active {
+  border-radius: 0 50px 50px 0;
+  background: var(--theme-color-5);
+}
+/*# sourceMappingURL=master.component.css.map */
