@@ -1,5 +1,5 @@
 export  interface ILivestockData {
-    id: number,
+    id: string,
     livestockName: string,
     editmode: string
 } 

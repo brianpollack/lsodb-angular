@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms'
+import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
+import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms'
 import { ActionBtnComponent } from '../../ag-grid-components/action-btn/action-btn.component'
 import { ColDef } from 'ag-grid-community';
 import { ILivestockData } from '../../models/livestockData';
+import * as _ from 'lodash';
+// import { uid } from 'uid';
+import uid from 'uid';
 
 @Component({
   selector: 'app-livestock-details',
@@ -10,14 +13,21 @@ import { ILivestockData } from '../../models/livestockData';
   styleUrls: ['./livestock-details.component.scss']
 })
 export class LivestockDetailsComponent implements OnInit {
+  
 
   // variable declaration
   frameworkComponents: any;
-  private  gridApi;
+  private gridApi;
   private defaultColDef;
   private rowSelection;
   private gridColumnApi;
   rowData: ILivestockData[];
+  private isEditMode: boolean;
+  private editRecordId: string;
+  private showUniqueErr: boolean;
+  private rowLength: number;
+
+  // private rowId: uid();
 
   constructor(
     private fb: FormBuilder
@@ -26,9 +36,12 @@ export class LivestockDetailsComponent implements OnInit {
       buttonRender: ActionBtnComponent
     }
     this.rowSelection = 'single';
+    this.isEditMode = false;
+    this.showUniqueErr = false;
+    this.rowLength = 0;
 
     this.rowData = [
-      { id: null , livestockName: '', editmode: "" }
+      { id: uid(), livestockName: '', editmode: "" }
     ];
   }
 
@@ -41,11 +54,11 @@ export class LivestockDetailsComponent implements OnInit {
   });
 
 
-//  ========= coloum defenition =============
+  //  ========= coloum defenition =============
   columnDefs: ColDef[] = [
     {
       headerName: 'Nos',
-      field: 'id',
+      // field: 'id',
       valueGetter: "node.rowIndex + 1",
       width: 100,
       sortable: true
@@ -70,72 +83,132 @@ export class LivestockDetailsComponent implements OnInit {
 
   getRowData() {
     var rowData = [];
-    this.gridApi.forEachNode(function(node) {
+    this.gridApi.forEachNode(function (node) {
       rowData.push(node.data);
     });
     console.log('Row Data:');
     console.log(rowData);
   }
-  
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
   }
 
+  // ======== check unique ============
+  isUnique(selectedValue: string): boolean {
+    const findedValue = this.rowData.findIndex((obj: ILivestockData) => {
+      return obj.livestockName === selectedValue;
+    });
+    return findedValue === -1 ? true : false;
+  }
+
   // ========= onSubmit ===========
-  onSubmit() {
-    console.log(this.lsDetailsForm.value);
-    let id = this.rowData.length;
-    let newItem = createNewRowData();
-    let livestockName = this.lsDetailsForm.value.lsName;
-    console.log(id);
-    if(id == 1){
-      let currentRow = this.gridApi.getRowNode(0);
-      console.log(currentRow);
-      
-      currentRow.setDataValue("livestockName", livestockName);
-      // let res = this.gridApi.updateRowData({ add: [newItem] });
+  onSubmit(LsDirective: FormGroupDirective) {
 
-    }else {
+    const livestockName =  _.upperFirst(this.lsDetailsForm.value.lsName);
+    if (this.lsDetailsForm.valid) {
 
-      console.log("ok")
-      // id = id + 1;
+      if (this.isUnique(livestockName)) {
+        this.showUniqueErr = false;
+        if (this.isEditMode) {
+          //==== edit mode action ====
+          console.log(this.editRecordId);
+          const index = _.findIndex(this.rowData, (obj) => {
+            return obj.id === this.editRecordId;
+          })
+          let currentRow = this.gridApi.getRowNode(index);
+          console.log(currentRow);
+          currentRow.setDataValue("livestockName",_.upperFirst(livestockName));
+          // LsDirective.resetForm()
+          // this.lsDetailsForm.reset();
 
-      // newItem.livestockName = this.lsDetailsForm.value.lsName;
-      // let res = this.gridApi.updateRowData({ add: [newItem] });
+        } else {
+          // ==== new mode acton ====
+          let rowLength = this.rowData.length;
+
+          if (rowLength === 1 && this.rowData[0].livestockName === '') {
+            // ======= updating the first record ======
+            let currentRow = this.gridApi.getRowNode(0);
+            currentRow.setDataValue("livestockName",_.upperFirst( livestockName));
+            
+          } else {
+            // ====== new record ===========
+            let newItem = this.createNewRowData();
+            newItem.livestockName = _.upperFirst(livestockName);
+            this.gridApi.updateRowData({ add: [newItem] });
+            this.rowData.push(newItem)
+           
+            
+          }
+          
+        }
+      } else {
+        this.showUniqueErr = true;
+        console.log(this.showUniqueErr);
+      }
     }
-    
+
+
+
+    this.isEditMode = false;
+    // LsDirective.resetForm()
+    this.lsDetailsForm.reset();
+    console.log(this.rowData);
+    this.rowLength = this.rowData.length
+
   }
 
   // ====== rowdata ===============
-  
+
+  @ViewChild('name') inputField : ElementRef
   // ====== Edit data ===================
   onEdit(editData: ILivestockData): void {
 
-    var selectedData = this.gridApi.getSelectedRows();
-   this.lsDetailsForm.get('lsName').setValue(editData.livestockName);
+    this.isEditMode = true;
+    this.editRecordId = editData.id;
+    this.lsDetailsForm.get('lsName').setValue(editData.livestockName);
+    // let selectedData = this.gridApi.getSelectedRows();
+    // console.log(selectedData);
     console.log("edit", editData);
+    this.inputField.nativeElement.focus();
+    
+
+
   }
 
 
   //  ========= Delete data ===============
   onDelete(deleteData: ILivestockData): void {
-
-    this.rowData = this.rowData.filter((data) => {
-      return data.livestockName !== deleteData.livestockName
+    const deleteIndex = _.findIndex(this.rowData, (obj) => {
+      return obj.id === deleteData.id;
     })
+    let selectedRow = this.gridApi.getRowNode(deleteIndex)
+    console.log("delete", selectedRow);
+
+    if (this.rowData.length === 1) {
+      selectedRow.setDataValue("livestockName", "");
+    } else {
+
+      this.rowData = this.rowData.filter((data) => {
+        return data.livestockName !== deleteData.livestockName
+      });
+    }
     console.log("delete", this.rowData);
+
+    this.rowLength = this.rowData.length
+  }
+
+  createNewRowData() {
+    let newData = {
+      id: uid(),
+      livestockName: '',
+      editmode: ''
+    };
+    return newData;
   }
 
 }
 
-let newCount = 1;
-function createNewRowData() {
-  let newData = {
-    id: '' ,
-    livestockName: ''
-   
-  };
-  newCount++;
-  return newData;
-}
+
+
