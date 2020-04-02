@@ -173,6 +173,13 @@ background-color: red;
 .ec-width-2{
   width: 300px;
 }
+.ec-width-3{
+  width: 800px;
+}
+.ec-input-width{
+  width: 250px;
+}
+
 .ec-card > .ec-card-content {
   
   height: 68px;

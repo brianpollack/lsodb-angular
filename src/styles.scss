@@ -13,11 +13,24 @@
 // toster css
 @import 'node_modules/angular2-toaster/src/toaster';
 
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+// @import "../node_modules/ag-grid-community/src/styles/ag-grid";
+@import 'ag-grid-community/dist/styles/ag-theme-material.css';
+// @import "../node_modules/ag-grid-community/dist/styles/ag-theme-material/sass/ag-theme-material-mixin";
+
+// .ag-theme-alpine {
+//     @include ag-theme-alpine();
+// }
+// .ag-theme-material {
+//   @include ag-theme-material();
+// }
+
 html,
 body {
   height: 100vh;
   
 }
+
 body {
   margin: 0;
   font-family: Nunito, Roboto, "Helvetica Neue", sans-serif;

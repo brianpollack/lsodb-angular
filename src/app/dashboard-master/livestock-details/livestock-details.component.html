@@ -1,1 +1,83 @@
-<p>livestock-details works!</p>
+<div class="dashboard-grid">
+  <div class="ds-title">
+    <p class="mt-1 mb-3 ec-font-2">
+      <i class="fal fa-ram"></i> Livestock Details
+    </p>
+    <div class="separator mb-1 "></div>
+  </div>
+  <div class="ds-content">
+    <mat-card class="card">
+      <div class="input-form  d-flex flex-column">
+        <mat-card-content>
+          <p class="text-danger ec-font-0 ec-text-end">
+            <i class="fal fa-info-circle pr-3"></i>Livestock name must be unique
+          </p>
+        </mat-card-content>
+        <mat-card-content>
+          <div class="ec-width-3">
+            <form
+              autocomplete="off"
+              [formGroup]="lsDetailsForm"
+              #LsDirective="ngForm"
+              (ngSubmit)="onSubmit(LsDirective)"
+              class="d-flex flex-row "
+            >
+              <div class="ml-5">
+                <mat-form-field class="ec-input-width">
+                  <mat-label
+                    ><i class="fal fa-ram"></i>
+                    Livestock Name
+                  </mat-label>
+
+                  <input #name
+                    matInput
+                    formControlName="lsName"
+                    type="text"
+                    placeholder=""
+                  />
+                  <mat-error
+                  *ngIf="
+                  lsDetailsForm.get('lsName').errors?.required &&
+                  (lsDetailsForm.get('lsName').touched ||
+                      lsDetailsForm.get('lsName').dirty)
+                  "
+                  >
+                  <i class="fas fa-times-circle"></i>Livestock Name is
+                  Required!
+                </mat-error>
+                <mat-error *ngIf="showUniqueErr">
+                  <i class="fas fa-times-circle"></i>Livestock Name must be
+                  Unique!
+                </mat-error>
+              </mat-form-field>
+              </div>
+
+              <div class="ml-3">
+                <button class="btn btn-outline-primary btn-xs ec-font-1 ml-3">
+                  <i className="fal fa-save mr-3"></i>Save
+                </button>
+              </div>
+              <div class="ml-3">
+               <p>Total livestock count: {{rowLength}} </p>  
+              </div>
+            </form>
+          </div>
+          <div class="d-flex justify-content-center">
+            <ag-grid-angular
+              style="width: 600px; height: 250px;"
+              class="ag-theme-material"
+              [rowData]="rowData"
+              [columnDefs]="columnDefs"
+              [frameworkComponents]="frameworkComponents"
+              (gridReady)="onGridReady($event)"
+              [defaultColDef]="defaultColDef"
+              [rowSelection]="rowSelection"
+              [modules]="modules"
+            >
+            </ag-grid-angular>
+          </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>
