@@ -198,3 +198,7 @@
 .ec-field {
   width: 75%;
 }
+
+.menu-link {
+  outline: none;
+}

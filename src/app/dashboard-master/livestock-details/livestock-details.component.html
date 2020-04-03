@@ -21,6 +21,8 @@
               #LsDirective="ngForm"
               (ngSubmit)="onSubmit(LsDirective)"
               class="d-flex flex-row "
+              (clickOutside) = "onClickedOutside($event)"
+
             >
               <div class="ml-5">
                 <mat-form-field class="ec-input-width">

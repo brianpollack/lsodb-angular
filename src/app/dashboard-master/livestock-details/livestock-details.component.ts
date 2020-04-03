@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms'
 import { ActionBtnComponent } from '../../ag-grid-components/action-btn/action-btn.component'
 import { ColDef } from 'ag-grid-community';
@@ -15,6 +15,7 @@ import uid from 'uid';
 export class LivestockDetailsComponent implements OnInit {
   
 
+  @ViewChild('name', {static: false}) inputField : ElementRef
   // variable declaration
   frameworkComponents: any;
   private gridApi;
@@ -161,7 +162,13 @@ export class LivestockDetailsComponent implements OnInit {
 
   // ====== rowdata ===============
 
-  @ViewChild('name') inputField : ElementRef
+
+
+  onClickedOutside(e){
+    console.log('Clicked outside:', e);
+   e.this.lsDetailsForm.get('lsName').clearValidators();
+  }
+  
   // ====== Edit data ===================
   onEdit(editData: ILivestockData): void {
 
