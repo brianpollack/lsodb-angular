@@ -3,3 +3,9 @@ export  interface ILivestockData {
     livestockName: string,
     editmode: string
 } 
+
+export interface IbreedData {
+    id: string,
+    lsBreedName: string,
+    editmode: string
+}
