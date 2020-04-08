@@ -6,6 +6,10 @@ import { ILivestockData } from '../../models/livestockData';
 import * as _ from 'lodash';
 // import { uid } from 'uid';
 import uid from 'uid';
+import { Livestock } from './../grphql/interface/livestockInterface';
+// service
+import { MasterfileService } from './../../services/graphql/masterfile.service'
+
 
 @Component({
   selector: 'app-livestock-details',
@@ -22,7 +26,7 @@ export class LivestockDetailsComponent implements OnInit {
   private defaultColDef;
   private rowSelection;
   private gridColumnApi;
-  rowData: ILivestockData[];
+  rowData: Livestock[];
   private isEditMode: boolean;
   private editRecordId: string;
   private showUniqueErr: boolean;
@@ -31,7 +35,8 @@ export class LivestockDetailsComponent implements OnInit {
   // private rowId: uid();
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dataService: MasterfileService
   ) {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent
@@ -42,11 +47,23 @@ export class LivestockDetailsComponent implements OnInit {
     this.rowLength = 0;
 
     this.rowData = [
-      { id: uid(), livestockName: '', editmode: "" }
+      {
+       id: "", 
+      livestockName: '',
+      editMode: "", 
+      breedCount: 0, 
+      breeds: [] 
+    }
     ];
   }
 
   ngOnInit() {
+    this.dataService.findAll().subscribe(
+      result => {
+        this.rowData = result.FindAllLivestock
+        this.rowLength = this.rowData.length
+      }
+    )
   }
 
   // ========= livestock form group ===========
@@ -69,6 +86,11 @@ export class LivestockDetailsComponent implements OnInit {
       field: 'livestockName',
       width: 300,
       sortable: true
+    },
+    {
+      headerName: "Breed(s)",
+      field: 'breedCount',
+      width: 100
     },
     {
       headerName: 'Action',
@@ -98,7 +120,7 @@ export class LivestockDetailsComponent implements OnInit {
 
   // ======== check unique ============
   isUnique(selectedValue: string): boolean {
-    const findedValue = this.rowData.findIndex((obj: ILivestockData) => {
+    const findedValue = this.rowData.findIndex((obj: Livestock) => {
       return obj.livestockName === selectedValue;
     });
     return findedValue === -1 ? true : false;
@@ -208,9 +230,12 @@ export class LivestockDetailsComponent implements OnInit {
 
   createNewRowData() {
     let newData = {
-      id: uid(),
+      id: "",
       livestockName: '',
-      editmode: ''
+      editMode: '',
+      breedCount: 0,
+      breeds: []
+
     };
     return newData;
   }
