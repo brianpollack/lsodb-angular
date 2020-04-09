@@ -7,6 +7,7 @@ mutation
     CreateLivestock(input: $input){
       id
       livestockName
+      breedCount
     }
   }
 `;
@@ -17,6 +18,7 @@ mutation EditLivestock($input: ParamsEditLiveStock){
     EditLivestock(input: $input){
       id
       livestockName
+      breedCount
     }
   }
   `;
@@ -24,9 +26,14 @@ mutation EditLivestock($input: ParamsEditLiveStock){
   mutation DeleteLivestock($input: ParamsDeleteLivestock) {
     DeleteLivestock(input: $input) {
       id
+      livestockName
+      breedCount
     }
   }
   `;
+
+ 
+
 
   export interface CreateLivestockResponse {
     CreateLivestock: Livestock;

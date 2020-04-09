@@ -22,6 +22,8 @@ import { appModuleMaterials  } from '../app.module.materials';
 import { UnderConstructionComponent } from '../components/under-construction/under-construction.component';
 import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.component';
 
+// toster modules
+import {ToasterModule, ToasterService} from 'angular2-toaster';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.
     ReactiveFormsModule,
     ClickOutsideModule,
     AgGridModule.withComponents([ActionBtnComponent]),
-    GraphqlModule
+    GraphqlModule,
+    ToasterModule.forRoot(),
     
   ]
 })
