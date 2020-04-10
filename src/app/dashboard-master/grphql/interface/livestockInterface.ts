@@ -5,18 +5,6 @@ export interface Livestock  {
     editMode?: string; 
 };
 
-export interface Breed {
-    id: string;
-    breedName: String
-    livestock: LivestockRef 
-    
-  }
-
- export interface LivestockRef {
-    livestockId: string;    
-}
-
-
 export interface ParamsCreateLivestock {
     livestockName: string
   }
