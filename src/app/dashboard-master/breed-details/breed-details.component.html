@@ -21,14 +21,14 @@
               #LsDirective="ngForm"
               (ngSubmit)="onSubmit(LsDirective)"
               class="d-flex flex-column"
-              (clickOutside) = "onClickedOutside($event)"
-            >
+              >
+              <!-- (clickOutside) = "onClickedOutside($event)" -->
               <div class="ml-5">
                 <mat-form-field>
                   <mat-label>Livestock</mat-label>
-                  <mat-select formControlName="lsNameList" (selectionChange)="onChange()">
-                    <mat-option *ngFor="let livestock of livestocks" [value]="livestock.lsValue">
-                      {{ livestock.viewValue }}
+                  <mat-select #list  formControlName="lsNameList" (selectionChange)="onChange($event)">
+                    <mat-option *ngFor="let livestocksList of livestocksLists; let indexOfelement=index;" [value]="livestocksLists[indexOfelement].id">
+                      {{ livestocksLists[indexOfelement].livestockName }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf = "lsDetailsForm.get('lsNameList').error?.required">
@@ -36,7 +36,6 @@
                     Required!
                   </mat-error>
                 </mat-form-field>
-                
               </div>
 
               <div class="d-flex flex-row">
@@ -95,6 +94,7 @@
               [defaultColDef]="defaultColDef"
               [rowSelection]="rowSelection"
               [modules]="modules"
+              [getRowNodeId] = "getRowNodeId"
             >
             </ag-grid-angular>
           </div>

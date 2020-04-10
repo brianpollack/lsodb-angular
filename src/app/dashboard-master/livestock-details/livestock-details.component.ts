@@ -33,6 +33,7 @@ export class LivestockDetailsComponent implements OnInit {
   private showUniqueErr: boolean;
   private rowLength: number;
   private editBtnClicked: boolean = false;
+  private getRowNodeId
 
 
   public config2: ToasterConfig = new ToasterConfig({
@@ -55,6 +56,7 @@ export class LivestockDetailsComponent implements OnInit {
     this.showUniqueErr = false;
     this.rowLength = 0;
 
+    
     this.rowData = [
       {
         id: "",
@@ -63,6 +65,12 @@ export class LivestockDetailsComponent implements OnInit {
         breedCount: 0
       }
     ];
+
+    this.getRowNodeId = (d): string => {
+      return d.id
+    }
+
+  
   }
 
   ngOnInit() {
@@ -72,8 +80,16 @@ export class LivestockDetailsComponent implements OnInit {
         this.rowLength = this.rowData.length
       }
     )
-  }
 
+
+    
+    this.gridApi.selectIndex(0, true);
+    
+    // this.gridApi.setSelected(true);
+  }
+  
+
+  
   // ========= livestock form group ===========
   lsDetailsForm = this.fb.group({
     lsName: ["", Validators.required]
@@ -112,18 +128,19 @@ export class LivestockDetailsComponent implements OnInit {
     }
   ];
 
-  getRowData() {
-    var rowData = [];
-    this.gridApi.forEachNode(function (node) {
-      rowData.push(node.data);
-    });
-    console.log('Row Data:');
-    console.log(rowData);
-  }
+  // getRowData() {
+  //   var rowData = [];
+  //   this.gridApi.forEachNode(function (node) {
+  //     rowData.push(node.data);
+  //   });
+  //   console.log('Row Data:');
+  //   console.log(rowData);
+  // }
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+    // this.gridApi.selectIndex(0, false, false);
   }
 
   // ======== check unique ============
@@ -146,15 +163,12 @@ export class LivestockDetailsComponent implements OnInit {
           this.rowData = [...this.rowData, res.CreateLivestock]
         }
         
-        let lastIndex= _.lastIndexOf(this.rowData, this.rowData[rowIndex] )
-        let current = this.gridApi.getRowNode(lastIndex)
-        console.log(current)
+       
         // console.log(this.rowData);
         // console.log(lastIndex);
         this.rowLength = this.rowData.length;
 
-        this.gridApi.setRowData(this.rowData);
-        this.gridApi.ensureIndexVisible(lastIndex, 'bottom');
+        // this.gridApi.setRowData(this.rowData);
       },
 
       err => {
@@ -171,8 +185,8 @@ export class LivestockDetailsComponent implements OnInit {
     this.dataService.edit({ livestockId, livestockName }).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditLivestock;
-        let currentRow = this.gridApi.getRowNode(rowIndex);
-        currentRow.setDataValue("livestockName", _.upperFirst(livestockName));
+        let currentNode = this.gridApi.getRowNode(this.rowData[rowIndex].id);
+        currentNode.setDataValue("livestockName", _.upperFirst(livestockName));
       },
       err => {
         this.toasterService.pop("error", "Server Error", err)
@@ -190,6 +204,15 @@ export class LivestockDetailsComponent implements OnInit {
         this.rowData = this.rowData.filter((data) => {
               return data.livestockName !== res.DeleteLivestock.livestockName
             });
+
+            setTimeout(() => {
+              let lastRec= _.last(this.rowData)
+              console.log(lastRec);
+              let currentNode = this.gridApi.getRowNode(lastRec.id)
+              console.log(currentNode);
+              currentNode.setSelected(true);
+              this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+            }, 100);
       }
     )
   }
@@ -209,13 +232,11 @@ export class LivestockDetailsComponent implements OnInit {
             return obj.id === this.editRecordId;
           })
           this.EditLivestock(index);
-
+          this.lsDetailsForm.reset();
 
           let currentRow = this.gridApi.getRowNode(index);
-          // console.log(currentRow);
           currentRow.setDataValue("livestockName", _.upperFirst(livestockName));
-          // LsDirective.resetForm()
-          // this.lsDetailsForm.reset();
+         
 
         } else {
           // ==== new mode acton ====
@@ -224,7 +245,6 @@ export class LivestockDetailsComponent implements OnInit {
           if (rowLength === 1 && this.rowData[0].livestockName === '') {
             // ======= updating the first record ======
             let currentRow = this.gridApi.getRowNode(0);
-            // currentRow.setDataValue("livestockName", _.upperFirst(livestockName));
             this.UpdateLivestock(currentRow);
 
           } else {
@@ -234,31 +254,28 @@ export class LivestockDetailsComponent implements OnInit {
             // this.gridApi.updateRowData({ add: [newItem] });
             // this.rowData.push(newItem)
             this.UpdateLivestock(-1)
+
+            setTimeout(() => {
+              let lastRec= _.last(this.rowData)
+              console.log(lastRec);
+              let currentNode = this.gridApi.getRowNode(lastRec.id)
+              console.log(currentNode);
+              currentNode.setSelected(true);
+              this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+            }, 100);           
             // this.gridApi.updateRowData({ add: [res.CreateLivestock] });
-            let data = this.gridApi.gridOptionsWrapper.gridOptions.rowData;
-            let currentRow = _.last(data);
-            // let currentRow = this.gridApi.getRowNode(temIndex);
-            // let currentRow =_.findIndex(this.rowData );
-            // console.log(data);
-            // console.log(currentRow);
-
+            // let data = this.gridApi.gridOptionsWrapper.gridOptions.rowData;
           }
-
         }
       } else {
         this.showUniqueErr = true;
         console.log(this.showUniqueErr);
       }
     }
-
-
-
     this.isEditMode = false;
     // LsDirective.resetForm()
-    this.lsDetailsForm.reset();
-   
-    this.rowLength = this.rowData.length
-
+    this.lsDetailsForm.reset();   
+    this.rowLength = this.rowData.length;
   }
 
   // ====== rowdata ===============
@@ -286,12 +303,7 @@ export class LivestockDetailsComponent implements OnInit {
     this.lsDetailsForm.get('lsName').setValue(editData.livestockName);
     this.editBtnClicked = true;
     // let selectedData = this.gridApi.getSelectedRows();
-    // console.log(selectedData);
-    // console.log("edit", editData);
     this.inputField.nativeElement.focus();
-
-
-
   }
 
 
@@ -299,22 +311,9 @@ export class LivestockDetailsComponent implements OnInit {
   onDelete(deleteData: ILivestockData): void {
     const deleteIndex = _.findIndex(this.rowData, (obj) => {
       return obj.id === deleteData.id;
-    })
-    // console.log(deleteIndex);
+    });   
     // let selectedRow = this.gridApi.getRowNode(deleteIndex)
-    // console.log("delete", selectedRow);
     this.DeleteLivestock(deleteIndex);
-
-    // if (this.rowData.length === 1) {
-    //   selectedRow.setDataValue("livestockName", "");
-    // } else {
-
-    //   this.rowData = this.rowData.filter((data) => {
-    //     return data.livestockName !== deleteData.livestockName
-    //   });
-    // }
-    // console.log("delete", this.rowData);
-
     this.rowLength = this.rowData.length
   }
 
