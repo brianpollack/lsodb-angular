@@ -10,6 +10,7 @@ import { Livestock, ParamsCreateLivestock } from './../grphql/interface/livestoc
 // service
 import { MasterfileService } from './../../services/graphql/masterfile.service'
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { onError } from 'apollo-link-error';
 
 
 @Component({
@@ -78,15 +79,13 @@ export class LivestockDetailsComponent implements OnInit {
       result => {
         this.rowData = result.FindAllLivestock
         this.rowLength = this.rowData.length
+      },
+      err => {
+        console.log("ls error", err);
+        this.toasterService.pop("warning", "Server Error", err)
       }
     )
-
-
-    
-    this.gridApi.selectIndex(0, true);
-    
-    // this.gridApi.setSelected(true);
-  }
+}
   
 
   
@@ -157,21 +156,18 @@ export class LivestockDetailsComponent implements OnInit {
 
     this.dataService.create({ livestockName }).subscribe(
       res => {
+        // console.log(res);
+
         if (rowIndex === 0) {
           this.rowData[rowIndex] = res.CreateLivestock
         } else {
           this.rowData = [...this.rowData, res.CreateLivestock]
         }
-        
-       
-        // console.log(this.rowData);
-        // console.log(lastIndex);
         this.rowLength = this.rowData.length;
-
-        // this.gridApi.setRowData(this.rowData);
       },
 
-      err => {
+      err => {        
+        console.log("ls error:",err);
         this.toasterService.pop("error", "Server Error", err)
       }
 
@@ -189,6 +185,7 @@ export class LivestockDetailsComponent implements OnInit {
         currentNode.setDataValue("livestockName", _.upperFirst(livestockName));
       },
       err => {
+        console.log("ls error:",err);
         this.toasterService.pop("error", "Server Error", err)
       }
     )
@@ -197,22 +194,32 @@ export class LivestockDetailsComponent implements OnInit {
   // ====== Delete Livestock ======
 
   DeleteLivestock( rowIndex ) {
+    
     let livestockId = this.rowData[rowIndex].id
     this.dataService.delete({livestockId}).subscribe(
-      res => {
+      
+
+      
+      res => {         
+        console.log(res)
         this.rowData[rowIndex] = res.DeleteLivestock
         this.rowData = this.rowData.filter((data) => {
-              return data.livestockName !== res.DeleteLivestock.livestockName
-            });
-
+            
+          // return data.livestockName !== res.DeleteLivestock.livestockName
+          return data.id !== res.DeleteLivestock.id
+            });     
             setTimeout(() => {
               let lastRec= _.last(this.rowData)
-              console.log(lastRec);
+              // console.log(lastRec);
               let currentNode = this.gridApi.getRowNode(lastRec.id)
-              console.log(currentNode);
+              // console.log(currentNode);
               currentNode.setSelected(true);
               this.gridApi.ensureIndexVisible(currentNode.rowIndex);
             }, 100);
+      },
+      err => {
+        console.log("ls error:",err);
+        this.toasterService.pop("warning", "Server Error", err)
       }
     )
   }
