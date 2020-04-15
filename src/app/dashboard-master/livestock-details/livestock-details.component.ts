@@ -316,8 +316,9 @@ export class LivestockDetailsComponent implements OnInit {
 
   //  ========= Delete data ===============
   onDelete(deleteData: ILivestockData): void {
+    console.log("delete",deleteData);
     const deleteIndex = _.findIndex(this.rowData, (obj) => {
-      return obj.id === deleteData.id;
+      return obj.livestockName === deleteData.livestockName;
     });   
     // let selectedRow = this.gridApi.getRowNode(deleteIndex)
     this.DeleteLivestock(deleteIndex);

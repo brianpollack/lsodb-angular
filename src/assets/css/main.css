@@ -176,6 +176,9 @@ background-color: red;
 .ec-width-3{
   width: 800px;
 }
+.ec-width-4{
+  width: 900px;
+}
 .ec-input-width{
   width: 250px;
 }
@@ -498,5 +501,9 @@ html {
   height: 200px;
   margin: 10px;
   border: 1px solid #555;
+}
+
+.ec-fab{
+  border-radius: 50% ;
 }
 

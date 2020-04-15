@@ -1,18 +1,148 @@
-  <div class="dashboard-grid">
-    <!-- dashboard title starts  -->
-      <div class="ds-title">
-        <p class="mt-1 mb-3 ec-font-2">
-          <i class="fal fa-user"></i> Livestock User Details
-        </p>
-        <div class="separator mb-1 "></div>
-      </div>
-    <!-- dashboard title ends  -->
-    
-      <div class="ds-content">
-        <mat-card>
+<div class="dashboard-grid">
+  <!-- dashboard title starts  -->
+  <div class="ds-title">
+    <p class="mt-1 mb-3 ec-font-2">
+      <i class="fal fa-user"></i>  Users 
+    </p>
+    <div class="separator mb-1"></div>
+  </div>
+  <!-- dashboard title ends  -->
+
+  <div class="ds-content">
+    <mat-card>
+      <mat-card-content class="ec-width-4">
+        <div class="border border-primary border-radius p-2" *ngIf= showMenu >
+          <form
+            autocomplete="off"
+            [formGroup]="userForm"
+            #userDirective="ngForm"
+            (ngSubmit)="onSubmit(userDirective)"
+            class="d-flex flex-column mt-3 ec-font-1 "
+          >
+          <div class="d-flex justify-content-between">         
+            <!-- user name field starts -->
+            <mat-form-field class="ec-input-width ">
+              <mat-label
+                ><i class="fal fa-user mr-2"></i>
+                User Name
+              </mat-label>
+
+              <input
+                #username
+                matInput
+                formControlName="userName"
+                type="text"
+                placeholder=""
+              />
+              <mat-error
+                *ngIf="
+                  userForm.get('userName').errors?.required &&
+                  (userForm.get('userName').touched ||
+                    userForm.get('userName').dirty)
+                "
+              >
+                <i class="fas fa-times-circle"></i>User Name is Required!
+              </mat-error>
+              <mat-error *ngIf="showUniqueErr">
+                <i class="fas fa-times-circle"></i>User Name must be Unique!
+              </mat-error>
+            </mat-form-field>
+            
+            <!-- user name field ends -->
+
+            <!-- email field starts -->
+            <mat-form-field class="ec-input-width ">
+              <mat-label
+                ><i class="fal fa-envelope mr-2"></i>
+                Email Id
+              </mat-label>
+
+              <input
+                #email
+                matInput
+                formControlName="userEmail"
+                type="email"
+                placeholder=""
+              />
+              <!-- <mat-error *ngIf="showUniqueErr">
+                <i class="fas fa-times-circle"></i>Email Id must be Unique!
+              </mat-error> -->
+              <mat-error
+             *ngIf="userForm.get('userEmail').errors?.email">
+              <i class="fas fa-times-circle"></i> Email is not valid  
+            </mat-error>
+            <mat-error
+             *ngIf="userForm.get('userEmail').errors?.required">
+              <i class="fas fa-times-circle"></i> Email is Required!  
+            </mat-error>
+            </mat-form-field>
+            <!-- email field ends -->
+
+            <!-- password field starts -->
+            <mat-form-field  class="ec-input-width ">
+              <mat-label><i class="fas fa-key mr-2"></i>Password</mat-label>
+              <input
+             
+                #password
+                matInput
+                formControlName="userPassword"
+                
+                [type]="hide ? 'password' : 'text'"
+                placeholder=""
+              />
+              <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon >{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              <mat-error *ngIf="userForm.get('userPassword').errors?.required">
+                <i class="fas fa-times-circle"></i> Password is Required!
+              </mat-error>
+              <mat-error
+                *ngIf="userForm.get('userPassword').errors?.minlength"
+              >
+                <i class="fas fa-times-circle"></i> Password must have minimum 6
+                characters
+              </mat-error>
+            </mat-form-field>
+            <!-- password field ends -->
+          </div>
+            <div class="align-self-end " >
+              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
+                <i className="fal fa-save mr-3"></i>Save
+              </button>
+              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
+                <i className="fal fa-save mr-3"></i>Delete
+              </button>
+              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
+                <i className="fal fa-save mr-3"></i>Cancle
+              </button>
+            </div>
+            
+          </form>
           
-        </mat-card>
-       
-      </div>
-    </div>
-    
+        </div>
+        <div class="d-flex flex-column justify-content-center m-3">
+          
+          <ag-grid-angular
+            style="width: 800px; height: 250px;"
+            class="ag-theme-material"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [frameworkComponents]="frameworkComponents"
+            (gridReady)="onGridReady($event)"
+            [defaultColDef]="defaultColDef"
+            [rowSelection]="rowSelection"
+            [modules]="modules"
+            [getRowNodeId]="getRowNodeId"
+          >
+          </ag-grid-angular>
+          <div class="d-flex align-self-end">
+            <button class="btn btn-primary ec-fab " (click)="onToggle()">
+              <i class="fal fa-plus fa-2x"></i>
+          </button>
+            <!-- <button mat-fab  class="btn btn-primary "><i class="fal fa-plus fa-2x"></i></button> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
