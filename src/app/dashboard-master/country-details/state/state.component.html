@@ -1,0 +1,177 @@
+<mat-card class="card m-3">
+    <!-- State form container starts -->
+    <div>
+      <form
+        autocomplete="off"
+        [formGroup]="StateForm"
+        #stateDirective="ngForm"
+        (ngSubmit)="onSubmit(stateDirective)"
+        class="d-flex flex-column mt-3 ec-font-1"
+      >
+      <!-- country select starts -->
+      <div class="d-flex justify-content-between">
+        <mat-form-field class="ec-input-width">
+            <mat-label>Country</mat-label>
+            <mat-select #list  formControlName="countryList" (selectionChange)="onChange($event)">
+              <mat-option *ngFor="let countryList of countryLists ; let indexOfelement=index;" [value]="countryLists[indexOfelement].id">
+                {{ countryLists[indexOfelement].country }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf = "StateForm.get('countryList').error?.required">
+              <i class="fas fa-times-circle"></i>Country Name is
+              Required!
+            </mat-error>
+          </mat-form-field>
+
+           <!-- State name field  starts -->
+           <mat-form-field class="ec-input-width">
+            <mat-label
+              ><i class="fal fa-user mr-2"></i>
+              State Name
+            </mat-label>
+  
+            <input
+              #stateName
+              matInput
+              formControlName="stateName"
+              type="text"
+              placeholder=""
+            />
+            <mat-error
+              *ngIf="
+                StateForm.get('stateName').errors?.required &&
+                (StateForm.get('stateName').touched ||
+                  StateForm.get('stateName').dirty)
+              "
+            >
+              <i class="fas fa-times-circle"></i>State Name is Required!
+            </mat-error>
+            <mat-error *ngIf="showUniqueErr">
+              <i class="fas fa-times-circle"></i>State Name must be Unique!
+            </mat-error>
+          </mat-form-field>
+          <!-- State name field ends -->
+           <!-- State Capital field  starts -->
+           <mat-form-field class="ec-input-width">
+            <mat-label
+              ><i class="fal fa-user mr-2"></i>
+              State Capital
+            </mat-label>
+  
+            <input
+              #stateCapital
+              matInput
+              formControlName="stateCapital"
+              type="text"
+              placeholder=""
+            />
+            <mat-error
+              *ngIf="
+                StateForm.get('stateCapital').errors?.required &&
+                (StateForm.get('stateCapital').touched ||
+                  StateForm.get('stateCapital').dirty)
+              "
+            >
+              <i class="fas fa-times-circle"></i>State Name is Required!
+            </mat-error>
+            <!-- <mat-error *ngIf="showUniqueErr">
+              <i class="fas fa-times-circle"></i>State Name must be Unique!
+            </mat-error> -->
+          </mat-form-field>
+          <!-- State Capital field ends -->
+      </div>
+       <!-- country select starts -->
+        <div class="d-flex justify-content-between">
+         
+         
+          <!-- State Code field  starts -->
+          <mat-form-field class="ec-input-width">
+            <mat-label
+              ><i class="fal fa-user mr-2"></i>
+              State code
+            </mat-label>
+  
+            <input
+              #stateCode
+              matInput
+              formControlName="stateCode"
+              type="text"
+              placeholder=""
+            />
+            <mat-error
+              *ngIf="
+                StateForm.get('stateCode').errors?.required &&
+                (StateForm.get('stateCode').touched ||
+                  StateForm.get('stateCode').dirty)
+              "
+            >
+              <i class="fas fa-times-circle"></i>State Name is Required!
+            </mat-error>
+            <mat-error *ngIf="showUniqueErr">
+              <i class="fas fa-times-circle"></i>State Name must be Unique!
+            </mat-error>
+          </mat-form-field>
+        
+        <!-- State code field ends -->
+        <!-- State Code field  starts -->
+        <mat-form-field class="ec-input-width">
+            <mat-label
+              ><i class="fal fa-user mr-2"></i>
+              State PinCode
+            </mat-label>
+  
+            <input
+              #statePin
+              matInput
+              formControlName="statePin"
+              type="text"
+              placeholder=""
+            />
+            <mat-error
+              *ngIf="
+                StateForm.get('statePin').errors?.required &&
+                (StateForm.get('statePin').touched ||
+                  StateForm.get('statePin').dirty)
+              "
+            >
+              <i class="fas fa-times-circle"></i>State Name is Required!
+            </mat-error>
+            <mat-error *ngIf="showUniqueErr">
+              <i class="fas fa-times-circle"></i>State Name must be Unique!
+            </mat-error>
+          </mat-form-field>
+          <!-- State code field ends -->
+
+          
+          <div class="ec-input-width">
+              
+              <button class="btn btn-primary btn-xs  ec-font-1 ">
+                <i class="fal fa-save mr-3"></i>Save
+              </button>
+        </div> 
+        </div>
+        <!-- save button start -->
+        <!-- <div class="align-self-end">
+         
+        </div> -->
+        <!-- save button end -->
+      </form>
+    </div>
+    <!-- State form container ends -->
+    <!-- ag grid starts -->
+    <ag-grid-angular
+              style="width: 800px; height: 250px;"
+              class="ag-theme-material"
+              [rowData]="rowData"
+              [columnDefs]="columnDefs"
+              [frameworkComponents]="frameworkComponents"
+              (gridReady)="onGridReady($event)"
+              [defaultColDef]="defaultColDef"
+              [rowSelection]="rowSelection"
+              [modules]="modules"
+              [getRowNodeId]="getRowNodeId"
+              >
+            </ag-grid-angular>
+    <!-- ag grid ends -->
+  </mat-card>
+  

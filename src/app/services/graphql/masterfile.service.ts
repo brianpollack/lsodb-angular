@@ -8,6 +8,9 @@ import { CreateLivestockResponse, CREATE_LIVESTOCK, EDIT_LIVESTOCK, EditLivestoc
 import {  FIND_ALL_BREED, FIND_BREED, IFindAllBreedResponse, IFindBreedResponse, IFindAllLivestockBreeds, FIND_ALL_LIVESTOCK_BREEDS } from './../../dashboard-master/grphql/queries/query/breedQuery';
 import { IParamsCreateBreeds, IParamsEditBreed, IParamsDeleteBreed } from 'src/app/dashboard-master/grphql/interface/breedInterface';
 import { ICreateBreedResponse, CREATE_BREED, IEditBreedResponse, IDeleteBreedResponse, EDIT_BREED, DELETE_BREED } from 'src/app/dashboard-master/grphql/queries/mutation/breedMutation';
+import { IFindAllUsersResponce, FIND_ALL_USER, IFindUserResponce, FIND_USER } from './../../dashboard-master/grphql/queries/query/userQurey';
+import { ParamsCreateUser, ParamsEditUser } from 'src/app/dashboard-master/grphql/interface/userInterface';
+import { ICreateUserResponse, CREATE_USER, IEditUserResponse, EDIT_USER, DELETE_USER, IDeleteUserResponse } from 'src/app/dashboard-master/grphql/queries/mutation/userMutation';
 
 
 
@@ -149,4 +152,51 @@ export class MasterfileService {
   }
   // ****************** Breed service ends **********************
 
+  // ****************** User service starts ********************
+
+  findUser(): Observable<IFindAllUsersResponce> {
+
+    return this.apollo
+    .query<IFindAllUsersResponce>({
+      query: FIND_ALL_USER
+    }).pipe(map(res => res.data))
+  }
+
+  findOneUser(id: string): Observable<IFindUserResponce> {
+
+    return this.apollo
+    .query<IFindUserResponce>({
+      query: FIND_USER,
+      variables: {id }
+    }).pipe(map(res => res.data))
+  }
+
+  createUser(input: ParamsCreateUser): Observable<ICreateUserResponse> {
+    return this.apollo
+    .mutate<ICreateUserResponse>({
+      mutation: CREATE_USER,
+      variables: {input},
+      refetchQueries: [{query: FIND_ALL_USER}]
+    })
+    .pipe(map(res => res.data))
+  }
+  editUser(input: ParamsEditUser): Observable<IEditUserResponse> {
+    return this.apollo
+    .mutate<IEditUserResponse>({
+      mutation: EDIT_USER,
+      variables: { input },
+      refetchQueries: [{query: FIND_ALL_USER }]
+    })
+    .pipe(map(res => res.data))
+  }
+  deleteUser(id: string): Observable<IDeleteUserResponse>{
+    return this.apollo
+    .mutate<IDeleteUserResponse>({
+      mutation: DELETE_USER,
+      variables: {id},
+      refetchQueries: [{query: FIND_ALL_USER }]
+    })
+    .pipe(map(res=>res.data))
+
+  }
 }

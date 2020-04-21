@@ -325,17 +325,7 @@ export class LivestockDetailsComponent implements OnInit {
     this.rowLength = this.rowData.length
   }
 
-  createNewRowData() {
-    let newData = {
-      id: "",
-      livestockName: '',
-      editMode: '',
-      breedCount: 0
-
-    };
-    return newData;
-  }
-
+  
 }
 
 

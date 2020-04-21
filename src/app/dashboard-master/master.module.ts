@@ -24,6 +24,8 @@ import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.
 
 // toster modules
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { CountryComponent } from './country-details/country/country.component';
+import { StateComponent } from './country-details/state/state.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     MasterComponent,
     routingComponents,
     UnderConstructionComponent,
-    ActionBtnComponent
+    ActionBtnComponent,
+    CountryComponent,
+    StateComponent
     
     
   ],

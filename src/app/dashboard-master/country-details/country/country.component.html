@@ -1,0 +1,120 @@
+<mat-card class="card m-3">
+  <!-- country form container starts -->
+  <!-- <div>
+    <form
+      autocomplete="off"
+      [formGroup]="CountryForm"
+      #countryDirective="ngForm"
+      (ngSubmit)="onSubmit(countryDirective)"
+      class="d-flex flex-column mt-3 ec-font-1"
+    > -->
+      <!-- <div class="d-flex justify-content-between"> -->
+        <!-- Country name field  starts -->
+        <!-- <mat-form-field class="ec-input-width">
+          <mat-label
+            ><i class="fal fa-user mr-2"></i>
+            Country Name
+          </mat-label>
+
+          <input
+            #countryName
+            matInput
+            formControlName="countryName"
+            type="text"
+            placeholder=""
+          />
+          <mat-error
+            *ngIf="
+              CountryForm.get('countryName').errors?.required &&
+              (CountryForm.get('countryName').touched ||
+                CountryForm.get('countryName').dirty)
+            "
+          >
+            <i class="fas fa-times-circle"></i>Country Name is Required!
+          </mat-error>
+          <mat-error *ngIf="showUniqueErr">
+            <i class="fas fa-times-circle"></i>Country Name must be Unique!
+          </mat-error>
+        </mat-form-field> -->
+        <!-- Country name field ends -->
+        <!-- Country Capital field  starts -->
+        <!-- <mat-form-field class="ec-input-width">
+          <mat-label
+            ><i class="fal fa-user mr-2"></i>
+            Country Capital
+          </mat-label>
+
+          <input
+            #countryCapital
+            matInput
+            formControlName="countryCapital"
+            type="text"
+            placeholder=""
+          />
+          <mat-error
+            *ngIf="
+              CountryForm.get('countryCapital').errors?.required &&
+              (CountryForm.get('countryCapital').touched ||
+                CountryForm.get('countryCapital').dirty)
+            "
+          >
+            <i class="fas fa-times-circle"></i>Country Name is Required!
+          </mat-error>
+        </mat-form-field> -->
+          <!-- <mat-error *ngIf="showUniqueErr">
+            <i class="fas fa-times-circle"></i>Country Name must be Unique!
+          </mat-error> -->
+        <!-- Country Capital field ends -->
+        <!-- Country Code field  starts -->
+        <!-- <mat-form-field class="ec-input-width">
+          <mat-label
+            ><i class="fal fa-user mr-2"></i>
+            Country Capital
+          </mat-label>
+
+          <input
+            #countryCode
+            matInput
+            formControlName="countryCode"
+            type="text"
+            placeholder=""
+          />
+          <mat-error
+            *ngIf="
+              CountryForm.get('countryCode').errors?.required &&
+              (CountryForm.get('countryCode').touched ||
+                CountryForm.get('countryCode').dirty)
+            "
+          >
+            <i class="fas fa-times-circle"></i>Country Name is Required!
+          </mat-error>
+          <mat-error *ngIf="showUniqueErr">
+            <i class="fas fa-times-circle"></i>Country Name must be Unique!
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="align-self-end">
+        <button class="btn btn-primary btn-xs ec-font-1 mr-3">
+          <i className="fal fa-save mr-3"></i>Save
+        </button>
+      </div> -->
+      <!-- Country code field ends -->
+    <!-- </form>
+  </div> -->
+  <!-- country form container ends -->
+  <!-- ag grid starts -->
+  <ag-grid-angular
+            style="width: 800px; height: 250px;"
+            class="ag-theme-material"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [frameworkComponents]="frameworkComponents"
+            (gridReady)="onGridReady($event)"
+            [defaultColDef]="defaultColDef"
+            [rowSelection]="rowSelection"
+            [modules]="modules"
+            [getRowNodeId]="getRowNodeId"
+            >
+          </ag-grid-angular>
+  <!-- ag grid ends -->
+</mat-card>

@@ -147,7 +147,9 @@ onGridReady(params) {
 isUnique(selectedValue: string): boolean {
   const findedValue = this.rowData.findIndex((obj: IBreed) => {
     return obj.breedName === selectedValue;
+
   });
+  // console.log(findedValue)
   return findedValue === -1 ? true : false;
 }
 

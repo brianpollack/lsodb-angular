@@ -507,3 +507,12 @@ html {
   border-radius: 50% ;
 }
 
+.tag-header > button {
+ margin-right: 30px;
+}
+
+
+.mat-tab-header{
+ 
+  display: none!important;
+}

@@ -106,15 +106,10 @@
             <!-- password field ends -->
           </div>
             <div class="align-self-end " >
-              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
-                <i className="fal fa-save mr-3"></i>Save
+              <button   class="btn btn-primary btn-xs  ec-font-1 mr-3">
+                <i className="fal fa-save mr-3" ></i>Save
               </button>
-              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
-                <i className="fal fa-save mr-3"></i>Delete
-              </button>
-              <button class="btn btn-primary btn-xs  ec-font-1 mr-3">
-                <i className="fal fa-save mr-3"></i>Cancle
-              </button>
+      
             </div>
             
           </form>
@@ -133,7 +128,8 @@
             [rowSelection]="rowSelection"
             [modules]="modules"
             [getRowNodeId]="getRowNodeId"
-          >
+            
+            >
           </ag-grid-angular>
           <div class="d-flex align-self-end">
             <button class="btn btn-primary ec-fab " (click)="onToggle()">
