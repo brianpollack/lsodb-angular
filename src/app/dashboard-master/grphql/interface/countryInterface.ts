@@ -17,7 +17,6 @@ export interface IState {
 
 export interface IDistrict {
     id: string;
-    stateId: string;
     district: string;
     districtCapital: string;
     districtCode: string;
@@ -27,7 +26,6 @@ export interface IDistrict {
 
 export interface ITaluk {
     id: string;
-    districtId: string;
     taluk: string;
     pincode: string;
     editMode: string;
@@ -35,7 +33,6 @@ export interface ITaluk {
 
 export interface ITown {
     id: string;
-    taluckId: string;
     town: string;
     pincode: string;
     editMode: string;
@@ -43,14 +40,13 @@ export interface ITown {
 
 export interface IVillage {
     id: string;
-    townId: string;
     village: string;
     pincode: string;
     editMode: string;
 }
 
 export interface IParamsCreateCountry {
-   
+
     country: string
     countryCapital: string
     countryCode: string
@@ -65,26 +61,32 @@ export interface IParamsCreateState {
 }
 
 export interface IParamsCreateDistrict {
+    countryId: String
     stateId: string
     district: string
     districtCapital: string
     districtCode: string
     pincode: string
+
+
 }
 
 export interface IParamsCreateTaluk {
+    countryId: String
     districtId: string
     taluk: string
     pincode: string
 }
 
 export interface IParamsCreateTown {
+    countryId: String
     taluckId: string
     town: string
     pincode: string
 }
 
 export interface IParamsCreateVillage {
+    countryId: String
     townId: string
     village: string
     pincode: string

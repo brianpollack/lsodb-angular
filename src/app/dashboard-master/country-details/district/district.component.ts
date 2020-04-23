@@ -1,56 +1,53 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
-import { IState } from '../../grphql/interface/countryInterface';
-import { ICountry } from './../../grphql/interface/countryInterface';
+import { IDistrict } from '../../grphql/interface/countryInterface';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { CountryService } from './../../../services/graphql/country.service';
 import { ObservableService } from 'src/app/services/observable.service';
 import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 import * as _ from 'lodash';
+import { distinct } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-state',
-  templateUrl: './state.component.html',
-  styleUrls: ['./state.component.scss']
+  selector: 'app-district',
+  templateUrl: './district.component.html',
+  styleUrls: ['./district.component.scss']
 })
-export class StateComponent implements OnInit {
+export class DistrictComponent implements OnInit {
 
-
-  @ViewChild('stateName', {static: false}) inputField : ElementRef
-  @ViewChild('list', {static: false}) listField : ElementRef
   // variable declaration
-  
+
   private gridApi: GridApi;
   private defaultColDef;
   private rowSelection;
   private gridColumnApi;
   private getRowNodeId;
-  rowData: IState[];
+  rowData: IDistrict[];
   private isEditMode: boolean;
   private editRecordId: string;
   private showUniqueErr: boolean;
   private countryTitle: string;
-   countryId: string;
+  countryId: string;
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
   };
-
+  stateId: string;
 
   public config2: ToasterConfig = new ToasterConfig({
     positionClass: "toast-top-right",
     showCloseButton: true,
     animation: "fade"
   });
-  countryLists: any;
+  stateTitle: string;
+
 
   constructor(
     private dataService: CountryService,
     private toasterService: ToasterService,
     private observableService: ObservableService
   ) {
-
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent,
       gridButtonRendender: GridButtonComponent
@@ -58,25 +55,27 @@ export class StateComponent implements OnInit {
     this.rowSelection = 'single';
     this.isEditMode = false;
     this.showUniqueErr = false;
-    
+
     this.defaultColDef = {
       flex: 1,
-      minWidth: 130,
+      minWidth: 100,
       editable: true,
       resizable: true,
     };
-    
+
 
     this.observableService.navigateTab().subscribe(
       data => {
-        // console.log(data)
-        if(data.tabName === "STATE"){
+        console.log(data)
+        if (data.tabName === "DISTRICT") {
+          this.stateId = data.stateId;
+          this.stateTitle = data.stateName
           this.countryId = data.countryId;
           this.countryTitle = data.countryName;
-          // console.log(this.countryTitle)
+          console.log(this.stateTitle)
           this.gridData()
-        }else{
-          console.log("not state");
+        } else {
+          console.log("not district");
         }
 
       }
@@ -85,11 +84,11 @@ export class StateComponent implements OnInit {
     this.rowData = [
       {
         id: "",
-        state: "",
-        stateCapital: "",
-        stateCode: "",
+        district: "",
+        districtCapital: "",
+        districtCode: "",
         pincode: "",
-        editMode: "",
+        editMode: ""
       }
     ];
 
@@ -97,61 +96,57 @@ export class StateComponent implements OnInit {
       return d.id
     }
   }
-  
-  
-  ngOnInit() {
-    
-    }
-    
-  
 
-   //  ========= coloum defenition =============
-   columnDefs: ColDef[] = [
+  ngOnInit() {
+  }
+
+  columnDefs: ColDef[] = [
     {
       headerName: 'Nos',
       // field: 'id',
       valueGetter: "node.rowIndex + 1",
       width: 100,
       sortable: true,
-      
+
     },
     {
-      headerName: 'State Name',
-      field: 'state',
+      headerName: 'District Name',
+      field: 'district',
       width: 200,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
-        params.data.state = _.startCase(params.newValue);
-        return true;
-      }
-    },
-    {
-      headerName: 'State Capital',
-      field: 'stateCapital',
-      width: 200,
-      sortable: true,
-      valueSetter: function (params) {
-        console.log(params);
-        params.data.stateCapital = _.upperFirst(params.newValue);
+        params.data.district = _.upperFirst(params.newValue);
 
         return true;
       }
     },
     {
-      headerName: 'State Code',
-      field: 'stateCode',
+      headerName: 'District Capital',
+      field: 'districtCapital',
+      width: 200,
+      sortable: true,
+      valueSetter: function (params) {
+        console.log(params);
+        params.data.districtCapital = _.upperFirst(params.newValue);
+
+        return true;
+      }
+    },
+    {
+      headerName: 'District Code',
+      field: 'districtCode',
       width: 150,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
-        params.data.stateCode = _.toUpper(params.newValue);
+        params.data.districtCode = _.toUpper(params.newValue);
 
         return true;
       }
     },
     {
-      headerName: 'State Pin Code',
+      headerName: 'District Pin Code',
       field: 'pincode',
       width: 150,
       sortable: true,
@@ -179,60 +174,60 @@ export class StateComponent implements OnInit {
       width: 150,
       cellRenderer: 'gridButtonRendender',
       cellRendererParams: {
-        btnName: "District",
-        onSelect: this.stateTab.bind(this)
+        btnName: "Taluk",
+        onSelect: this.districtTab.bind(this)
       }
     }
 
 
   ];
 
-  stateTab(sectedRow) {
+  //============= grid district button ===========
+  districtTab(sectedRow) {
     console.log(sectedRow);
     let countryDetails = {
-      stateId: sectedRow.id,
-      stateName: sectedRow.state,
+      districtId:  sectedRow.id,
+      distinctName: sectedRow.district,
+      stateId: this.stateId,
+      stateName: this.stateTitle ,
       countryId: this.countryId,
-      countryName: this.countryLists,
-      tabName: "DISTRICT"
+      countryName: this.countryTitle,
+      tabName: "TALUK"
     }
-
     this.observableService.setTab(countryDetails);
   }
 
-  backTab(){
-   let changeData = "COUNTRY";
-   this.observableService.setNav(changeData);
-  }
-  nextTab(){
-   let changeData = "DISTRICT";
-   this.observableService.setNav(changeData);
+  backTab() {
+    let changeData = "STATE";
+    this.observableService.setNav(changeData);
   }
 
   //====== grid on load data based on country =========
   gridData() {
     console.log("state");
-    console.log(this.countryId);
-    this.dataService.FindAllCountryStates(this.countryId).subscribe(
+    console.log(this.stateId);
+    this.dataService.FindAllStateDistricts(this.stateId).subscribe(
       res => {
 
-        this.rowData = res.FindAllCountryStates
+        this.rowData = res.FindAllStateDistricts
         console.log(this.rowData);
       }
-      )
-}
-    // ====== Unique ===================
+    )
+  }
 
-    isUnique(state: string): boolean {
-      const findedValue = this.rowData.findIndex((obj: IState) => {
-        return obj.state !== state;
-      });
-      this.showUniqueErr = true;
-      console.log(this.showUniqueErr)
-  
-      return findedValue === -1 ? true : false;
-    }
-  
+
+  // ====== Unique ===================
+
+  /* isUnique(state: string): boolean {
+   const findedValue = this.rowData.findIndex((obj: IState) => {
+     return obj.state !== state;
+   });
+   this.showUniqueErr = true;
+   console.log(this.showUniqueErr)
+ 
+   return findedValue === -1 ? true : false;
+ } */
+
 
   // ============= grid Ready============
   onGridReady(params) {
@@ -240,15 +235,15 @@ export class StateComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
-// ============ new row data =============
+  // ============ new row data =============
   createNewRowData() {
     let newData = {
       id: "",
-        state: "",
-        stateCapital: "",
-        stateCode: "",
-        pincode: "",
-        editMode: "",
+      district: "",
+      districtCapital: "",
+      districtCode: "",
+      pincode: "",
+      editMode: ""
     }
 
     return newData;
@@ -270,8 +265,8 @@ export class StateComponent implements OnInit {
     return res;
   }
 
-
-  onSave(editData: IState): void {
+  // ========= on save button ================
+  onSave(editData: IDistrict): void {
 
     let currentNode = this.gridApi.getRowNode(editData.id);
     console.log(currentNode.id);
@@ -279,48 +274,50 @@ export class StateComponent implements OnInit {
 
     if (currentNode.id !== "") {
       console.log("In edit");
-      this.edit(editData, currentNode.rowIndex);
+      // this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
       // if (this.isUnique(editData.state)) {
-        
-        this.UpdateState(editData);
+
+      this.UpdateDistrict(editData);
       // } else {
       //   this.showUniqueErr = false;
       // }
     }
 
     // currentNode.setSelected(false);
-    
+
     this.gridApi.deselectAll()
 
     // this.editBtnClicked = true;
 
   }
+
+
   // ====== delete button click ===================
-  onDelete(deleteData: IState): void {
+  onDelete(deleteData: IDistrict): void {
 
     let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
     console.log(deleteIndex);
-    // const deleteIndex = _.findIndex(this.rowData, (obj) => {
-    //   return obj.id === deleteData.id;
-    // });
-    // let selectedRow = this.gridApi.getRowNode(deleteIndex)
     this.delete(deleteIndex);
 
   }
- 
+
 
   // ====== update country ========
-  UpdateState(cellData) {
-    let state = cellData.state;
-    let stateCapital = cellData.stateCapital
-    let stateCode = cellData.stateCode
+  UpdateDistrict(cellData) {
+    let district = cellData.district;
+    let districtCapital = cellData.districtCapital
+    let districtCode = cellData.districtCode
     let pincode = cellData.pincode
     let countryId = this.countryId
-    this.dataService.createState({ countryId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
+    let stateId = this.stateId
+
+    this.dataService.createDistrict(
+      { countryId, stateId, district, districtCapital, districtCode, pincode }, stateId
+    ).subscribe(
       res => {
-        this.rowData = [...this.rowData, res.CreateState]
+        this.rowData = [...this.rowData, res.CreateDistrict]
         console.log(this.rowData)
       },
       err => {
@@ -330,7 +327,7 @@ export class StateComponent implements OnInit {
     )
   }
   // ======edit country =========
-  edit(cellData, rowIndex) {
+  /* edit(cellData, rowIndex) {
 
     let state = cellData.state;
     let stateCapital = cellData.stateCapital
@@ -348,47 +345,36 @@ export class StateComponent implements OnInit {
         this.toasterService.pop("error", "Server Error", err)
       }
     )
+  } */
+
+  // ====== Delete country ======
+
+  delete(rowIndex) {
+    console.log("im in delete", rowIndex);
+    console.log(this.rowData[rowIndex]);
+    let countryId = this.countryId;
+    let StateId = this.stateId
+    let DistrictId = this.rowData[rowIndex].id
+
+    this.dataService.deleteDistrict(countryId, StateId, DistrictId).subscribe(
+      res => {
+        this.rowData[rowIndex] = res.DeleteDistrict
+        console.log(this.rowData);
+        this.rowData = this.rowData.filter((data) => {
+          return data.id !== res.DeleteDistrict.id
+        });
+        setTimeout(() => {
+          let lastRec = _.last(this.rowData)
+          let currentNode = this.gridApi.getRowNode(lastRec.id)
+
+          currentNode.setSelected(true);
+          this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+        }, 100);
+      },
+      err => {
+        console.log(err);
+        this.toasterService.pop("warning", "Server Error", err)
+      }
+    )
   }
-  
-// ====== Delete country ======
-
-delete(rowIndex) {
-  console.log("im in delete", rowIndex);
-  console.log(this.rowData[rowIndex]);
-  let countryId = this.countryId
-  let StateId = this.rowData[rowIndex].id
-  
-  this.dataService.deleteState(countryId,StateId ).subscribe(
-    res => {     
-      this.rowData[rowIndex] = res.DeleteState
-      console.log( this.rowData);
-      this.rowData = this.rowData.filter((data) => {
-        return data.id !== res.DeleteState.id
-      });
-      setTimeout(() => {
-        let lastRec = _.last(this.rowData)
-        let currentNode = this.gridApi.getRowNode(lastRec.id)
-
-        currentNode.setSelected(true);
-        this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-      }, 100);
-    },
-    err => {
-      console.log(err);
-      this.toasterService.pop("warning", "Server Error", err)
-    }
-  )
-}
-
-  
- 
-
-
-
-
- 
-   
-   
-   
-
 }

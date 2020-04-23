@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
-import { CustomValidators } from 'ngx-custom-validators';
 import { ActionBtnComponent } from '../../../ag-grid-components/action-btn/action-btn.component'
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import { CountryService } from './../../../services/graphql/country.service';
 import { ToasterService } from 'angular2-toaster';
 import * as _ from 'lodash';
 import { ICountry } from './../../grphql/interface/countryInterface';
+import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
+import { ObservableService } from './../../../services/observable.service';
 
 @Component({
   selector: 'app-country',
@@ -15,7 +15,7 @@ import { ICountry } from './../../grphql/interface/countryInterface';
 })
 export class CountryComponent implements OnInit {
 
-  private gridApi;
+  private gridApi: GridApi;
   private defaultColDef;
   private rowSelection;
   private gridColumnApi;
@@ -23,19 +23,35 @@ export class CountryComponent implements OnInit {
   private rowData: ICountry[];
   private showMenu: boolean = false;
   private hide = true;
-  frameworkComponents: { buttonRender: typeof ActionBtnComponent; };
+  frameworkComponents: {
+    buttonRender: typeof ActionBtnComponent,
+    gridButtonRendender: typeof GridButtonComponent
+  };
   isEditMode: boolean = false;
   editRecordId: any;
   editBtnClicked: boolean;
-  showUniqueErr: boolean;
+  showUniqueErr: boolean = false;
+  // setNewData: void;
 
   constructor(
-    private fb: FormBuilder,
+    // private fb: FormBuilder,
     private dataService: CountryService,
-    private toasterService: ToasterService) {
+    private toasterService: ToasterService,
+    private observableService: ObservableService
+  ) {
+
     this.frameworkComponents = {
-      buttonRender: ActionBtnComponent
-    }
+      buttonRender: ActionBtnComponent,
+      gridButtonRendender: GridButtonComponent
+    };
+
+    this.defaultColDef = {
+      flex: 1,
+      minWidth: 130,
+      editable: true,
+      resizable: true,
+    };
+
     this.rowData = [
       {
         id: "",
@@ -61,12 +77,6 @@ export class CountryComponent implements OnInit {
     )
   }
 
-  // CountryForm = this.fb.group({
-  //   countryName: ["", Validators.required],
-  //   countryCapital: ["", [Validators.required]],
-  //   countryCode: ["", [Validators.required]]
-  // })
-
   columnDefs: ColDef[] = [
     {
       headerName: 'Nos',
@@ -79,19 +89,39 @@ export class CountryComponent implements OnInit {
       headerName: 'Country Name',
       field: 'country',
       width: 200,
-      sortable: true
+      sortable: true,
+      valueSetter: function (params) {
+        console.log(params);
+        params.data.country = _.upperFirst(params.newValue);
+
+        return true;
+      }
     },
     {
       headerName: 'Country Capital',
       field: 'countryCapital',
       width: 200,
-      sortable: true
+      sortable: true,
+      valueSetter: function (params) {
+        console.log(params);
+
+        params.data.countryCapital = _.upperFirst(params.newValue);
+
+        return true;
+      }
     },
     {
       headerName: 'Country Code',
       field: 'countryCode',
       width: 150,
-      sortable: true
+      sortable: true,
+      valueSetter: function (params) {
+        console.log(params);
+
+        params.data.countryCode = _.toUpper(params.newValue);
+
+        return true;
+      }
     },
     {
       headerName: 'Action',
@@ -99,21 +129,45 @@ export class CountryComponent implements OnInit {
       width: 150,
       cellRenderer: 'buttonRender',
       cellRendererParams: {
-        onEdit: this.onEdit.bind(this),
+        btn: "save",
+        onEdit: this.onSave.bind(this),
         onDelete: this.onDelete.bind(this),
+      }
+    },
+    {
+      headerName: 'Action',
+      field: 'editmode',
+      width: 150,
+      cellRenderer: 'gridButtonRendender',
+      cellRendererParams: {
+        btnName: "State",
+        onSelect: this.stateTab.bind(this)
       }
     }
 
 
   ];
 
+  stateTab(sectedRow) {
+    console.log(sectedRow);
+    let countryDetails = {
+      countryId: sectedRow.id,
+      countryName: sectedRow.country,
+      tabName: "STATE"
+    }
+
+    this.observableService.setTab(countryDetails);
+  }
+
   // ====== Unique ===================
-  
+
   isUnique(country: string): boolean {
     const findedValue = this.rowData.findIndex((obj: ICountry) => {
-      return obj.country !== country ;  
+      return obj.country !== country;
     });
-    console.log(findedValue)
+    this.showUniqueErr = true;
+    console.log(this.showUniqueErr)
+
     return findedValue === -1 ? true : false;
   }
 
@@ -124,50 +178,97 @@ export class CountryComponent implements OnInit {
     // this.gridApi.selectIndex(0, false, false);
   }
 
+  // ============ new row data =============
+  createNewRowData() {
+    let newData = {
+      id: "",
+      country: "",
+      countryCapital: "",
+      countryCode: "",
+      editMode: "",
+    }
 
+    return newData;
+  }
+
+  // ======= adding new row =================
+  onAddRow() {
+    this.gridApi.deselectAll()
+    var newItem = this.createNewRowData();
+    var res = this.gridApi.updateRowData({ add: [newItem] });
+    // printResult(res);
+    console.log(res);
+
+    let currentNode = this.gridApi.getRowNode(newItem.id)
+    console.log(currentNode);
+    // currentNode.clearSelection(true);
+    currentNode.setSelected(true, true);
+    this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+    return res;
+  }
+  // ====== save button click ===================
+  onSave(editData: ICountry): void {
+
+    let currentNode = this.gridApi.getRowNode(editData.id);
+    console.log(currentNode.id);
+
+
+    if (currentNode.id !== "") {
+      console.log("In edit");
+      this.edit(editData, currentNode.rowIndex);
+    } else {
+      console.log("in new");
+      if (this.isUnique(editData.country)) {
+        
+        this.UpdateCountry(editData);
+      } else {
+        this.showUniqueErr = false;
+      }
+    }
+
+
+    // this.editBtnClicked = true;
+
+  }
+  // ====== delete button click ===================
+  onDelete(deleteData: ICountry): void {
+
+    let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
+    console.log(deleteIndex);
+    // const deleteIndex = _.findIndex(this.rowData, (obj) => {
+    //   return obj.id === deleteData.id;
+    // });
+    // let selectedRow = this.gridApi.getRowNode(deleteIndex)
+    this.delete(deleteIndex);
+
+  }
   // ====== update country ========
-  UpdateCountry(rowIndex) {
-    let country = _.upperFirst(this.CountryForm.value.countryName);
-    let countryCapital = _.upperFirst(this.CountryForm.value.countryCapital);
-    let countryCode =_.upperFirst( this.CountryForm.value.countryCode);
-
+  UpdateCountry(cellData) {
+    let country = cellData.country;
+    let countryCapital = cellData.countryCapital
+    let countryCode = cellData.countryCode
     this.dataService.createCountry({ country, countryCapital, countryCode }).subscribe(
       res => {
-        
-        if (rowIndex === 0) {
-          this.rowData[rowIndex] = res.CreateCountry
-        } else {
-          this.rowData = [...this.rowData, res.CreateCountry]
-        }
-       
 
+        this.rowData = [...this.rowData, res.CreateCountry]
       },
-
       err => {
         console.log("ls error:", err);
         this.toasterService.pop("error", "Server Error", err)
       }
-
     )
   }
   // ======edit country =========
-  edit(rowIndex) {
+  edit(cellData, rowIndex) {
 
-    let country = _.upperFirst(this.CountryForm.value.countryName);
-    let countryCapital = _.upperFirst(this.CountryForm.value.countryCapital);
-    let countryCode =_.upperFirst( this.CountryForm.value.countryCode);
+    let country = cellData.country;
+    let countryCapital = cellData.countryCapital
+    let countryCode = cellData.countryCode
     let countryid = this.rowData[rowIndex].id
 
     this.dataService.editCountry({ countryid, country, countryCapital, countryCode }).subscribe(
       res => {
-        
         this.rowData[rowIndex] = res.EditCountry;
-       
-        let currentNode = this.gridApi.getRowNode(this.rowData[rowIndex].id);
-        currentNode.setDataValue("country", _.upperFirst(country));
-        currentNode.setDataValue("countryCapital",_.upperFirst( countryCapital));
-        currentNode.setDataValue("countryCode", _.upperFirst(countryCode));
-      
       },
       err => {
         console.log("ls error:", err);
@@ -179,114 +280,43 @@ export class CountryComponent implements OnInit {
   // ====== Delete country ======
 
   delete(rowIndex) {
-
+    console.log("im in delete", rowIndex);
+    console.log(this.rowData[rowIndex]);
     let countryId = this.rowData[rowIndex].id
+    console.log(countryId);
     this.dataService.deleteCountry(countryId).subscribe(
       res => {
-       
+
         this.rowData[rowIndex] = res.DeleteCountry
         this.rowData = this.rowData.filter((data) => {
-
-          // return data.livestockName !== res.DeleteLivestock.livestockName
           return data.id !== res.DeleteCountry.id
         });
         setTimeout(() => {
           let lastRec = _.last(this.rowData)
-        
+
           let currentNode = this.gridApi.getRowNode(lastRec.id)
-         
+
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         }, 100);
       },
       err => {
-        
         this.toasterService.pop("warning", "Server Error", err)
       }
     )
   }
 
 
-  // ====== on Submit =========
-  onSubmit(countryDirective: FormGroupDirective) {
-    if(this.CountryForm.valid){
-
-      const country = _.upperFirst(this.CountryForm.value.country);
-      let countryCapital = _.upperFirst(this.CountryForm.value.countryCapital);
-      let countryCode =_.upperFirst( this.CountryForm.value.countryCode);
-      if (this.isUnique(country)) {
-        this.showUniqueErr = false;
-        console.log(this.showUniqueErr);
-      if(this.isEditMode){
-        const index = _.findIndex(this.rowData, (obj) => {
-          return obj.id === this.editRecordId;
-        })
-        this.edit(index);
-
-      }else{
-        // ==== new mode acton ====
-        let rowLength = this.rowData.length;
-       
-        // this.rowData[0].country === ''
-        if (rowLength === 1  ) {
-          let currentRow = this.gridApi.getRowNode(0);
-         
-          this.UpdateCountry(currentRow);
-        }else {
-          // ====== new record ===========
-         
-          this.UpdateCountry(-1)
-
-          setTimeout(() => {
-            let lastRec = _.last(this.rowData)
-           
-            let currentNode = this.gridApi.getRowNode(lastRec.id)
-           
-            currentNode.setSelected(true);
-            this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-          }, 100);
-        }
-      }
-    }
-    else{
-      this.showUniqueErr = true;
-    }
-    }else{
-      console.log("im not valid");
-    }
-
-  
-    countryDirective.resetForm();
-
-  }
 
 
-// ====== Edit data ===================
-onEdit(editData: ICountry): void {
 
-  this.showMenu = true;
-  this.isEditMode = true;
-  this.editRecordId = editData.id;
-  
-  this.CountryForm.setValue({
-    countryName: editData.country,
-    countryCapital: editData.countryCapital,
-    countryCode: editData.countryCode
-  });
-  this.editBtnClicked = true;
 
-  // this.userField.nativeElement.focus();
-}
 
-onDelete(deleteData: ICountry): void {
 
-  
-  const deleteIndex = _.findIndex(this.rowData, (obj) => {
-    return obj.id === deleteData.id;
-  });
-  let selectedRow = this.gridApi.getRowNode(deleteIndex)
-  this.delete(deleteIndex);
 
-}
+
+
+
+
 
 }

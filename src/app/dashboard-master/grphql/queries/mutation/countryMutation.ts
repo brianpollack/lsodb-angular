@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
-import { ICountry, IState } from './../../interface/countryInterface';
+import { ICountry, IState, IDistrict, ITaluk, ITown, IVillage } from './../../interface/countryInterface';
+import { CREATE_BREED } from 'src/app/dashboard-master/grphql/queries/mutation/breedMutation';
 
 export const CREATE_COUNTRY = gql`
 
@@ -43,6 +44,7 @@ mutation CreateState($input: ParamsCreateState) {
     }
   }
 `;
+
 export const EDIT_STATE = gql`
 mutation EditState($input: ParamsEditState) {
     EditState(input: $input) {
@@ -65,6 +67,73 @@ mutation DeleteState($countryId: String!, $StateId: String!) {
   }
 `;
 
+export const CREATE_District = gql`
+mutation CreateDistrict($input: ParamsCreateDistrict) {
+  CreateDistrict(input: $input) {
+   id
+    countryId
+    stateId
+    district
+    districtCapital
+    districtCode
+    pincode
+  }
+}
+`;
+
+
+// export const EDIT_DISTRICT = gql`
+
+// `;
+
+export const DELETE_DISTRICT = gql`
+mutation Deletedistrict($countryId: String!, $DistrictId: String!) {
+  DeleteDistrict(countryId: $countryId, DistrictId: $DistrictId) {
+    id
+    district
+    districtCapital
+  }
+}
+`;
+
+
+
+export const CREATE_TALUK = gql`
+mutation CreateTaluk($input: ParamsCreateTaluk) {
+  CreateTaluk(input: $input) {
+   id
+    countryId
+   districtId
+    taluk
+    pincode
+  }
+}
+`;
+
+
+export const CREATE_TOWN = gql`
+mutation CreateTown($input: ParamsCreateTown) {
+  CreateTown(input: $input) {
+    id
+    taluckId
+    town
+    pincode
+  }
+}
+`;
+export const CREATE_VILLAGE =  gql`
+mutation CreateVillage($input: ParamsCreateVillage) {
+  CreateVillage(input: $input) {
+    id
+    countryId
+    townId
+    village
+    pincode
+  }
+}
+`;
+
+
 export interface IParamsCreateCountryResponce {
     CreateCountry: ICountry
 }
@@ -83,4 +152,27 @@ export interface IParamsEditStateResponce {
 export interface IParamsDeleteStateResponce {
   DeleteState: IState
 }
+
+export interface IParamsCreateDistrictResponce {
+  CreateDistrict : IDistrict
+}
+
+export interface IParamsEditDistrictResponce {
+  EditDistrict: IDistrict
+}
+export interface IParamsDeleteDistrictResponce {
+  DeleteDistrict: IDistrict
+}
+
+export interface IParamsCreateTalukResponce {
+  CreateTaluk : ITaluk
+}
+export interface IParamsCreateTownResponce {
+  CreateTown : ITown
+}
+export interface IParamsCreateVillageResponce {
+  CreateVillage : IVillage
+}
+
+
 

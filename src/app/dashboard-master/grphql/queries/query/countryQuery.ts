@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { ICountry, IState } from './../../interface/countryInterface';
+import { ICountry, IState, IDistrict, ITaluk, ITown, IVillage } from './../../interface/countryInterface';
 
 export const FIND_ALL_COUNTRY = gql`
 query{
@@ -30,6 +30,8 @@ query FindAllCountryStates($countryId:String){
     countryId
     state
     stateCapital
+    stateCode
+    pincode
   }
 }
 `;
@@ -46,6 +48,60 @@ query{
   }
 }`;
 
+
+
+
+export const FIND_ALL_STATE_DISTRICTS = gql`
+query FindAllstateDistrict($stateId: String!){
+  FindAllStateDistricts(stateId: $stateId ){
+    id
+    countryId
+    stateId
+    district
+    districtCapital
+    districtCode
+    pincode
+  }
+}
+`;
+
+export const FIND_ALL_DISTRICTS_TALUKS = gql`
+
+query FindAllDistrictTaluks($districtId: String!){
+  FindAllDistrictTaluks(districtId: $districtId ){
+    id
+    countryId
+    districtId
+    taluk
+    pincode
+  }
+}`;
+
+export const FIND_ALL_TALUKS_TOWNS = gql`
+
+query FindAllTalukTown($taluckId: String!) {
+  FindAllTalukTown(taluckId: $taluckId) {
+    id
+    countryId
+    taluckId
+    town
+    pincode
+  }
+}
+`;
+
+export const FIND_ALL_TOWN_VILLAGE = gql`
+query FindAllTownVillage($townId:String! ) {
+  FindAllTownVillage(townId:$townId ){
+    id
+    countryId
+    townId
+    village
+    pincode
+  }
+}
+`;
+
 export interface IFindAllCountryResponce  {
   FindAllCountry: ICountry[]
 }
@@ -59,5 +115,21 @@ export interface IFindAllCountryStatesResponce  {
 
 export interface IFindAllStateResponce  {
   FindAllState: IState[]
+}
+
+export interface IFindAllStateDistrictsResponce {
+  FindAllStateDistricts: IDistrict[]
+}
+
+export interface IFindAllDistrictsTaluksResponce {
+  FindAllDistrictTaluks: ITaluk[]
+}
+
+
+export interface IFindAllTalukTalukResponce {
+  FindAllTalukTown: ITown[]
+}
+export interface IFindAllTalukVillageResponce {
+  FindAllTownVillage: IVillage[]
 }
 
