@@ -161,15 +161,15 @@ export class CountryComponent implements OnInit {
 
   // ====== Unique ===================
 
-  isUnique(country: string): boolean {
+  /* isUnique(country: string): boolean {
     const findedValue = this.rowData.findIndex((obj: ICountry) => {
-      return obj.country !== country;
+      return obj.country === country;
     });
     this.showUniqueErr = true;
     console.log(this.showUniqueErr)
 
     return findedValue === -1 ? true : false;
-  }
+  } */
 
   // ====== on grid ready =========
   onGridReady(params) {
@@ -218,12 +218,12 @@ export class CountryComponent implements OnInit {
       this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
-      if (this.isUnique(editData.country)) {
+      // if (this.isUnique(editData.country)) {
         
         this.UpdateCountry(editData);
-      } else {
-        this.showUniqueErr = false;
-      }
+      // } else {
+        // this.showUniqueErr = false;
+      // }
     }
 
 

@@ -145,7 +145,7 @@ export class TalukComponent implements OnInit {
       cellRendererParams: {
         btn: "save",
         onEdit: this.onSave.bind(this),
-        // onDelete: this.onDelete.bind(this),
+        onDelete: this.onDelete.bind(this),
       }
     },
     {
@@ -154,7 +154,7 @@ export class TalukComponent implements OnInit {
       width: 150,
       cellRenderer: 'gridButtonRendender',
       cellRendererParams: {
-        btnName: "Taluk",
+        btnName: "Town",
         onSelect: this.talukTab.bind(this)
       }
     }
@@ -254,7 +254,7 @@ export class TalukComponent implements OnInit {
 
     if (currentNode.id !== "") {
       console.log("In edit");
-      // this.edit(editData, currentNode.rowIndex);
+      this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
       // if (this.isUnique(editData.state)) {
@@ -275,13 +275,13 @@ export class TalukComponent implements OnInit {
 
 
   // ====== delete button click ===================
-  /*  onDelete(deleteData: ITaluk): void {
+  onDelete(deleteData: ITaluk): void {
  
      let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
      
      this.delete(deleteIndex);
  
-   } */
+   } 
 
   // ====== update country ========
    UpdateTaluk(cellData) {
@@ -306,41 +306,40 @@ export class TalukComponent implements OnInit {
  } 
 
   // ======edit country =========
-  /* edit(cellData, rowIndex) {
+  edit(cellData, rowIndex) {
 
-    let state = cellData.state;
-    let stateCapital = cellData.stateCapital
-    let stateCode = cellData.stateCode
-    let pincode = cellData.pincode
+    console.log("rrrr");
+    let taluk = cellData.taluk;
+   let pincode = cellData.pincode
     let countryId = this.countryId
-    let stateId = this.rowData[rowIndex].id
+    let talukId = this.rowData[rowIndex].id
+    let districtId = this.districtID
 
-    this.dataService.editState({countryId, stateId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
+    this.dataService.editTaluk({countryId, talukId, taluk, pincode }, districtId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.EditState;
+        this.rowData[rowIndex] = res.EditTaluk;
       },
       err => {
         console.log("ls error:", err);
         this.toasterService.pop("error", "Server Error", err)
       }
     )
-  } */
+  } 
 
   // ====== Delete country ======
 
-  /* delete(rowIndex) {
-    console.log("im in delete", rowIndex);
-    console.log(this.rowData[rowIndex]);
+   delete(rowIndex) {
+    
     let countryId = this.countryId;
-    let StateId = this.stateId
-    let DistrictId = this.rowData[rowIndex].id
+    let DistrictId = this.districtID
+    let talukId = this.rowData[rowIndex].id
 
-    this.dataService.deleteDistrict(countryId, StateId, DistrictId).subscribe(
+    this.dataService.deleteTaluk(countryId, talukId, DistrictId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.DeleteDistrict
+        this.rowData[rowIndex] = res.DeleteTaluk
         console.log(this.rowData);
         this.rowData = this.rowData.filter((data) => {
-          return data.id !== res.DeleteDistrict.id
+          return data.id !== res.DeleteTaluk.id
         });
         setTimeout(() => {
           let lastRec = _.last(this.rowData)
@@ -355,6 +354,6 @@ export class TalukComponent implements OnInit {
         this.toasterService.pop("warning", "Server Error", err)
       }
     )
-  } */
+  } 
 
 }

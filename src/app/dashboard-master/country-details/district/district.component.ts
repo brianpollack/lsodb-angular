@@ -274,7 +274,7 @@ export class DistrictComponent implements OnInit {
 
     if (currentNode.id !== "") {
       console.log("In edit");
-      // this.edit(editData, currentNode.rowIndex);
+      this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
       // if (this.isUnique(editData.state)) {
@@ -327,25 +327,27 @@ export class DistrictComponent implements OnInit {
     )
   }
   // ======edit country =========
-  /* edit(cellData, rowIndex) {
+  edit(cellData, rowIndex) {
 
-    let state = cellData.state;
-    let stateCapital = cellData.stateCapital
-    let stateCode = cellData.stateCode
-    let pincode = cellData.pincode
     let countryId = this.countryId
-    let stateId = this.rowData[rowIndex].id
-
-    this.dataService.editState({countryId, stateId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
+    let district = cellData.district;
+    let districtCapital = cellData.districtCapital
+    let districtCode = cellData.districtCode
+    let pincode = cellData.pincode
+    let districtId = this.rowData[rowIndex].id
+    let stateId = this.stateId
+    
+    this.dataService.editDistrict({countryId, districtId, district, districtCapital, districtCode, pincode }, stateId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.EditState;
+        console.log("llll");
+        this.rowData[rowIndex] = res.EditDistrict;
       },
       err => {
         console.log("ls error:", err);
         this.toasterService.pop("error", "Server Error", err)
       }
     )
-  } */
+  } 
 
   // ====== Delete country ======
 

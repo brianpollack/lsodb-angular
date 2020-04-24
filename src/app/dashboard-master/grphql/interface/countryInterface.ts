@@ -109,31 +109,31 @@ export interface IParamsEditState {
 }
 
 export interface IParamsEditDistrict {
-    DistrictId: string
-    stateId: string
-    district: string
-    districtCapital: string
-    districtCode: string
-    pincode: string
+    countryId: String
+    districtId: String
+    district: String
+    districtCapital: String
+    districtCode: String
+    pincode: String
 }
 
 export interface IParamsEditTaluk {
+    countryId: String
     talukId: string
-    districtId: string
     taluk: string
     pincode: string
 }
 
 export interface IParamsEditTown {
+    countryId: String
     townId: string
-    taluckId: string
     town: string
     pincode: string
 }
 
 export interface IParamsEditVillage {
+    countryId: String
     villageId: string
-    townId: string
     village: string
     pincode: string
 }

@@ -7,6 +7,7 @@ import { ObservableService } from 'src/app/services/observable.service';
 import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 import * as _ from 'lodash';
+import { ITown } from './../../grphql/interface/countryInterface';
 
 
 @Component({
@@ -148,7 +149,7 @@ export class TownComponent implements OnInit {
       cellRendererParams: {
         btn: "save",
         onEdit: this.onSave.bind(this),
-        // onDelete: this.onDelete.bind(this),
+        onDelete: this.onDelete.bind(this),
       }
     },
     {
@@ -258,7 +259,7 @@ export class TownComponent implements OnInit {
 
     if (currentNode.id !== "") {
       console.log("In edit");
-      // this.edit(editData, currentNode.rowIndex);
+      this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
       // if (this.isUnique(editData.state)) {
@@ -279,13 +280,13 @@ export class TownComponent implements OnInit {
 
 
   // ====== delete button click ===================
-  /*  onDelete(deleteData: ITaluk): void {
+  onDelete(deleteData: ITown): void {
  
      let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
      
      this.delete(deleteIndex);
  
-   } */
+   } 
 
   // ====== update country ========
   UpdateTown(cellData) {
@@ -308,42 +309,39 @@ export class TownComponent implements OnInit {
    )
  } 
 
-  // ======edit country =========
-  /* edit(cellData, rowIndex) {
+  // ======edit town =========
+   edit(cellData, rowIndex) {
 
-    let state = cellData.state;
-    let stateCapital = cellData.stateCapital
-    let stateCode = cellData.stateCode
+    let town = cellData.town;
     let pincode = cellData.pincode
     let countryId = this.countryId
-    let stateId = this.rowData[rowIndex].id
+    let townId = this.rowData[rowIndex].id
+    let taluckId = this.talukId
 
-    this.dataService.editState({countryId, stateId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
+    this.dataService.editTown({countryId, townId, town, pincode }, taluckId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.EditState;
+        this.rowData[rowIndex] = res.EditTown;
       },
       err => {
         console.log("ls error:", err);
         this.toasterService.pop("error", "Server Error", err)
       }
     )
-  } */
+  }
 
   // ====== Delete country ======
 
-  /* delete(rowIndex) {
-    console.log("im in delete", rowIndex);
-    console.log(this.rowData[rowIndex]);
+   delete(rowIndex) {
     let countryId = this.countryId;
-    let StateId = this.stateId
-    let DistrictId = this.rowData[rowIndex].id
-
-    this.dataService.deleteDistrict(countryId, StateId, DistrictId).subscribe(
+    let taluckId = this.talukId
+    let townId = this.rowData[rowIndex].id
+    this.dataService.deleteTown(countryId, townId, taluckId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.DeleteDistrict
-        console.log(this.rowData);
+        // console.log("hello");
+        this.rowData[rowIndex] = res.DeleteTown
+        // console.log(this.rowData);
         this.rowData = this.rowData.filter((data) => {
-          return data.id !== res.DeleteDistrict.id
+          return data.id !== res.DeleteTown.id
         });
         setTimeout(() => {
           let lastRec = _.last(this.rowData)
@@ -358,5 +356,5 @@ export class TownComponent implements OnInit {
         this.toasterService.pop("warning", "Server Error", err)
       }
     )
-  } */
+  } 
 }

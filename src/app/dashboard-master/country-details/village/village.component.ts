@@ -154,7 +154,7 @@ export class VillageComponent implements OnInit {
       cellRendererParams: {
         btn: "save",
         onEdit: this.onSave.bind(this),
-        // onDelete: this.onDelete.bind(this),
+        onDelete: this.onDelete.bind(this),
       }
     },
     /* {
@@ -241,7 +241,7 @@ export class VillageComponent implements OnInit {
 
     if (currentNode.id !== "") {
       console.log("In edit");
-      // this.edit(editData, currentNode.rowIndex);
+      this.edit(editData, currentNode.rowIndex);
     } else {
       console.log("in new");
       // if (this.isUnique(editData.state)) {
@@ -262,13 +262,13 @@ export class VillageComponent implements OnInit {
 
 
   // ====== delete button click ===================
-  /*  onDelete(deleteData: ITaluk): void {
+   onDelete(deleteData: IVillage): void {
  
      let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
      
      this.delete(deleteIndex);
  
-   } */
+   } 
 
   // ====== update country ========
   UpdateVillage(cellData) {
@@ -292,41 +292,39 @@ export class VillageComponent implements OnInit {
  } 
 
   // ======edit country =========
-  /* edit(cellData, rowIndex) {
+  edit(cellData, rowIndex) {
 
-    let state = cellData.state;
-    let stateCapital = cellData.stateCapital
-    let stateCode = cellData.stateCode
-    let pincode = cellData.pincode
     let countryId = this.countryId
-    let stateId = this.rowData[rowIndex].id
+    let village = cellData.village;
+    let pincode = cellData.pincode
+    let villageId = this.rowData[rowIndex].id
+    let townId = this.townId
 
-    this.dataService.editState({countryId, stateId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
+    this.dataService.editvillage({countryId, villageId, village, pincode }, townId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.EditState;
+        this.rowData[rowIndex] = res.EditVillage;
       },
       err => {
         console.log("ls error:", err);
         this.toasterService.pop("error", "Server Error", err)
       }
     )
-  } */
+  } 
 
   // ====== Delete country ======
-
-  /* delete(rowIndex) {
+ delete(rowIndex) {
     console.log("im in delete", rowIndex);
-    console.log(this.rowData[rowIndex]);
+    
     let countryId = this.countryId;
-    let StateId = this.stateId
-    let DistrictId = this.rowData[rowIndex].id
+    let townId = this.townId
+    let villageId = this.rowData[rowIndex].id
 
-    this.dataService.deleteDistrict(countryId, StateId, DistrictId).subscribe(
+    this.dataService.deleteVillage(countryId, villageId, townId).subscribe(
       res => {
-        this.rowData[rowIndex] = res.DeleteDistrict
+        this.rowData[rowIndex] = res.DeleteVillage
         console.log(this.rowData);
         this.rowData = this.rowData.filter((data) => {
-          return data.id !== res.DeleteDistrict.id
+          return data.id !== res.DeleteVillage.id
         });
         setTimeout(() => {
           let lastRec = _.last(this.rowData)
@@ -341,5 +339,5 @@ export class VillageComponent implements OnInit {
         this.toasterService.pop("warning", "Server Error", err)
       }
     )
-  } */
+  } 
 }

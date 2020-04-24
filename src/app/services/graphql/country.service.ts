@@ -3,9 +3,10 @@ import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IFindAllCountryResponce, FIND_ALL_COUNTRY, IFindCountryResponce, FIND_COUNTRY, IFindAllCountryStatesResponce, FIND_ALL_COUNTRY_STATES, IFindAllStateResponce, FIND_ALL_STATES, IFindAllStateDistrictsResponce, FIND_ALL_STATE_DISTRICTS, IFindAllDistrictsTaluksResponce, FIND_ALL_DISTRICTS_TALUKS, IFindAllTalukTalukResponce, FIND_ALL_TALUKS_TOWNS, IFindAllTalukVillageResponce, FIND_ALL_TOWN_VILLAGE } from 'src/app/dashboard-master/grphql/queries/query/countryQuery';
-import { IParamsCreateCountry, IParamsEditCountry, IParamsCreateState, IParamsEditState, IParamsCreateTaluk, IParamsCreateVillage } from 'src/app/dashboard-master/grphql/interface/countryInterface';
-import { CREATE_COUNTRY, EDIT_COUNTRY, DELETE_COUNTRY, IParamsDeleteCountryResponce, IParamsCreateCountryResponce, IParamsEditCountryResponce, IParamsCreateStateResponce, CREATE_STATE, IParamsEditStateResponce, EDIT_STATE, IParamsDeleteStateResponce, DELETE_STATE, IParamsCreateDistrictResponce, IParamsEditDistrictResponce, IParamsDeleteDistrictResponce, DELETE_DISTRICT, CREATE_District, EDIT_DISTRICT, IParamsCreateTalukResponce, CREATE_TALUK, IParamsCreateTownResponce, CREATE_TOWN, IParamsCreateVillageResponce, CREATE_VILLAGE } from 'src/app/dashboard-master/grphql/queries/mutation/countryMutation';
-import { IParamsCreateDistrict, IParamsEditDistrict, IParamsCreateTown } from './../../dashboard-master/grphql/interface/countryInterface';
+import { IParamsCreateCountry, IParamsEditCountry, IParamsCreateState, IParamsEditState, IParamsCreateTaluk, IParamsCreateVillage, IParamsEditTaluk, IParamsEditVillage } from 'src/app/dashboard-master/grphql/interface/countryInterface';
+import { CREATE_COUNTRY, EDIT_COUNTRY, DELETE_COUNTRY, IParamsDeleteCountryResponce, IParamsCreateCountryResponce, IParamsEditCountryResponce, IParamsCreateStateResponce, CREATE_STATE, IParamsEditStateResponce, EDIT_STATE, IParamsDeleteStateResponce, DELETE_STATE, IParamsCreateDistrictResponce, IParamsEditDistrictResponce, IParamsDeleteDistrictResponce, DELETE_DISTRICT, CREATE_District, IParamsCreateTalukResponce, CREATE_TALUK, IParamsCreateTownResponce, CREATE_TOWN, IParamsCreateVillageResponce, CREATE_VILLAGE, IParamsDeleteVillageResponce, DELETE_VILLAGE, IParamsDeleteTownResponce, DELETE_TOWN, DELETE_TALUK, IParamsDeleteTalukResponce, EDIT_DISTRICT, IParamsEditalukResponce, IParamsEditTownResponce, EDIT_TOWN } from 'src/app/dashboard-master/grphql/queries/mutation/countryMutation';
+import { IParamsCreateDistrict, IParamsEditDistrict, IParamsCreateTown, IParamsEditTown } from './../../dashboard-master/grphql/interface/countryInterface';
+import { EDIT_TALUK, IParamsEditVillageResponce, EDIT_VILLAGE } from './../../dashboard-master/grphql/queries/mutation/countryMutation';
 
 
 @Injectable({
@@ -133,7 +134,7 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
       }).pipe(map(res => res.data))
     }
 
-    // ======== create State =======
+    // ======== create District =======
   createDistrict(input: IParamsCreateDistrict, stateId:String): Observable<IParamsCreateDistrictResponce> {
     return this.apollo
     .mutate<IParamsCreateDistrictResponce>({
@@ -145,17 +146,17 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .pipe(map(res => res.data))
   }
 
-  // ======== Edit  country =======
-  // editDistrict(input: IParamsEditDistrict, stateId:String): Observable<IParamsEditDistrictResponce> {
-  //   return this.apollo
-  //   .mutate<IParamsEditDistrictResponce>({
-  //     mutation: EDIT_DISTRICT,
-  //     variables: { input },
-  //     refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
-  //       variables: {stateId }}]
-  //   })
-  //   .pipe(map(res => res.data))
-  // }
+  // ======== Edit  District =======
+  editDistrict(input: IParamsEditDistrict, stateId:String): Observable<IParamsEditDistrictResponce> {
+    return this.apollo
+    .mutate<IParamsEditDistrictResponce>({
+      mutation: EDIT_DISTRICT,
+      variables: { input },
+      refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
+        variables: {stateId }}]
+    })
+    .pipe(map(res => res.data))
+  }
 
   // ======== Delete country =======
   deleteDistrict(countryId: String, stateId: String , DistrictId:String ): Observable<IParamsDeleteDistrictResponce>{
@@ -189,12 +190,39 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .mutate<IParamsCreateTalukResponce>({
       mutation: CREATE_TALUK,
       variables: {input},
-      // refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
-      //   variables: {districtId }}]
+      refetchQueries: [{ query: FIND_ALL_DISTRICTS_TALUKS,
+        variables: {districtId }}]
     })
     .pipe(map(res => res.data))
   }
 
+ // ======== Edit  taluk =======
+ editTaluk(input: IParamsEditTaluk, districtId:String): Observable<IParamsEditalukResponce> {
+  return this.apollo
+  .mutate<IParamsEditalukResponce>({
+    mutation: EDIT_TALUK,
+    variables: { input },
+    refetchQueries: [{ query: FIND_ALL_DISTRICTS_TALUKS,
+      variables: {districtId }}]
+  })
+  .pipe(map(res => res.data))
+}
+
+  // ======== Delete taluk =======
+  deleteTaluk(countryId: String,  talukId:String ,districtId: String ): Observable<IParamsDeleteTalukResponce>{
+    return this.apollo
+    .mutate<IParamsDeleteTalukResponce>({
+      mutation: DELETE_TALUK,
+      variables: {countryId, talukId},
+      refetchQueries: [{ query: FIND_ALL_DISTRICTS_TALUKS,
+        variables: {districtId }}]
+    })
+    .pipe(map(
+      res=>res.data
+      ))
+    
+
+  }
 
   /* *********** Town *********************** */
   FindAllTalukTown(taluckId: string): Observable<IFindAllTalukTalukResponce> {
@@ -214,11 +242,40 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .mutate<IParamsCreateTownResponce>({
       mutation: CREATE_TOWN,
       variables: {input},
-      // refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
-      //   variables: {talukId }}]
+      refetchQueries: [{ query: FIND_ALL_TALUKS_TOWNS,
+        variables: {talukId }}]
     })
     .pipe(map(res => res.data))
   }
+
+   // ======== Edit  town =======
+ editTown(input: IParamsEditTown, taluckId:String): Observable<IParamsEditTownResponce> {
+  return this.apollo
+  .mutate<IParamsEditTownResponce>({
+    mutation: EDIT_TOWN,
+    variables: { input },
+    refetchQueries: [{ query: FIND_ALL_TALUKS_TOWNS,
+      variables: {taluckId }}]
+  })
+  .pipe(map(res => res.data))
+}
+
+  // ======== Delete Town =======
+  deleteTown(countryId: String,  townId:String ,taluckId: String ): Observable<IParamsDeleteTownResponce>{
+    return this.apollo
+    .mutate<IParamsDeleteTownResponce>({
+      mutation: DELETE_TOWN,
+      variables: {countryId, townId},
+      refetchQueries: [{ query: FIND_ALL_TALUKS_TOWNS,
+        variables: {taluckId }}]
+    })
+    .pipe(map(
+      res=>res.data
+      ))
+    
+
+  }
+
   /* *********** Village *********************** */
 
   FindAllTownVillage(townId: string): Observable<IFindAllTalukVillageResponce> {
@@ -236,9 +293,34 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .mutate<IParamsCreateVillageResponce>({
       mutation: CREATE_VILLAGE,
       variables: {input},
-      refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
+      refetchQueries: [{ query: FIND_ALL_TOWN_VILLAGE,
         variables: {townID }}]
     })
     .pipe(map(res => res.data))
+  }
+
+   // ======== Edit  village =======
+ editvillage(input: IParamsEditVillage, townId:String): Observable<IParamsEditVillageResponce> {
+  return this.apollo
+  .mutate<IParamsEditVillageResponce>({
+    mutation: EDIT_VILLAGE,
+    variables: { input },
+    refetchQueries: [{ query: FIND_ALL_TOWN_VILLAGE,
+      variables: {townId }}]
+  })
+  .pipe(map(res => res.data))
+}
+
+  // ======== Delete village =======
+  deleteVillage(countryId: String,  villageId:String ,townId: String ): Observable<IParamsDeleteVillageResponce>{
+    return this.apollo
+    .mutate<IParamsDeleteVillageResponce>({
+      mutation: DELETE_VILLAGE,
+      variables: {countryId, villageId},
+      refetchQueries: [{ query: FIND_ALL_TOWN_VILLAGE,
+        variables: {townId }}]
+    })
+    .pipe(map(res=>res.data))
+
   }
 }
