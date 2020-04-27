@@ -1,0 +1,33 @@
+<mat-card class="card m-3">
+  <div class="d-flex flex-column">
+    <!-- status -->
+    <!-- [ngClass]="{'d-none align-self-end': showUniqueErr=='true'}" -->
+    <div class="text-danger ec-text-end ec-font-1">
+      <i class="fal fa-info-circle"></i> Country name should be Unique
+      {{ showUniqueErr }}
+    </div>
+    <!-- ag grid starts -->
+    <ag-grid-angular
+      style="width: 900px; height: 250px;"
+      class="ag-theme-material"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [frameworkComponents]="frameworkComponents"
+      (gridReady)="onGridReady($event)"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [modules]="modules"
+      [getRowNodeId]="getRowNodeId"
+    >
+    </ag-grid-angular>
+    <!-- ag grid ends -->
+
+    <!-- new button starts -->
+    <div class="d-flex align-self-end">
+      <button class="btn btn-primary  ec-fab" (click)="onAddRow()">
+        <i class="fal fa-plus fa-2x"></i>
+      </button>
+    </div>
+    <!-- new button ends -->
+  </div>
+</mat-card>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ObservableService } from 'src/app/services/observable.service';
 
 @Component({
   selector: 'app-country-details',
@@ -7,9 +8,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CountryDetailsComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('mtg', { static: false }) tagIndex: any;
+  tabs = {
+    "COUNTRY": 0,
+    "STATE":1,
+    "DISTRICT": 2,
+    "TALUK": 3,
+    "TOWN": 4,
+    "VILLAGE": 5
+  }
+  constructor(
+    private observableService: ObservableService
+    ) { 
+      this.observableService.navigateTab().subscribe(
+        data => {
+          console.log(data)
+          this.tagIndex.selectedIndex = this.tabs[data.tabName];
+        }
+      )
+
+      this.observableService.navChange().subscribe(
+        data =>{
+          this.tagIndex.selectedIndex = this.tabs[data];
+        }
+      )
+    }
 
   ngOnInit() {
   }
+
+  
+
+
+
 
 }

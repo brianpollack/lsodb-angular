@@ -1,5 +1,75 @@
-
-<div class="page-content">
-    <h1>country-details</h1>
-    <app-under-construction></app-under-construction>
+<div class="dashboard-grid">
+  <!-- dashboard title starts  -->
+  <div class="ds-title">
+    <p class="mt-1 mb-3 ec-font-2">
+      <i class="fal fa-map-marked-alt"></i> Country Details
+    </p>
+    <div class="separator mb-1"></div>
   </div>
+  <!-- dashboard title ends  -->
+
+  <div class="ds-content">
+    <!-- tab header buttons -->
+    <div class="d-none tag-header mt-2">
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 0"
+      >
+        Country
+      </button>
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 1"
+      >
+        State
+      </button>
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 2"
+      >
+        District
+      </button>
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 3"
+      >
+        Taluk
+      </button>
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 4"
+      >
+        Town
+      </button>
+      <button
+        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        (click)="mtg.selectedIndex = 5"
+      >
+        Village
+      </button>
+    </div>
+
+    <mat-tab-group #mtg class="header-less-tabs">
+      <mat-tab label="Tab 1">
+        <app-country></app-country>
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        <app-state></app-state>
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        <app-district></app-district>
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        
+        <app-taluk></app-taluk>
+      
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        <app-town></app-town> 
+      </mat-tab>
+      <mat-tab label="Tab 2">
+        <app-village></app-village>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-export interface IBreeds {
+export interface IBreed {
     id: string;
     breedName: String
     editMode?: string; 

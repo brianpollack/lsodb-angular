@@ -21,9 +21,15 @@ import { appModuleMaterials  } from '../app.module.materials';
 // ui components
 import { UnderConstructionComponent } from '../components/under-construction/under-construction.component';
 import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.component';
-
+import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-button.component'
 // toster modules
 import {ToasterModule, ToasterService} from 'angular2-toaster';
+import { CountryComponent } from './country-details/country/country.component';
+import { StateComponent } from './country-details/state/state.component';
+import { DistrictComponent } from './country-details/district/district.component';
+import { TalukComponent } from './country-details/taluk/taluk.component';
+import { TownComponent } from './country-details/town/town.component';
+import { VillageComponent } from './country-details/village/village.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,14 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     MasterComponent,
     routingComponents,
     UnderConstructionComponent,
-    ActionBtnComponent
+    ActionBtnComponent,
+    GridButtonComponent,
+    CountryComponent,
+    StateComponent,
+    DistrictComponent,
+    TalukComponent,
+    TownComponent,
+    VillageComponent
     
     
   ],
@@ -46,7 +59,7 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ClickOutsideModule,
-    AgGridModule.withComponents([ActionBtnComponent]),
+    AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
     

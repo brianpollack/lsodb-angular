@@ -1,0 +1,53 @@
+<mat-card class="d-flex flex-column m-3">
+    <div class="d-flex flex-column">
+  
+    
+    <!-- State header container starts -->
+    <div class="m-1 d-flex">
+        <div class="d-flex w-10">
+            <i
+              class="fal fa-chevron-left fa-2x  hand-cursor"
+              (click)="backTab()"
+            ></i>
+            <p class="ml-2 ec-font-1 p-0 ">Enter Village data</p>
+        </div>
+        <div  class="d-flex justify-content-center w-100 ">
+
+            <h1 >
+              {{ townTitle | uppercase }}
+            </h1>
+        </div>
+      <!-- <i
+        class="fal fa-chevron-right fa-2x d-flex justify-content-end hand-cursor"
+        (click)="nextTab()"
+      ></i> -->
+    </div>
+    <!-- State header container ends -->
+    
+    <!-- ag grid starts -->
+    <ag-grid-angular
+      style="width: 900px; height: 250px;"
+      class="ag-theme-material"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [frameworkComponents]="frameworkComponents"
+      (gridReady)="onGridReady($event)"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [modules]="modules"
+      [getRowNodeId]="getRowNodeId"
+    >
+    </ag-grid-angular>
+    <!-- ag grid ends -->
+  <!-- new button starts -->
+  <div class="d-flex align-self-end">
+    <button class="btn btn-primary  ec-fab" (click)="onAddRow()">
+      <i class="fal fa-plus fa-2x"></i>
+    </button>
+  </div>
+  <!-- new button ends -->
+  
+  </div>
+  </mat-card>
+  
+

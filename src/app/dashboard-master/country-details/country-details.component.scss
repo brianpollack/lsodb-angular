@@ -1,0 +1,25 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  
+  
+    .ds-title{
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+  
+    .ds-content{
+        grid-column: 1 /-1;
+        grid-row: 2;
+    }
+
+  }
+
+  .ec-mat-btn {
+      border-radius: 10px!important;
+  }
+
+  .ec-btn-shadow {
+      box-shadow: 1px 3px 5px 0px rgba(0, 0, 0, 0.38) !important
+  }

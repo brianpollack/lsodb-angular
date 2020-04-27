@@ -7,9 +7,10 @@ import * as _ from 'lodash';
 // import { uid } from 'uid';
 import uid from 'uid';
 import { MasterfileService } from './../../services/graphql/masterfile.service'
-import { IBreeds, ILivestockRef } from '../grphql/interface/breedInterface';
+import { IBreed, ILivestockRef } from '../grphql/interface/breedInterface';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { Livestock } from './../grphql/interface/livestockInterface';
+import { onError } from "apollo-link-error";
 
 @Component({
   selector: 'app-breed-details',
@@ -30,7 +31,7 @@ export class BreedDetailsComponent implements OnInit {
   private rowSelection;
   private gridColumnApi;
   private getRowNodeId;
-  rowData: IBreeds[];
+  rowData: IBreed[];
   private isEditMode: boolean;
   private editRecordId: string;
   private showUniqueErr: boolean;
@@ -144,9 +145,11 @@ onGridReady(params) {
 
 // ======== check unique ============
 isUnique(selectedValue: string): boolean {
-  const findedValue = this.rowData.findIndex((obj: IBreeds) => {
+  const findedValue = this.rowData.findIndex((obj: IBreed) => {
     return obj.breedName === selectedValue;
+
   });
+  // console.log(findedValue)
   return findedValue === -1 ? true : false;
 }
 
@@ -173,10 +176,21 @@ onChange(e) {
     }
   )
   this.inputField.nativeElement.focus();
+  this.lsDetailsForm.get('lsName').clearValidators();
   
 }
 
-
+refresh(){
+  const lsList = this.lsDetailsForm.value.lsNameList;
+  this.dataService.findOnlyBreeds( lsList ).subscribe(
+    result => {
+      console.log(result);
+      this.rowData = result.FindAllLivestockBreeds
+      this.rowLength = this.rowData.length;
+      // console.log(this.rowData);
+    }
+  )
+}
 
 //====== livestock List =========
 LivestockList() {
@@ -186,7 +200,6 @@ LivestockList() {
     }
     )
     console.log(this.livestocksLists);
-
 }
 
 
@@ -194,9 +207,9 @@ LivestockList() {
  UpdateBreed(rowIndex, lsList) {
   let breedName = _.upperFirst(this.lsDetailsForm.value.lsName);
   let livestockId = lsList
-    
+  // let id = lsList
   console.log(livestockId);
-  this.dataService.createBreed({ livestockId, breedName  }).subscribe(
+  this.dataService.createBreed({ livestockId, breedName }, livestockId).subscribe(
     res => {
       if (rowIndex === 0) {
         this.rowData[rowIndex] = res.CreateBreed
@@ -206,11 +219,11 @@ LivestockList() {
       this.rowLength = this.rowData.length;
       console.log(`update ${this.rowData}`);
     },
-
     err => {
+
+      
       this.toasterService.pop("error", "Server Error", err)
     }
-
   )
 }
 
@@ -224,7 +237,7 @@ EditBreed(rowIndex: number, lsList) {
 
  
 
-  this.dataService.editBreed({ livestockId, breedName, breedId }).subscribe(
+  this.dataService.editBreed({ livestockId, breedName, breedId }, livestockId).subscribe(
     res => {
       this.rowData[rowIndex] = res.EditBreed;
       let currentNode = this.gridApi.getRowNode(this.rowData[rowIndex].id);
@@ -241,22 +254,24 @@ EditBreed(rowIndex: number, lsList) {
 DeleteBreed( rowIndex, lsList ) {
   let livestockId = lsList
   let breedId = this.rowData[rowIndex].id
-  this.dataService.deleteBreed({livestockId, breedId}).subscribe(
+  this.dataService.deleteBreed({livestockId, breedId}, livestockId).subscribe(
     res => {
       this.rowData[rowIndex] = res.DeleteBreed
       this.rowData = this.rowData.filter((data) => {
-            return data.breedName !== res.DeleteBreed.livestockName
+            return data.breedName !== res.DeleteBreed.breedName
           });
 
           setTimeout(() => {
-            let lastRec= _.last(this.rowData)
-            console.log(lastRec);
+            let lastRec= _.last(this.rowData)           
             let currentNode = this.gridApi.getRowNode(lastRec.id)
-            console.log(currentNode);
             currentNode.setSelected(true);
             this.gridApi.ensureIndexVisible(currentNode.rowIndex);
           }, 100);
           this.rowLength = this.rowData.length;
+    },
+    err => {
+      console.log(err);
+      this.toasterService.pop("warning", "Server Error", err)
     }
   )
 }
@@ -328,7 +343,7 @@ onSubmit(LsDirective: FormGroupDirective) {
 }
 
 // ====== Edit data ===================
-onEdit(editData: IBreeds): void {
+onEdit(editData: IBreed): void {
 
  const lsList = this.lsDetailsForm.value.lsNameList;
   this.isEditMode = true;
@@ -341,7 +356,7 @@ onEdit(editData: IBreeds): void {
 
 
 //  ========= Delete data ===============
-onDelete(deleteData: IBreeds): void {
+onDelete(deleteData: IBreed): void {
   const lsList = this.lsDetailsForm.value.lsNameList;
   const deleteIndex = _.findIndex(this.rowData, (obj) => {
     return obj.id === deleteData.id;

@@ -1,0 +1,45 @@
+<mat-card class="d-flex flex-column m-3">
+  <div class="d-flex flex-column">
+
+  
+  <!-- State header container starts -->
+  <div class="m-1 d-flex justify-content-between">
+    <i
+      class="fal fa-chevron-left fa-2x d-flex justify-content-start hand-cursor"
+      (click)="backTab()"
+    ></i>
+    <h1 class="d-flex justify-content-center">
+      {{ countryTitle | uppercase }}
+    </h1>
+    <i
+      class="fal fa-chevron-right fa-2x d-flex justify-content-end hand-cursor"
+      (click)="nextTab()"
+    ></i>
+  </div>
+  <!-- State header container ends -->
+  
+  <!-- ag grid starts -->
+  <ag-grid-angular
+    style="width: 900px; height: 250px;"
+    class="ag-theme-material"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [frameworkComponents]="frameworkComponents"
+    (gridReady)="onGridReady($event)"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="rowSelection"
+    [modules]="modules"
+    [getRowNodeId]="getRowNodeId"
+  >
+  </ag-grid-angular>
+  <!-- ag grid ends -->
+<!-- new button starts -->
+<div class="d-flex align-self-end">
+  <button class="btn btn-primary  ec-fab" (click)="onAddRow()">
+    <i class="fal fa-plus fa-2x"></i>
+  </button>
+</div>
+<!-- new button ends -->
+
+</div>
+</mat-card>
