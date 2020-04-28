@@ -13,7 +13,7 @@ import { appModuleMaterials } from '../app.module.materials';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../../environments/environment'
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { TestComponent } from './test-dashboard/test.component';
+// import { TestComponent } from './test-dashboard/test.component';
 // import { AuthService } from '../services/firebase/auth.service';
 
 // toster modules
@@ -24,7 +24,7 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     LoginpageComponent,
     routingComponents,
     SplitWord,
-    TestComponent
+    // TestComponent
   ],
   imports: [
 

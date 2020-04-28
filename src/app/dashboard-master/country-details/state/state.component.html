@@ -8,16 +8,18 @@
       class="fal fa-chevron-left fa-2x d-flex justify-content-start hand-cursor"
       (click)="backTab()"
     ></i>
-    <h1 class="d-flex justify-content-center">
-      {{ countryTitle | uppercase }}
-    </h1>
+    <p class="m-0 p-0 ec-font-0 d-flex justify-content-center">
+      {{ countryTitle | uppercase }} - STATES
+    </p>
     <i
       class="fal fa-chevron-right fa-2x d-flex justify-content-end hand-cursor"
       (click)="nextTab()"
     ></i>
   </div>
   <!-- State header container ends -->
-  
+  <div>
+    <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />   
+  </div>
   <!-- ag grid starts -->
   <ag-grid-angular
     style="width: 900px; height: 250px;"

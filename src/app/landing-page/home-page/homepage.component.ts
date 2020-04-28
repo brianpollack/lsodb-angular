@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/firebase/auth.service'
+import { ObservableService } from 'src/app/services/observable.service';
 
 @Component({
   selector: 'app-homepage',
@@ -11,9 +12,10 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private observableService: ObservableService
     ) { 
-        // this.authService.SignOut();
+        this.authService.SignOut();
 
      }
 
@@ -22,6 +24,13 @@ export class HomepageComponent implements OnInit {
   }
 
   handleLogin(pageName: string) {
-    this.router.navigate(['/login', pageName]);
+    // this.router.navigate(['/login', pageName]);
+    const loginData  = {
+      title: pageName
+    }
+    this.observableService.setLogin(loginData) 
+    this.router.navigateByUrl('/login');
+
+    
   }
 }

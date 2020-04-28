@@ -16,6 +16,14 @@ import { BreedDetailsComponent } from './breed-details/breed-details.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { CountryDetailsComponent } from './country-details/country-details.component';
 import { MasterComponent } from './master.component';
+import { CountryComponent } from './country-details/country/country.component';
+import { StateComponent } from './country-details/state/state.component';
+import { DistrictComponent } from './country-details/district/district.component';
+import { TalukComponent } from './country-details/taluk/taluk.component';
+import { TownComponent } from './country-details/town/town.component';
+import { VillageComponent } from './country-details/village/village.component';
+
+// materrial
 import { appModuleMaterials  } from '../app.module.materials';
 
 // ui components
@@ -24,12 +32,8 @@ import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.
 import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-button.component'
 // toster modules
 import {ToasterModule, ToasterService} from 'angular2-toaster';
-import { CountryComponent } from './country-details/country/country.component';
-import { StateComponent } from './country-details/state/state.component';
-import { DistrictComponent } from './country-details/district/district.component';
-import { TalukComponent } from './country-details/taluk/taluk.component';
-import { TownComponent } from './country-details/town/town.component';
-import { VillageComponent } from './country-details/village/village.component';
+// app module 
+
 
 @NgModule({
   declarations: [
@@ -39,8 +43,8 @@ import { VillageComponent } from './country-details/village/village.component';
     UserDetailsComponent, 
     CountryDetailsComponent, 
     MasterComponent,
-    routingComponents,
     UnderConstructionComponent,
+    routingComponents,
     ActionBtnComponent,
     GridButtonComponent,
     CountryComponent,
@@ -53,7 +57,7 @@ import { VillageComponent } from './country-details/village/village.component';
     
   ],
   imports: [
-  CommonModule,
+    CommonModule,
     MasterRoutingModule,
     appModuleMaterials,
     BrowserAnimationsModule,
@@ -63,6 +67,9 @@ import { VillageComponent } from './country-details/village/village.component';
     GraphqlModule,
     ToasterModule.forRoot(),
     
+  ],
+  exports: [
+    UnderConstructionComponent
   ]
 })
 export class MasterModule { }

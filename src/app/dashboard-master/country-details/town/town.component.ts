@@ -7,7 +7,7 @@ import { ObservableService } from 'src/app/services/observable.service';
 import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 import * as _ from 'lodash';
-import { ITown } from './../../grphql/interface/countryInterface';
+
 
 
 @Component({

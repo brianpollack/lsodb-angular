@@ -5,6 +5,7 @@ import { CustomValidators } from 'ngx-custom-validators'
 import { AuthService } from './../../services/firebase/auth.service';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { IUser } from '../../models/user';
+import { ObservableService } from 'src/app/services/observable.service';
 
 @Component({
   selector: 'app-loginpage',
@@ -32,24 +33,37 @@ export class LoginpageComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private toasterService: ToasterService
-  ) { }
+    private toasterService: ToasterService,
+    private observableService: ObservableService
+    ) {
+     
+    this.observableService.navLogin().subscribe(
+      data =>{
+        console.log(data)
+      this.pageTitle = data.title;
+      
+      }
+    )
+
+   }
 
   ngOnInit() {
+
+  
     // this.pageTitle =  this.activeRouter.params.value.pageName;
-    this.activeRouter.paramMap.subscribe((params: ParamMap) => {
-      this.pageTitle = params.get('pageName');
-    });
+    // this.activeRouter.paramMap.subscribe((params: ParamMap) => {
+    //   this.pageTitle = params.get('pageName');
+    // });
 
-    setTimeout(() => {
-      if(this.pageTitle === "" ) {
+    // setTimeout(() => {
+    //   if(this.pageTitle === "" ) {
 
-        console.log( this.pageTitle );
-        this.router.navigateByUrl('/home');
-      }else {
-        console.log(this.pageTitle);
-      }
-    }, 1000);
+    //     console.log( this.pageTitle );
+    //     this.router.navigateByUrl('/home');
+    //   }else {
+    //     console.log(this.pageTitle);
+    //   }
+    // }, 1000);
     
 
   }
@@ -74,12 +88,15 @@ export class LoginpageComponent implements OnInit {
     this.authService.SignIn(this.loginUser).then(res => {
       try {
         if (res) {
+          console.log(res);
           isAuthenticated = res;
         } else {
+          console.log(res);
           isAuthenticated = res;
         }
       }
       catch (err) {
+        console.log(err);
         error = err;
       }
 
@@ -88,7 +105,21 @@ export class LoginpageComponent implements OnInit {
     setTimeout(() => {
       if(error === null){
         if (isAuthenticated) {
-          this.router.navigateByUrl('/masterdashboard');
+          switch(this.pageTitle){
+            case 'masterFileMaintance':
+              this.router.navigateByUrl('/masterdashboard');
+              break;
+              case 'livestockTracking':
+                this.router.navigateByUrl('/trackingdashboard');
+                break;
+              case 'livestockReports':
+                this.router.navigateByUrl('/reportdashboard');
+                break;
+              default:
+                return
+
+
+          }
         } else {
           this.toasterService.pop("warning", "Invalid credentials", "Try again with correct credentials");
           this.loginForm.reset();

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,9 @@ export class ObservableService {
 
 private selectedTab = new Subject<any>();
 private changeTab = new Subject<any>();
+private loginnavigate = new BehaviorSubject<any>('');
 
+/* ************ selectedTab *****************  */
 // ======= subcribe function ==========
 navigateTab(): Observable<any>{
   return this.selectedTab.asObservable();
@@ -21,7 +23,7 @@ setTab(selectedData: any ) {
   return this.selectedTab.next(selectedData);
 }
 
-
+/* ************ changeTab *****************  */
 // ======= subcribe function ==========
 navChange(): Observable<any>{
   return this.changeTab.asObservable();
@@ -32,6 +34,13 @@ setNav(changeData: any ) {
   return this.changeTab.next(changeData);
 }
 
+/* ***************** login Navigation *************** */
+navLogin(): Observable<any> {
+  return this.loginnavigate.asObservable();
+}
 
+setLogin(logingData: any) {
+  return this.loginnavigate.next(logingData);
+}
 
 }
