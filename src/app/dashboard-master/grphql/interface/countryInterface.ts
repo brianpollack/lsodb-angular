@@ -137,3 +137,12 @@ export interface IParamsEditVillage {
     village: string
     pincode: string
 }
+
+
+export interface IParamsInsertState{
+    countryId: String
+    state: String
+    stateCapital: String
+    stateCode: String
+    pincode: String
+  }

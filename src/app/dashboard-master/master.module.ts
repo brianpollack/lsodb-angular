@@ -31,7 +31,7 @@ import { UnderConstructionComponent } from '../components/under-construction/und
 import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-button.component'
 // toster modules
-import {ToasterModule, ToasterService} from 'angular2-toaster';
+import {ToasterModule} from 'angular2-toaster';
 // app module 
 
 

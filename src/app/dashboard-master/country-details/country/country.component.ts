@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionBtnComponent } from '../../../ag-grid-components/action-btn/action-btn.component'
 import { ColDef, GridApi } from 'ag-grid-community';
 import { CountryService } from './../../../services/graphql/country.service';
-import { ToasterService } from 'angular2-toaster';
+// import { ToasterService } from 'angular2-toaster';
 import * as _ from 'lodash';
 import { ICountry } from './../../grphql/interface/countryInterface';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
@@ -36,7 +36,7 @@ export class CountryComponent implements OnInit {
   constructor(
     // private fb: FormBuilder,
     private dataService: CountryService,
-    private toasterService: ToasterService,
+    // private toasterService: ToasterService,
     private observableService: ObservableService
   ) {
 
@@ -252,10 +252,10 @@ export class CountryComponent implements OnInit {
 
         this.rowData = [...this.rowData, res.CreateCountry]
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
   // ======edit country =========
@@ -270,10 +270,10 @@ export class CountryComponent implements OnInit {
       res => {
         this.rowData[rowIndex] = res.EditCountry;
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
 
@@ -300,9 +300,10 @@ export class CountryComponent implements OnInit {
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         }, 100);
       },
-      err => {
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log(err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
     )
   }
 

@@ -20,15 +20,16 @@ export class AuthService {
     logged in and setting up null when logged out */
     
     this.authFire.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+      // if (user) {
+      //   console.log("userData",user )
+      //   this.userData = user;
+      //   localStorage.setItem('user', JSON.stringify(this.userData));
+      //   JSON.parse(localStorage.getItem('user'));
         
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
+      // } else {
+      //   localStorage.setItem('user', null);
+      //   JSON.parse(localStorage.getItem('user'));
+      // }
     })
     
   }
@@ -41,6 +42,7 @@ export class AuthService {
     .then(res =>{
       retVal = true;
       this.SetUserData(res.user);
+      localStorage.setItem('user', JSON.stringify(this.userData));
     })
     .catch(err =>{
       retVal = false;

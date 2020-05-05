@@ -17,7 +17,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 // import { AuthService } from '../services/firebase/auth.service';
 
 // toster modules
-import {ToasterModule, ToasterService} from 'angular2-toaster';
+// import {ToasterModule, ToasterService} from 'angular2-toaster';
 
 @NgModule({
   declarations: [
@@ -35,12 +35,12 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     // firebase Modulues
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    ToasterModule.forRoot(),
+    // ToasterModule.forRoot(),
     
   ],
   providers: [
     // AuthService
-    ToasterService
+    // ToasterService
   ],
   exports: [
     LoginpageComponent

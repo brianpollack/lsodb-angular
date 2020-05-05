@@ -516,3 +516,38 @@ html {
  
   display: none!important;
 }
+/* 
+inputFile {
+  background-color: brown;
+  display: block;
+  border: 1px solid ;
+  border-radius: 50%;
+
+} */
+
+.file-container {
+  /* overflow: hidden;
+  position: relative; */
+  background: red;
+  border-radius: .5em;
+  float: left;
+  padding: .5em;
+}
+
+.file-container [type=file] {
+  cursor: pointer;
+  /* display: block;
+  font-size: 999px;
+  filter: alpha(opacity=0);
+  min-height: 100%;
+  min-width: 100%;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0; */
+}
+
+.inputFile {
+  display: none;
+}

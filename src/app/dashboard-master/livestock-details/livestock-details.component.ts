@@ -9,7 +9,7 @@ import uid from 'uid';
 import { Livestock, ParamsCreateLivestock } from './../grphql/interface/livestockInterface';
 // service
 import { MasterfileService } from './../../services/graphql/masterfile.service'
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { onError } from 'apollo-link-error';
 
 
@@ -37,17 +37,17 @@ export class LivestockDetailsComponent implements OnInit {
   private getRowNodeId
 
 
-  public config2: ToasterConfig = new ToasterConfig({
-    positionClass: "toast-top-right",
-    showCloseButton: true,
-    animation: "fade"
-  });
+  // public config2: ToasterConfig = new ToasterConfig({
+  //   positionClass: "toast-top-right",
+  //   showCloseButton: true,
+  //   animation: "fade"
+  // });
   // private rowId: uid();
 
   constructor(
     private fb: FormBuilder,
     private dataService: MasterfileService,
-    private toasterService: ToasterService
+    // private toasterService: ToasterService
   ) {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent
@@ -80,10 +80,10 @@ export class LivestockDetailsComponent implements OnInit {
         this.rowData = result.FindAllLivestock
         this.rowLength = this.rowData.length
       },
-      err => {
-        console.log("ls error", err);
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error", err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
     )
 }
   
@@ -166,10 +166,10 @@ export class LivestockDetailsComponent implements OnInit {
         this.rowLength = this.rowData.length;
       },
 
-      err => {        
-        console.log("ls error:",err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {        
+      //   console.log("ls error:",err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
 
     )
   }
@@ -184,10 +184,10 @@ export class LivestockDetailsComponent implements OnInit {
         let currentNode = this.gridApi.getRowNode(this.rowData[rowIndex].id);
         currentNode.setDataValue("livestockName", _.upperFirst(livestockName));
       },
-      err => {
-        console.log("ls error:",err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:",err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
 
@@ -217,10 +217,10 @@ export class LivestockDetailsComponent implements OnInit {
               this.gridApi.ensureIndexVisible(currentNode.rowIndex);
             }, 100);
       },
-      err => {
-        console.log("ls error:",err);
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:",err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
     )
   }
 

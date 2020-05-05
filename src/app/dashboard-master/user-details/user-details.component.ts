@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { CustomValidators } from 'ngx-custom-validators'
 import { ColDef } from 'ag-grid-community';
 import { MasterfileService } from '../../services/graphql/masterfile.service'
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import * as _ from 'lodash';
 import { IUsers } from './../grphql/interface/userInterface';
 import { ActionBtnComponent } from '../../ag-grid-components/action-btn/action-btn.component'
@@ -31,11 +31,12 @@ export class UserDetailsComponent implements OnInit {
   private hide = true;
 
 
-  public config2: ToasterConfig = new ToasterConfig({
-    positionClass: "toast-top-right",
-    showCloseButton: true,
-    animation: "fade"
-  });
+  // public config2: ToasterConfig = new ToasterConfig({
+  //   positionClass: "toast-top-right",
+  //   showCloseButton: true,
+  //   animation: "fade"
+  // });
+
   showUniqueErr: boolean;
   isEditMode: boolean;
   editRecordId: any;
@@ -46,7 +47,7 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dataService: MasterfileService,
-    private toasterService: ToasterService
+    // private toasterService: ToasterService
   ) {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent
@@ -75,10 +76,10 @@ export class UserDetailsComponent implements OnInit {
       res => {
         this.rowData = res.FindAllUsers
       },
-      err => {
-        console.log("ls error", err);
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error", err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
 
 
 
@@ -172,10 +173,10 @@ export class UserDetailsComponent implements OnInit {
 
       },
 
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
 
     )
   }
@@ -200,10 +201,10 @@ export class UserDetailsComponent implements OnInit {
         
         // console.log(this.isEditMode)
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
 
@@ -230,10 +231,10 @@ export class UserDetailsComponent implements OnInit {
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         }, 100);
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
     )
   }
 

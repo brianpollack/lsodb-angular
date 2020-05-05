@@ -23,7 +23,10 @@
       ></i> -->
     </div>
     <!-- State header container ends -->
-    
+    <div class="d-flex m-5">
+      <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />   
+      <button class="btn btn-outline-primary btn-xs" (click)="handleSaveAll()">Save All </button>
+    </div>
     <!-- ag grid starts -->
     <ag-grid-angular
       style="width: 900px; height: 250px;"

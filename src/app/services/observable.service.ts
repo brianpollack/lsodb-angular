@@ -11,6 +11,7 @@ export class ObservableService {
 private selectedTab = new Subject<any>();
 private changeTab = new Subject<any>();
 private loginnavigate = new BehaviorSubject<any>('');
+private tosterMessage = new Subject<any>();
 
 /* ************ selectedTab *****************  */
 // ======= subcribe function ==========
@@ -41,6 +42,16 @@ navLogin(): Observable<any> {
 
 setLogin(logingData: any) {
   return this.loginnavigate.next(logingData);
+}
+
+
+/* ******************* toster message **************** */
+tosterMsg(): Observable<any> {
+  return this.tosterMessage.asObservable();
+}
+
+setTosterMsg(tosterMsg: any) {
+  return this.tosterMessage.next(tosterMsg);
 }
 
 }

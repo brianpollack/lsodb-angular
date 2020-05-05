@@ -1,47 +1,68 @@
 <mat-card class="d-flex flex-column m-3">
   <div class="d-flex flex-column">
+    <!-- State header container starts -->
+    <div class="m-1 d-flex justify-content-between">
+      <i
+        class="fal fa-chevron-left fa-2x d-flex justify-content-start hand-cursor"
+        (click)="backTab()"
+      ></i>
+      <p
+        class="m-0 p-0 ec-font-2 font-weight-bold d-flex justify-content-center"
+      >
+        {{ countryTitle | uppercase }} - STATES
+      </p>
+      <i
+        class="fal fa-chevron-right fa-2x d-flex justify-content-end hand-cursor"
+        (click)="nextTab()"
+      ></i>
+    </div>
+    <!-- State header container ends -->
+    <div class="d-flex m-5">
+      <input
+        type="file"
+        #csvReader
+        name="Upload CSV"
+        id="txtFileUpload"
+        (change)="uploadListener($event)"
+        accept=".csv"
+        class="inputFile"
+      />
+      <button
+        class="btn btn-primary ml-5"
+        onclick="document.getElementById('txtFileUpload').click()"
+      >
+        choose the File to upload data
+      </button>
 
-  
-  <!-- State header container starts -->
-  <div class="m-1 d-flex justify-content-between">
-    <i
-      class="fal fa-chevron-left fa-2x d-flex justify-content-start hand-cursor"
-      (click)="backTab()"
-    ></i>
-    <p class="m-0 p-0 ec-font-0 d-flex justify-content-center">
-      {{ countryTitle | uppercase }} - STATES
-    </p>
-    <i
-      class="fal fa-chevron-right fa-2x d-flex justify-content-end hand-cursor"
-      (click)="nextTab()"
-    ></i>
+      <button
+        class="btn btn-outline-primary btn-xs"
+        [ngClass]="saveBtn == 'Enable' ? 'd-block' : 'd-none'"
+        (click)="handleSaveAll()"
+      >
+        Save All
+      </button>
+    </div>
+    <!-- ag grid starts -->
+    <ag-grid-angular
+      style="width: 900px; height: 250px;"
+      class="ag-theme-material"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [frameworkComponents]="frameworkComponents"
+      (gridReady)="onGridReady($event)"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [modules]="modules"
+      [getRowNodeId]="getRowNodeId"
+    >
+    </ag-grid-angular>
+    <!-- ag grid ends -->
+    <!-- new button starts -->
+    <div class="d-flex align-self-end">
+      <button class="btn btn-primary ec-fab" (click)="onAddRow()">
+        <i class="fal fa-plus fa-2x"></i>
+      </button>
+    </div>
+    <!-- new button ends -->
   </div>
-  <!-- State header container ends -->
-  <div>
-    <input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />   
-  </div>
-  <!-- ag grid starts -->
-  <ag-grid-angular
-    style="width: 900px; height: 250px;"
-    class="ag-theme-material"
-    [rowData]="rowData"
-    [columnDefs]="columnDefs"
-    [frameworkComponents]="frameworkComponents"
-    (gridReady)="onGridReady($event)"
-    [defaultColDef]="defaultColDef"
-    [rowSelection]="rowSelection"
-    [modules]="modules"
-    [getRowNodeId]="getRowNodeId"
-  >
-  </ag-grid-angular>
-  <!-- ag grid ends -->
-<!-- new button starts -->
-<div class="d-flex align-self-end">
-  <button class="btn btn-primary  ec-fab" (click)="onAddRow()">
-    <i class="fal fa-plus fa-2x"></i>
-  </button>
-</div>
-<!-- new button ends -->
-
-</div>
 </mat-card>
