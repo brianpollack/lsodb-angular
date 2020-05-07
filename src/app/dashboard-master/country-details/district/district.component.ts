@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
-import { IDistrict } from '../../grphql/interface/countryInterface';
+import { Component, OnInit, ViewChild } from '@angular/core';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { IDistrict, IParamsCreateDistrict } from '../../grphql/interface/countryInterface';
 import { ColDef, GridApi } from 'ag-grid-community';
 import { CountryService } from './../../../services/graphql/country.service';
 import { ObservableService } from 'src/app/services/observable.service';
@@ -8,6 +8,7 @@ import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 import * as _ from 'lodash';
 import { distinct } from 'rxjs/operators';
+import { CSVDistrict } from 'src/app/models/CSVmodel';
 
 @Component({
   selector: 'app-district',
@@ -29,23 +30,25 @@ export class DistrictComponent implements OnInit {
   private showUniqueErr: boolean;
   private countryTitle: string;
   countryId: string;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
   };
   stateId: string;
 
-  public config2: ToasterConfig = new ToasterConfig({
-    positionClass: "toast-top-right",
-    showCloseButton: true,
-    animation: "fade"
-  });
+  
   stateTitle: string;
 
+// csv variables
+public records: IDistrict[] = [];
+@ViewChild('csvReader', { static: false }) csvReader: any;
+  saveBtn: string;
+ 
 
-  constructor(
+constructor(
     private dataService: CountryService,
-    private toasterService: ToasterService,
+    // private toasterService: ToasterService,
     private observableService: ObservableService
   ) {
     this.frameworkComponents = {
@@ -66,7 +69,7 @@ export class DistrictComponent implements OnInit {
 
     this.observableService.navigateTab().subscribe(
       data => {
-        console.log(data)
+        console.log(data.countryName);
         if (data.tabName === "DISTRICT") {
           this.stateId = data.stateId;
           this.stateTitle = data.stateName
@@ -182,6 +185,11 @@ export class DistrictComponent implements OnInit {
 
   ];
 
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
   //============= grid district button ===========
   districtTab(sectedRow) {
     console.log(sectedRow);
@@ -317,13 +325,13 @@ export class DistrictComponent implements OnInit {
       { countryId, stateId, district, districtCapital, districtCode, pincode }, stateId
     ).subscribe(
       res => {
-        this.rowData = [...this.rowData, res.CreateDistrict]
-        console.log(this.rowData)
+        this.rowData = [...this.rowData, res.CreateDistrict];
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+      })
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
     )
   }
   // ======edit country =========
@@ -339,13 +347,13 @@ export class DistrictComponent implements OnInit {
     
     this.dataService.editDistrict({countryId, districtId, district, districtCapital, districtCode, pincode }, stateId).subscribe(
       res => {
-        console.log("llll");
         this.rowData[rowIndex] = res.EditDistrict;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
     )
   } 
 
@@ -365,18 +373,125 @@ export class DistrictComponent implements OnInit {
         this.rowData = this.rowData.filter((data) => {
           return data.id !== res.DeleteDistrict.id
         });
-        setTimeout(() => {
+        // setTimeout(() => {
           let lastRec = _.last(this.rowData)
           let currentNode = this.gridApi.getRowNode(lastRec.id)
 
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-        }, 100);
+        // }, 100);
+
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
-      err => {
-        console.log(err);
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+     
     )
+  }
+
+
+  uploadListener($event: any): void {
+
+    let text = [];
+    let files = $event.srcElement.files;
+
+    if (this.isValidCSVFile(files[0])) {
+
+      let input = $event.target;
+      let reader = new FileReader();
+      reader.readAsText(input.files[0]);
+
+      reader.onload = () => {
+        let csvData = reader.result;
+        let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
+
+        let headersRow = this.getHeaderArray(csvRecordsArray);
+        console.log(headersRow);
+        this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
+
+        console.log(this.records);
+        this.rowData = this.records
+
+        this.saveBtn = "Enable"
+
+      };
+
+      reader.onerror = function () {
+        console.log('error is occured while reading file!');
+      };
+
+    } else {
+      alert("Please import valid .csv file.");
+      this.fileReset();
+    }
+  }
+
+  getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {
+    let csvArr = [];
+
+    for (let i = 1; i < csvRecordsArray.length; i++) {
+      let curruntRecord = (<string>csvRecordsArray[i]).split(',');
+      if (curruntRecord.length == headerLength) {
+        let csvRecord: CSVDistrict = new CSVDistrict();
+        csvRecord.id = "";
+        // csvRecord.id = curruntRecord[0].trim();  
+        csvRecord.district = curruntRecord[1].trim();
+        csvRecord.districtCode = curruntRecord[2].trim();
+        csvRecord.districtCapital= curruntRecord[3].trim();
+        // csvRecord.pincode = curruntRecord[4].trim();
+        // csvRecord.mobile = curruntRecord[5].trim();  
+        csvArr.push(csvRecord);
+      }
+    }
+    return csvArr;
+  }
+
+  isValidCSVFile(file: any) {
+    return file.name.endsWith(".csv");
+  }
+
+  getHeaderArray(csvRecordsArr: any) {
+    let headers = (<string>csvRecordsArr[0]).split(',');
+    let headerArray = [];
+    for (let j = 0; j < headers.length; j++) {
+      headerArray.push(headers[j]);
+    }
+    return headerArray;
+  }
+
+  fileReset() {
+    this.csvReader.nativeElement.value = "";
+    this.records = [];
+  }
+
+  handleSaveAll() {
+    let countryId = this.countryId;
+    let stateId = this.stateId;
+
+    let saveAllData = [] as IParamsCreateDistrict[]; //= _.cloneDeep(this.rowData);
+
+    
+    this.rowData.forEach((e) => {
+      let newObj = {} as IParamsCreateDistrict;
+      Object.assign(newObj, e);
+      delete newObj['id'];
+      newObj.countryId = countryId;
+      newObj.stateId = stateId;
+      saveAllData.push(newObj);
+    });
+
+     this.dataService.insertDistrict(saveAllData, countryId).subscribe(
+       res =>{
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Save All",
+          message: "Sucessfully  Saved All"
+      })
+       }
+     )
+    console.log(this.rowData);
+    console.log(saveAllData);
   }
 }

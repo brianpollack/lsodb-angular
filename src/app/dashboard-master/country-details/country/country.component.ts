@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionBtnComponent } from '../../../ag-grid-components/action-btn/action-btn.component'
 import { ColDef, GridApi } from 'ag-grid-community';
 import { CountryService } from './../../../services/graphql/country.service';
-import { ToasterService } from 'angular2-toaster';
+// import { ToasterService } from 'angular2-toaster';
 import * as _ from 'lodash';
 import { ICountry } from './../../grphql/interface/countryInterface';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
@@ -23,6 +23,7 @@ export class CountryComponent implements OnInit {
   private rowData: ICountry[];
   private showMenu: boolean = false;
   private hide = true;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
@@ -36,7 +37,7 @@ export class CountryComponent implements OnInit {
   constructor(
     // private fb: FormBuilder,
     private dataService: CountryService,
-    private toasterService: ToasterService,
+    // private toasterService: ToasterService,
     private observableService: ObservableService
   ) {
 
@@ -46,10 +47,10 @@ export class CountryComponent implements OnInit {
     };
 
     this.defaultColDef = {
-      flex: 1,
-      minWidth: 130,
+      // flex: 1,
+     
       editable: true,
-      resizable: true,
+      // resizable: true,
     };
 
     this.rowData = [
@@ -77,12 +78,13 @@ export class CountryComponent implements OnInit {
     )
   }
 
+
   columnDefs: ColDef[] = [
     {
       headerName: 'Nos',
       // field: 'id',
       valueGetter: "node.rowIndex + 1",
-      width: 100,
+      width: 85,
       sortable: true
     },
     {
@@ -147,6 +149,12 @@ export class CountryComponent implements OnInit {
 
 
   ];
+
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
 
   stateTab(sectedRow) {
     console.log(sectedRow);
@@ -250,12 +258,19 @@ export class CountryComponent implements OnInit {
     this.dataService.createCountry({ country, countryCapital, countryCode }).subscribe(
       res => {
 
-        this.rowData = [...this.rowData, res.CreateCountry]
+        this.rowData = [...this.rowData, res.CreateCountry];
+       this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+      })
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+
+      // this.observableService.setTosterMsg({type: "info", title:"saveed", message:""})
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
   // ======edit country =========
@@ -269,11 +284,16 @@ export class CountryComponent implements OnInit {
     this.dataService.editCountry({ countryid, country, countryCapital, countryCode }).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditCountry;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      err => {
-        console.log("ls error:", err);
-        this.toasterService.pop("error", "Server Error", err)
-      }
+      // err => {
+      //   console.log("ls error:", err);
+      //   this.toasterService.pop("error", "Server Error", err)
+      // }
     )
   }
 
@@ -299,10 +319,16 @@ export class CountryComponent implements OnInit {
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         }, 100);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
-      err => {
-        this.toasterService.pop("warning", "Server Error", err)
-      }
+      // err => {
+      //   console.log(err);
+      //   this.toasterService.pop("warning", "Server Error", err)
+      // }
     )
   }
 

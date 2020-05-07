@@ -13,18 +13,18 @@ import { appModuleMaterials } from '../app.module.materials';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../../environments/environment'
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { TestComponent } from './test-dashboard/test.component';
+// import { TestComponent } from './test-dashboard/test.component';
 // import { AuthService } from '../services/firebase/auth.service';
 
 // toster modules
-import {ToasterModule, ToasterService} from 'angular2-toaster';
+// import {ToasterModule, ToasterService} from 'angular2-toaster';
 
 @NgModule({
   declarations: [
     LoginpageComponent,
     routingComponents,
     SplitWord,
-    TestComponent
+    // TestComponent
   ],
   imports: [
 
@@ -35,12 +35,12 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
     // firebase Modulues
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    ToasterModule.forRoot(),
+    // ToasterModule.forRoot(),
     
   ],
   providers: [
     // AuthService
-    ToasterService
+    // ToasterService
   ],
   exports: [
     LoginpageComponent

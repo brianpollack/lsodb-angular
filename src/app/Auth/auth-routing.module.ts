@@ -7,7 +7,7 @@ import { AuthGuard } from '../services/firebase/auth.guard';
 
 const routes: Routes = [
   // { path: "home", component: HomepageComponent },
-  { path: "login/:pageName", component: LoginpageComponent },
+  { path: "login", component: LoginpageComponent},
   // { path: "test", component: TestComponent, canActivate: [AuthGuard] }
 
 ];

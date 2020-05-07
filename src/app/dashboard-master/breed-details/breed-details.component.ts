@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import uid from 'uid';
 import { MasterfileService } from './../../services/graphql/masterfile.service'
 import { IBreed, ILivestockRef } from '../grphql/interface/breedInterface';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { Livestock } from './../grphql/interface/livestockInterface';
 import { onError } from "apollo-link-error";
 
@@ -40,16 +40,16 @@ export class BreedDetailsComponent implements OnInit {
   livestocksLists:any;
   livestockId: string;
 
-  public config2: ToasterConfig = new ToasterConfig({
+  /* public config2: ToasterConfig = new ToasterConfig({
     positionClass: "toast-top-right",
     showCloseButton: true,
     animation: "fade"
-  });
+  }); */
 
   constructor( 
     private fb: FormBuilder,
     private dataService: MasterfileService,
-    private toasterService: ToasterService
+    // private toasterService: ToasterService
     ) {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent
@@ -219,11 +219,11 @@ LivestockList() {
       this.rowLength = this.rowData.length;
       console.log(`update ${this.rowData}`);
     },
-    err => {
+    // err => {
 
       
-      this.toasterService.pop("error", "Server Error", err)
-    }
+    //   this.toasterService.pop("error", "Server Error", err)
+    // }
   )
 }
 
@@ -243,9 +243,9 @@ EditBreed(rowIndex: number, lsList) {
       let currentNode = this.gridApi.getRowNode(this.rowData[rowIndex].id);
       currentNode.setDataValue("breedName", _.upperFirst(breedName));
     },
-    err => {
-      this.toasterService.pop("error", "Server Error", err)
-    }
+    // err => {
+    //   this.toasterService.pop("error", "Server Error", err)
+    // }
   )
 }
 
@@ -269,10 +269,10 @@ DeleteBreed( rowIndex, lsList ) {
           }, 100);
           this.rowLength = this.rowData.length;
     },
-    err => {
-      console.log(err);
-      this.toasterService.pop("warning", "Server Error", err)
-    }
+    // err => {
+    //   console.log(err);
+    //   this.toasterService.pop("warning", "Server Error", err)
+    // }
   )
 }
 

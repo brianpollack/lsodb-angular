@@ -3,10 +3,10 @@ import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IFindAllCountryResponce, FIND_ALL_COUNTRY, IFindCountryResponce, FIND_COUNTRY, IFindAllCountryStatesResponce, FIND_ALL_COUNTRY_STATES, IFindAllStateResponce, FIND_ALL_STATES, IFindAllStateDistrictsResponce, FIND_ALL_STATE_DISTRICTS, IFindAllDistrictsTaluksResponce, FIND_ALL_DISTRICTS_TALUKS, IFindAllTalukTalukResponce, FIND_ALL_TALUKS_TOWNS, IFindAllTalukVillageResponce, FIND_ALL_TOWN_VILLAGE } from 'src/app/dashboard-master/grphql/queries/query/countryQuery';
-import { IParamsCreateCountry, IParamsEditCountry, IParamsCreateState, IParamsEditState, IParamsCreateTaluk, IParamsCreateVillage, IParamsEditTaluk, IParamsEditVillage } from 'src/app/dashboard-master/grphql/interface/countryInterface';
-import { CREATE_COUNTRY, EDIT_COUNTRY, DELETE_COUNTRY, IParamsDeleteCountryResponce, IParamsCreateCountryResponce, IParamsEditCountryResponce, IParamsCreateStateResponce, CREATE_STATE, IParamsEditStateResponce, EDIT_STATE, IParamsDeleteStateResponce, DELETE_STATE, IParamsCreateDistrictResponce, IParamsEditDistrictResponce, IParamsDeleteDistrictResponce, DELETE_DISTRICT, CREATE_District, IParamsCreateTalukResponce, CREATE_TALUK, IParamsCreateTownResponce, CREATE_TOWN, IParamsCreateVillageResponce, CREATE_VILLAGE, IParamsDeleteVillageResponce, DELETE_VILLAGE, IParamsDeleteTownResponce, DELETE_TOWN, DELETE_TALUK, IParamsDeleteTalukResponce, EDIT_DISTRICT, IParamsEditalukResponce, IParamsEditTownResponce, EDIT_TOWN } from 'src/app/dashboard-master/grphql/queries/mutation/countryMutation';
+import { IParamsCreateCountry, IParamsEditCountry, IParamsCreateState, IParamsEditState, IParamsCreateTaluk, IParamsCreateVillage, IParamsEditTaluk, IParamsEditVillage, IParamsInsertState } from 'src/app/dashboard-master/grphql/interface/countryInterface';
+import { CREATE_COUNTRY, EDIT_COUNTRY, DELETE_COUNTRY, IParamsDeleteCountryResponce, IParamsCreateCountryResponce, IParamsEditCountryResponce, IParamsCreateStateResponce, CREATE_STATE, IParamsEditStateResponce, EDIT_STATE, IParamsDeleteStateResponce, DELETE_STATE, IParamsCreateDistrictResponce, IParamsEditDistrictResponce, IParamsDeleteDistrictResponce, DELETE_DISTRICT, CREATE_District, IParamsCreateTalukResponce, CREATE_TALUK, IParamsCreateTownResponce, CREATE_TOWN, IParamsCreateVillageResponce, CREATE_VILLAGE, IParamsDeleteVillageResponce, DELETE_VILLAGE, IParamsDeleteTownResponce, DELETE_TOWN, DELETE_TALUK, IParamsDeleteTalukResponce, EDIT_DISTRICT, IParamsEditalukResponce, IParamsEditTownResponce, EDIT_TOWN, IParamsInsertStateResponce, INSERT_ALL_STATES, IParamsInsertDistrictResponce, IParamsInsertTalukResponce, IParamsInsertTownResponce, IParamsInsertVillageResponce, INSERT_ALL_TALUK } from 'src/app/dashboard-master/grphql/queries/mutation/countryMutation';
 import { IParamsCreateDistrict, IParamsEditDistrict, IParamsCreateTown, IParamsEditTown } from './../../dashboard-master/grphql/interface/countryInterface';
-import { EDIT_TALUK, IParamsEditVillageResponce, EDIT_VILLAGE } from './../../dashboard-master/grphql/queries/mutation/countryMutation';
+import { EDIT_TALUK, IParamsEditVillageResponce, EDIT_VILLAGE, INSERT_ALL_TOWN, INSERT_ALL_VILLAGE, INSERT_ALL_DISTRICT } from './../../dashboard-master/grphql/queries/mutation/countryMutation';
 
 
 @Injectable({
@@ -62,6 +62,7 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
       mutation: EDIT_COUNTRY,
       variables: { input },
       refetchQueries: [{query: FIND_ALL_COUNTRY }]
+
     })
     .pipe(map(res => res.data))
   }
@@ -74,7 +75,14 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
       variables: {countryId},
       refetchQueries: [{query: FIND_ALL_COUNTRY }]
     })
-    .pipe(map(res=>res.data))
+    .pipe(map(res=>{
+      if(res && res['data']){
+        return res.data
+      } else {
+        console.log(res);
+        throw(res);
+      }
+    }))
 
   }
 
@@ -90,6 +98,17 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     return this.apollo
     .mutate<IParamsCreateStateResponce>({
       mutation: CREATE_STATE,
+      variables: {input},
+      refetchQueries: [{ query: FIND_ALL_COUNTRY_STATES,
+        variables: {countryId }}]
+    })
+    .pipe(map(res => res.data))
+  }
+  // ======== insert State =======
+  insertState(input: IParamsInsertState[], countryId:String): Observable<IParamsInsertStateResponce> {
+    return this.apollo
+    .mutate<IParamsInsertStateResponce>({
+      mutation: INSERT_ALL_STATES,
       variables: {input},
       refetchQueries: [{ query: FIND_ALL_COUNTRY_STATES,
         variables: {countryId }}]
@@ -124,7 +143,7 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
 
     /* *********** District *********************** */
 
-    FindAllStateDistricts(stateId: string): Observable<IFindAllStateDistrictsResponce> {
+  FindAllStateDistricts(stateId: string): Observable<IFindAllStateDistrictsResponce> {
 
       return this.apollo
       .query<IFindAllStateDistrictsResponce>({
@@ -146,6 +165,16 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .pipe(map(res => res.data))
   }
 
+  insertDistrict(input: IParamsCreateDistrict[], stateId:String): Observable<IParamsInsertDistrictResponce> {
+    return this.apollo
+    .mutate<IParamsInsertDistrictResponce>({
+      mutation: INSERT_ALL_DISTRICT,
+      variables: {input},
+      refetchQueries: [{ query: FIND_ALL_STATE_DISTRICTS,
+        variables: {stateId }}]
+    })
+    .pipe(map(res => res.data))
+  }
   // ======== Edit  District =======
   editDistrict(input: IParamsEditDistrict, stateId:String): Observable<IParamsEditDistrictResponce> {
     return this.apollo
@@ -196,6 +225,16 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .pipe(map(res => res.data))
   }
 
+  insertTaluk(input: IParamsCreateTaluk[], districtId:String): Observable<IParamsInsertTalukResponce> {
+    return this.apollo
+    .mutate<IParamsInsertTalukResponce>({
+      mutation: INSERT_ALL_TALUK,
+      variables: {input},
+      refetchQueries: [{ query:FIND_ALL_DISTRICTS_TALUKS,
+        variables: {districtId }}]
+    })
+    .pipe(map(res => res.data))
+  } 
  // ======== Edit  taluk =======
  editTaluk(input: IParamsEditTaluk, districtId:String): Observable<IParamsEditalukResponce> {
   return this.apollo
@@ -248,6 +287,17 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     .pipe(map(res => res.data))
   }
 
+  insertTown(input: IParamsCreateTown[], taluckId:String): Observable<IParamsInsertTownResponce> {
+    return this.apollo
+    .mutate<IParamsInsertTownResponce>({
+      mutation: INSERT_ALL_TOWN,
+      variables: {input},
+      refetchQueries: [{ query: FIND_ALL_TALUKS_TOWNS,
+        variables: {taluckId }}]
+    })
+    .pipe(map(res => res.data))
+  }
+
    // ======== Edit  town =======
  editTown(input: IParamsEditTown, taluckId:String): Observable<IParamsEditTownResponce> {
   return this.apollo
@@ -288,13 +338,24 @@ FindAllCountryStates(countryId: string): Observable<IFindAllCountryStatesResponc
     }).pipe(map(res => res.data))
   }
   // ======== create Village =======
-  createVillage(input: IParamsCreateVillage, townID:String): Observable<IParamsCreateVillageResponce> {
+  createVillage(input: IParamsCreateVillage, townId:String): Observable<IParamsCreateVillageResponce> {
     return this.apollo
     .mutate<IParamsCreateVillageResponce>({
       mutation: CREATE_VILLAGE,
       variables: {input},
       refetchQueries: [{ query: FIND_ALL_TOWN_VILLAGE,
-        variables: {townID }}]
+        variables: {townId }}]
+    })
+    .pipe(map(res => res.data))
+  }
+
+  insertVillage(input: IParamsCreateVillage[], townId:String): Observable<IParamsInsertVillageResponce> {
+    return this.apollo
+    .mutate<IParamsInsertVillageResponce>({
+      mutation: INSERT_ALL_VILLAGE,
+      variables: {input},
+      refetchQueries: [{ query: FIND_ALL_TOWN_VILLAGE,
+        variables: {townId }}]
     })
     .pipe(map(res => res.data))
   }

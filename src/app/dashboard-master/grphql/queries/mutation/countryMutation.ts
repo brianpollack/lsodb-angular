@@ -3,6 +3,7 @@ import { ICountry, IState, IDistrict, ITaluk, ITown, IVillage } from './../../in
 import { CREATE_BREED } from 'src/app/dashboard-master/grphql/queries/mutation/breedMutation';
 
 
+
 /* ******************** country **************************** */
 export const CREATE_COUNTRY = gql`
 
@@ -69,7 +70,18 @@ mutation DeleteState($countryId: String!, $StateId: String!) {
     }
   }
 `;
-
+export const INSERT_ALL_STATES = gql`
+mutation  InsertState($input: [ParamsInsertState]){
+  InsertState(input: $input){
+    id
+    state
+    countryId
+    stateCapital
+    stateCode
+    pincode
+  }
+}
+`;
 /* ******************** District **************************** */
 export const CREATE_District = gql`
 mutation CreateDistrict($input: ParamsCreateDistrict) {
@@ -84,6 +96,22 @@ mutation CreateDistrict($input: ParamsCreateDistrict) {
   }
 }
 `;
+
+
+export const INSERT_ALL_DISTRICT = gql`
+mutation  InsertDistrict($input: [ParamsCreateDistrict]){
+  InsertDistrict(input: $input){
+    id
+    countryId
+    stateId
+    district
+    districtCapital
+    districtCode
+    pincode
+  }
+}
+`;
+
 export const EDIT_DISTRICT = gql`
 mutation editDistrict($input: ParamsEditDistrict) {
   EditDistrict(input: $input) {
@@ -121,6 +149,19 @@ mutation CreateTaluk($input: ParamsCreateTaluk) {
   }
 }
 `;
+
+export const INSERT_ALL_TALUK = gql`
+mutation  InsertTaluk($input: [ParamsCreateTaluk]){
+  InsertTaluk(input: $input){
+    id
+    countryId
+    districtId
+    taluk
+  }
+}
+`;
+
+
 export const EDIT_TALUK = gql`
 mutation EditTaluk($input: ParamsEditTaluk){
   EditTaluk(input: $input){
@@ -148,6 +189,18 @@ export const CREATE_TOWN = gql`
 mutation CreateTown($input: ParamsCreateTown) {
   CreateTown(input: $input) {
     id
+    taluckId
+    town
+    pincode
+  }
+}
+`;
+
+export const INSERT_ALL_TOWN = gql`
+mutation  InsertTown($input: [ParamsCreateTown]){
+  InsertTown(input: $input){
+    id
+    countryId
     taluckId
     town
     pincode
@@ -187,6 +240,19 @@ mutation CreateVillage($input: ParamsCreateVillage) {
   }
 }
 `;
+export const INSERT_ALL_VILLAGE = gql`
+mutation InsertVillage($input: [ParamsCreateVillage]) {
+  InsertVillage(input: $input) {
+    id
+    countryId
+    townId
+    village
+    pincode
+  }
+}
+
+`;
+
 export const EDIT_VILLAGE = gql`
 mutation EditVillage($input: ParamsEditVillage){
   EditVillage(input: $input){
@@ -222,13 +288,16 @@ export interface IParamsDeleteCountryResponce {
 export interface IParamsCreateStateResponce {
     CreateState: IState
 }
+
 export interface IParamsEditStateResponce {
     EditState: IState
 }
 export interface IParamsDeleteStateResponce {
   DeleteState: IState
 }
-
+export interface IParamsInsertStateResponce {
+  InsertState: [IState]
+}
 /* ******************** district **************************** */
 
 export interface IParamsCreateDistrictResponce {
@@ -242,9 +311,20 @@ export interface IParamsDeleteDistrictResponce {
   DeleteDistrict: IDistrict
 }
 
+export interface IParamsInsertDistrictResponce {
+  InsertDistrict: [IDistrict]
+}
+
+
+
+
 /* ******************** taluk **************************** */
 export interface IParamsCreateTalukResponce {
   CreateTaluk : ITaluk
+}
+
+export interface IParamsInsertTalukResponce {
+  InsertTaluk: [ITaluk]
 }
 
 export interface IParamsEditalukResponce {
@@ -260,6 +340,10 @@ export interface IParamsCreateTownResponce {
   CreateTown : ITown
 }
 
+export interface IParamsInsertTownResponce {
+  InsertTown: [ITown]
+}
+
 export interface IParamsEditTownResponce {
   EditTown: ITown
 }
@@ -272,6 +356,9 @@ export interface IParamsCreateVillageResponce {
   CreateVillage : IVillage
 }
 
+export interface IParamsInsertVillageResponce {
+  InsertVillage: [IVillage]
+}
 export interface IParamsEditVillageResponce {
   EditVillage: IVillage
 }

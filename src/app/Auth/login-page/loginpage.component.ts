@@ -3,8 +3,9 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, Validators } from "@angular/forms";
 import { CustomValidators } from 'ngx-custom-validators'
 import { AuthService } from './../../services/firebase/auth.service';
-import { ToasterService, ToasterConfig } from 'angular2-toaster';
+// import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { IUser } from '../../models/user';
+import { ObservableService } from 'src/app/services/observable.service';
 
 @Component({
   selector: 'app-loginpage',
@@ -13,11 +14,11 @@ import { IUser } from '../../models/user';
 })
 export class LoginpageComponent implements OnInit {
 
-  public config1: ToasterConfig = new ToasterConfig({
+ /*  public config1: ToasterConfig = new ToasterConfig({
     positionClass: "toast-top-right",
     showCloseButton: true,
     animation: "fade"
-  });
+  }); */
 
   pageTitle: string = "";
 
@@ -32,27 +33,21 @@ export class LoginpageComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private toasterService: ToasterService
-  ) { }
-
-  ngOnInit() {
-    // this.pageTitle =  this.activeRouter.params.value.pageName;
-    this.activeRouter.paramMap.subscribe((params: ParamMap) => {
-      this.pageTitle = params.get('pageName');
-    });
-
-    setTimeout(() => {
-      if(this.pageTitle === "" ) {
-
-        console.log( this.pageTitle );
-        this.router.navigateByUrl('/home');
-      }else {
-        console.log(this.pageTitle);
+    // private toasterService: ToasterService,
+    private observableService: ObservableService
+    ) {
+     
+    this.observableService.navLogin().subscribe(
+      data =>{
+        console.log(data)
+      this.pageTitle = data.title;
+      
       }
-    }, 1000);
-    
+    )
 
-  }
+   }
+
+  ngOnInit() { }
 
   // form group infomation 
   loginForm = this.fb.group({
@@ -67,37 +62,67 @@ export class LoginpageComponent implements OnInit {
     this.loginUser.email = this.loginForm.value.loginEmail;
     this.loginUser.password = this.loginForm.value.loginPassword;
 
-    let isAuthenticated: boolean = false;
+    // let isAuthenticated: boolean = false;
     let error: any = null;
-    // console.log(this.authService.SignIn( this.loginUser))
+   
 
     this.authService.SignIn(this.loginUser).then(res => {
       try {
         if (res) {
-          isAuthenticated = res;
+          
+          this.loginFun(res);
         } else {
-          isAuthenticated = res;
+          
+          this.loginFun(res)
         }
       }
       catch (err) {
-        error = err;
+        // console.log(err);
+        // error = err;
+        this.loginFun(err)
       }
 
     })
 
-    setTimeout(() => {
-      if(error === null){
-        if (isAuthenticated) {
-          this.router.navigateByUrl('/masterdashboard');
-        } else {
-          this.toasterService.pop("warning", "Invalid credentials", "Try again with correct credentials");
-          this.loginForm.reset();
-          this.router.navigateByUrl('/login');
-        }
-      }else {
-        this.toasterService.pop("warning", "Server Error", "Try again with correct credentials");
-        this.loginForm.reset();
-      }
-    }, 1000);
+    
   }
+
+  loginFun(isAuthenticated) {
+    let error: any = null;
+    if(error === null){
+      if (isAuthenticated) {
+        switch(this.pageTitle){
+          case 'masterFileMaintance':
+            this.router.navigateByUrl('/masterdashboard');
+            break;
+            case 'livestockTracking':
+              this.router.navigateByUrl('/trackingdashboard');
+              break;
+            case 'livestockReports':
+              this.router.navigateByUrl('/reportdashboard');
+              break;
+            default:
+              return
+        }
+      } else {
+        console.log("auth",isAuthenticated);
+        this.observableService.setTosterMsg({
+          type: "warning",
+          title: "Invalid credentials",
+          message: "Try again with correct credentials"
+      });
+        // this.toasterService.pop("warning", "Invalid credentials", "Try again with correct credentials");
+        this.loginForm.reset();
+        this.router.navigateByUrl('/login');
+      }
+    }else {
+      this.observableService.setTosterMsg({
+        type: "warning",
+        title: "Server Error",
+        message: "Try again with correct credentials"
+    });
+      // this.toasterService.pop("warning", "Server Error", "Try again with correct credentials");
+      this.loginForm.reset();
+    }
+  };
 }
