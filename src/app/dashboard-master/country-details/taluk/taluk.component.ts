@@ -27,6 +27,7 @@ export class TalukComponent implements OnInit {
   private isEditMode: boolean;
   private editRecordId: string;
   private showUniqueErr: boolean;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
@@ -43,6 +44,7 @@ export class TalukComponent implements OnInit {
   // csv variables
 public records: ITaluk[] = [];
 @ViewChild('csvReader', { static: false }) csvReader: any;
+  saveBtn: string;
 
   constructor(
     private dataService: CountryService,
@@ -161,6 +163,12 @@ public records: ITaluk[] = [];
 
 
   ];
+
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
 
   //============= grid taluk button ===========
   talukTab(sectedRow) {
@@ -296,12 +304,13 @@ public records: ITaluk[] = [];
    ).subscribe(
      res => {
        this.rowData = [...this.rowData, res.CreateTaluk]
-       console.log(this.rowData)
+       this.observableService.setTosterMsg({
+        type: "info",
+        title: "Saved",
+        message: "Sucessfully saved"
+    })
      },
-    //  err => {
-    //    console.log("ls error:", err);
-    //    this.toasterService.pop("error", "Server Error", err)
-    //  }
+    
    )
  } 
 
@@ -318,11 +327,13 @@ public records: ITaluk[] = [];
     this.dataService.editTaluk({countryId, talukId, taluk, pincode }, districtId).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditTaluk;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
+      
     )
   } 
 
@@ -341,18 +352,20 @@ public records: ITaluk[] = [];
         this.rowData = this.rowData.filter((data) => {
           return data.id !== res.DeleteTaluk.id
         });
-        setTimeout(() => {
+        // setTimeout(() => {
           let lastRec = _.last(this.rowData)
           let currentNode = this.gridApi.getRowNode(lastRec.id)
 
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-        }, 100);
+        // }, 100);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
-      // err => {
-      //   console.log(err);
-      //   this.toasterService.pop("warning", "Server Error", err)
-      // }
+      
     )
   } 
 
@@ -378,7 +391,7 @@ public records: ITaluk[] = [];
         console.log(this.records);
         this.rowData = this.records
 
-
+        this.saveBtn = "Enable"
 
       };
 
@@ -446,6 +459,11 @@ public records: ITaluk[] = [];
      this.dataService.insertTaluk(saveAllData, countryId).subscribe(
        res =>{
          console.log("save data ",saveAllData);
+         this.observableService.setTosterMsg({
+          type: "info",
+          title: "Save All",
+          message: "Sucessfully  Saved All"
+      })
        }
      )
     console.log(this.rowData);

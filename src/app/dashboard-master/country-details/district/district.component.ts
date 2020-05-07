@@ -30,6 +30,7 @@ export class DistrictComponent implements OnInit {
   private showUniqueErr: boolean;
   private countryTitle: string;
   countryId: string;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
@@ -42,6 +43,7 @@ export class DistrictComponent implements OnInit {
 // csv variables
 public records: IDistrict[] = [];
 @ViewChild('csvReader', { static: false }) csvReader: any;
+  saveBtn: string;
  
 
 constructor(
@@ -183,6 +185,11 @@ constructor(
 
   ];
 
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
   //============= grid district button ===========
   districtTab(sectedRow) {
     console.log(sectedRow);
@@ -318,13 +325,13 @@ constructor(
       { countryId, stateId, district, districtCapital, districtCode, pincode }, stateId
     ).subscribe(
       res => {
-        this.rowData = [...this.rowData, res.CreateDistrict]
-        console.log(this.rowData)
+        this.rowData = [...this.rowData, res.CreateDistrict];
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
     )
   }
   // ======edit country =========
@@ -340,13 +347,13 @@ constructor(
     
     this.dataService.editDistrict({countryId, districtId, district, districtCapital, districtCode, pincode }, stateId).subscribe(
       res => {
-        console.log("llll");
         this.rowData[rowIndex] = res.EditDistrict;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
     )
   } 
 
@@ -366,18 +373,21 @@ constructor(
         this.rowData = this.rowData.filter((data) => {
           return data.id !== res.DeleteDistrict.id
         });
-        setTimeout(() => {
+        // setTimeout(() => {
           let lastRec = _.last(this.rowData)
           let currentNode = this.gridApi.getRowNode(lastRec.id)
 
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-        }, 100);
+        // }, 100);
+
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
-      // err => {
-      //   console.log(err);
-      //   this.toasterService.pop("warning", "Server Error", err)
-      // }
+     
     )
   }
 
@@ -404,7 +414,7 @@ constructor(
         console.log(this.records);
         this.rowData = this.records
 
-
+        this.saveBtn = "Enable"
 
       };
 
@@ -474,7 +484,11 @@ constructor(
 
      this.dataService.insertDistrict(saveAllData, countryId).subscribe(
        res =>{
-         console.log("save data ",saveAllData);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Save All",
+          message: "Sucessfully  Saved All"
+      })
        }
      )
     console.log(this.rowData);

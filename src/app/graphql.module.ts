@@ -56,7 +56,7 @@ export class GraphqlModule {
         observableService.setTosterMsg({
           type: "error",
           title: "Network Error",
-          message: networkError
+          message: networkError.message
       })
       }
     });

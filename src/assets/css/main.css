@@ -551,3 +551,85 @@ inputFile {
 .inputFile {
   display: none;
 }
+
+
+  
+  /* border: initial;
+    background: transparent;
+    outline: medium none invert!important;
+    outline: initial!important;
+    padding: .5rem 1rem;
+    line-height: 1.75;
+    font-size: .8rem;
+    width: 93%;
+    color: #212121; */
+
+
+/* search start */
+
+.seach-box{
+  position: relative;
+  /* 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%); */
+    margin-left: auto;
+    transition: all 1s;
+    width: 35px;
+    height: 35px;
+    /* background: var(--theme-color-1); */
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 1px solid var(--theme-color-1);
+    padding: 5px;
+}
+
+.search{
+  position: absolute;
+    top: 2px;
+    left: 1px;
+    width: 90%;;
+    height: 25px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+    /* background-color: var(--theme-color-1); */
+}
+
+.seach-icon{
+   box-sizing: border-box;
+   padding: 8px;
+    width: 30px;
+    height: 30px; 
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    border-radius: 50%;
+    color: var(--theme-color-1);
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 800;
+    transition: all 1s;
+}
+
+.seach-box:hover{
+  /* border: 1px solid var(--theme-color-1); */
+  width: 200px;
+  cursor: pointer;
+
+}
+
+.seach-box:hover .search{
+  display: block;
+}
+
+.seach-box:hover .seach-icon{
+  background:var(--theme-color-1);
+  /* color:var(--theme-color-1); */
+  color: rgb(249, 249, 250);
+}
+/* seach ends */

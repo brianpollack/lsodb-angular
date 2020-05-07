@@ -23,6 +23,7 @@ export class CountryComponent implements OnInit {
   private rowData: ICountry[];
   private showMenu: boolean = false;
   private hide = true;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
@@ -46,10 +47,10 @@ export class CountryComponent implements OnInit {
     };
 
     this.defaultColDef = {
-      flex: 1,
-      minWidth: 130,
+      // flex: 1,
+     
       editable: true,
-      resizable: true,
+      // resizable: true,
     };
 
     this.rowData = [
@@ -77,12 +78,13 @@ export class CountryComponent implements OnInit {
     )
   }
 
+
   columnDefs: ColDef[] = [
     {
       headerName: 'Nos',
       // field: 'id',
       valueGetter: "node.rowIndex + 1",
-      width: 100,
+      width: 85,
       sortable: true
     },
     {
@@ -147,6 +149,12 @@ export class CountryComponent implements OnInit {
 
 
   ];
+
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
 
   stateTab(sectedRow) {
     console.log(sectedRow);
@@ -250,8 +258,15 @@ export class CountryComponent implements OnInit {
     this.dataService.createCountry({ country, countryCapital, countryCode }).subscribe(
       res => {
 
-        this.rowData = [...this.rowData, res.CreateCountry]
+        this.rowData = [...this.rowData, res.CreateCountry];
+       this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+      })
       },
+
+      // this.observableService.setTosterMsg({type: "info", title:"saveed", message:""})
       // err => {
       //   console.log("ls error:", err);
       //   this.toasterService.pop("error", "Server Error", err)
@@ -269,6 +284,11 @@ export class CountryComponent implements OnInit {
     this.dataService.editCountry({ countryid, country, countryCapital, countryCode }).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditCountry;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
       // err => {
       //   console.log("ls error:", err);
@@ -299,6 +319,11 @@ export class CountryComponent implements OnInit {
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         }, 100);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
       // err => {
       //   console.log(err);

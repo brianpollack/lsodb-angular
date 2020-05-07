@@ -26,6 +26,7 @@ export class VillageComponent implements OnInit {
   private isEditMode: boolean;
   private editRecordId: string;
   private showUniqueErr: boolean;
+  quickSearchValue: any = "";
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
@@ -47,6 +48,7 @@ export class VillageComponent implements OnInit {
 // csv variables
 public records: IVillage[] = [];
 @ViewChild('csvReader', { static: false }) csvReader: any;
+  saveBtn: string;
 
   constructor(
     private dataService: CountryService,
@@ -171,6 +173,11 @@ public records: IVillage[] = [];
     } */
   ];
 
+  onFilterChanged() {
+    console.log(this.quickSearchValue);
+    this.gridApi.setQuickFilter(this.quickSearchValue)
+   
+}
   backTab() {
     let changeData = "TOWN";
     this.observableService.setNav(changeData);
@@ -284,12 +291,13 @@ public records: IVillage[] = [];
    ).subscribe(
      res => {
        this.rowData = [...this.rowData, res.CreateVillage]
-       console.log(this.rowData)
+       this.observableService.setTosterMsg({
+        type: "info",
+        title: "Saved",
+        message: "Sucessfully saved"
+    })
      },
-    //  err => {
-    //    console.log("ls error:", err);
-    //    this.toasterService.pop("error", "Server Error", err)
-    //  }
+    
    )
  } 
 
@@ -305,11 +313,13 @@ public records: IVillage[] = [];
     this.dataService.editvillage({countryId, villageId, village, pincode }, townId).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditVillage;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
+      
     )
   } 
 
@@ -328,13 +338,18 @@ public records: IVillage[] = [];
         this.rowData = this.rowData.filter((data) => {
           return data.id !== res.DeleteVillage.id
         });
-        setTimeout(() => {
+        // setTimeout(() => {
           let lastRec = _.last(this.rowData)
           let currentNode = this.gridApi.getRowNode(lastRec.id)
 
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-        }, 100);
+        // }, 100);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
       // err => {
       //   console.log(err);
@@ -365,7 +380,7 @@ public records: IVillage[] = [];
 
         console.log(this.records);
         this.rowData = this.records
-
+        this.saveBtn = "Enable"
 
 
       };
@@ -435,6 +450,11 @@ public records: IVillage[] = [];
      this.dataService.insertVillage(saveAllData, townId).subscribe(
        res =>{
          console.log("save data ",saveAllData);
+         this.observableService.setTosterMsg({
+          type: "info",
+          title: "Save All",
+          message: "Sucessfully  Saved All"
+      })
        }
      )
     console.log(this.rowData);

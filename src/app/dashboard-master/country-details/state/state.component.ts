@@ -48,6 +48,7 @@ export class StateComponent implements OnInit {
 
  
   countryLists: any;
+  quickSearchValue: any = "";
 
   constructor(
     private dataService: CountryService,
@@ -64,8 +65,8 @@ export class StateComponent implements OnInit {
     this.showUniqueErr = false;
 
     this.defaultColDef = {
-      flex: 1,
-      minWidth: 130,
+      // flex: 1,
+      // minWidth: 130,
       editable: true,
       resizable: true,
     };
@@ -115,25 +116,26 @@ export class StateComponent implements OnInit {
       headerName: 'Nos',
       // field: 'id',
       valueGetter: "node.rowIndex + 1",
-      width: 100,
+      width: 85,
       sortable: true,
 
     },
     {
       headerName: 'State Name',
       field: 'state',
-      width: 200,
+      width: 177,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
         params.data.state = _.startCase(params.newValue);
         return true;
-      }
+      },
+    
     },
     {
       headerName: 'State Capital',
       field: 'stateCapital',
-      width: 200,
+      width: 119,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
@@ -145,7 +147,7 @@ export class StateComponent implements OnInit {
     {
       headerName: 'State Code',
       field: 'stateCode',
-      width: 150,
+      width: 119,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
@@ -157,7 +159,7 @@ export class StateComponent implements OnInit {
     {
       headerName: 'State Pin Code',
       field: 'pincode',
-      width: 150,
+      width: 130,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
@@ -169,7 +171,7 @@ export class StateComponent implements OnInit {
     {
       headerName: 'Action',
       field: 'editmode',
-      width: 150,
+      width: 135,
       cellRenderer: 'buttonRender',
       cellRendererParams: {
         btn: "save",
@@ -191,6 +193,12 @@ export class StateComponent implements OnInit {
 
   ];
 
+   onFilterChanged() {
+     console.log(this.quickSearchValue);
+     this.gridApi.setQuickFilter(this.quickSearchValue)
+    
+}
+  
   stateTab(sectedRow) {
     console.log(sectedRow);
     let countryDetails = {
@@ -325,12 +333,13 @@ export class StateComponent implements OnInit {
     this.dataService.createState({ countryId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
       res => {
         this.rowData = [...this.rowData, res.CreateState]
-        console.log(this.rowData)
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
+      
     )
   }
   // ======edit country =========
@@ -346,11 +355,13 @@ export class StateComponent implements OnInit {
     this.dataService.editState({ countryId, stateId, state, stateCapital, stateCode, pincode }, countryId).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditState;
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Edit",
+          message: "Sucessfully Editted"
+      })
       },
-      // err => {
-      //   console.log("ls error:", err);
-      //   this.toasterService.pop("error", "Server Error", err)
-      // }
+     
     )
   }
 
@@ -369,18 +380,21 @@ export class StateComponent implements OnInit {
         this.rowData = this.rowData.filter((data) => {
           return data.id !== res.DeleteState.id
         });
-        setTimeout(() => {
+        // setTimeout(() => {
           let lastRec = _.last(this.rowData)
           let currentNode = this.gridApi.getRowNode(lastRec.id)
 
           currentNode.setSelected(true);
           this.gridApi.ensureIndexVisible(currentNode.rowIndex);
-        }, 100);
+        // }, 100);
+
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Delete",
+          message: "Sucessfully Deleted"
+      })
       },
-      // err => {
-      //   console.log(err);
-      //   this.toasterService.pop("warning", "Server Error", err)
-      // }
+     
     )
   }
 
@@ -477,7 +491,11 @@ export class StateComponent implements OnInit {
 
      this.dataService.insertState(saveAllData, countryId).subscribe(
        res =>{
-         console.log("save data ",saveAllData);
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Save All",
+          message: "Sucessfully  Saved All"
+      })
        }
      )
     console.log(this.rowData);
