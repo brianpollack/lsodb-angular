@@ -43,8 +43,8 @@ export class DistrictComponent implements OnInit {
 // csv variables
 public records: IDistrict[] = [];
 @ViewChild('csvReader', { static: false }) csvReader: any;
-  saveBtn: string;
- 
+  
+  saveBtn = "Disable"
 
 constructor(
     private dataService: CountryService,
@@ -193,16 +193,25 @@ constructor(
   //============= grid district button ===========
   districtTab(sectedRow) {
     console.log(sectedRow);
-    let countryDetails = {
-      districtId:  sectedRow.id,
-      distinctName: sectedRow.district,
-      stateId: this.stateId,
-      stateName: this.stateTitle ,
-      countryId: this.countryId,
-      countryName: this.countryTitle,
-      tabName: "TALUK"
+    if(sectedRow.id !== "" ){
+      let countryDetails = {
+        districtId:  sectedRow.id,
+        distinctName: sectedRow.district,
+        stateId: this.stateId,
+        stateName: this.stateTitle ,
+        countryId: this.countryId,
+        countryName: this.countryTitle,
+        tabName: "TALUK"
+      }
+      this.observableService.setTab(countryDetails);
+    }else{
+      this.observableService.setTosterMsg({
+        type: "warning",
+          title: "Save Data!",
+          message: "Before entering the Taluk tab Save all data!"
+      })
     }
-    this.observableService.setTab(countryDetails);
+    
   }
 
   backTab() {
@@ -484,11 +493,13 @@ constructor(
 
      this.dataService.insertDistrict(saveAllData, countryId).subscribe(
        res =>{
+         this.rowData = res.InsertDistrict
         this.observableService.setTosterMsg({
           type: "info",
           title: "Save All",
           message: "Sucessfully  Saved All"
-      })
+      });
+     this.saveBtn = "Disable"
        }
      )
     console.log(this.rowData);
