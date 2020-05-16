@@ -1,0 +1,200 @@
+<div class="dashboard-grid">
+  <!-- title -->
+  <div class="ds-title">
+    <div class="t-row">
+      <div class="t-col-1 ec-font-2  ">
+      <i class="fal fa-ram"> </i> Ownership Details
+      </div>
+
+      <div class="t-col-2 t-span-2">
+        <form
+            autocomplete="off"
+            [formGroup]="searchForm"
+            #searchDirective="ngForm"
+            (ngSubmit)="onSubmit(searchDirective)"
+            class="d-flex justify-content-around"
+            >
+            <!-- class="d-flex justify-content-around" -->
+            <!-- input search -->
+            <div>
+              <mat-form-field>
+                <mat-label
+                  ><i class="fal fa-search"></i>
+                  Search
+                </mat-label>
+  
+                <input
+                  #search
+                  matInput
+                  formControlName="search"
+                  type="text"
+                  placeholder=""
+                />
+                <mat-error
+                  *ngIf="
+                    searchForm.get('search').errors?.required &&
+                    (searchForm.get('search').touched ||
+                      searchForm.get('search').dirty)
+                  "
+                >
+                  <i class="fas fa-times-circle"></i> search is Required!
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <!-- zoom input -->
+           <!--  <div>
+              <mat-form-field>
+                <mat-label>Zoom Levels</mat-label>
+                <mat-select #list formControlName="searchList">
+                  <mat-option
+                    *ngFor="let zoomlevel of zoomlevels"
+                    [value]="zoomlevel.value"
+                  >
+                    {{ zoomlevel.viewValue }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchForm.get('searchList').error?.required">
+                  <i class="fas fa-times-circle"></i>Zoom Levels is Required!
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+  
+            <!-- find button -->
+            <div>
+              <button class="btn btn-outline-primary btn-xs ec-font-1 pt-2">
+                find
+              </button>
+            </div>
+          </form>
+      </div>
+    </div>
+      <div class="separator mb-1"></div>
+  </div>
+
+  <!-- content -->
+
+  <div class="ds-content">
+    <div class="c-row">
+      <!-- map -->
+      <div class="c-col-1">
+        <mat-card >
+          <div class="map" id="map"></div>
+        </mat-card>
+      </div>
+      <!-- form  -->
+      <div class="c-col-2">
+        <mat-card >
+          <div>
+            <p
+              class="m-0 p-0 ec-font-1 font-weight-bolder d-flex justify-content-center"
+            >
+              MAP LOCATION
+            </p>
+          </div>
+          <form
+            autocomplete="off"
+            [formGroup]="mapLocationForm"
+            #mapLocationDirective="ngForm"
+            (ngSubmit)="locationSubmit(mapLocationDirective)"
+            class="d-flex flex-column mt-2 p-3"
+          >
+            <!-- country starts -->
+            <div class="row">
+              <div class="col1">
+                Country
+              </div>
+              <div class="col2">
+                <input
+                  #country
+                  formControlName="country"
+                  type="text"
+                  placeholder=""
+                  class="w-100"
+                />
+              </div>
+              <div class="col3">
+                <input
+                  #country
+                  formControlName="countryCode"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+
+              <div class="col1">
+                Satate
+              </div>
+              <div class="col2">
+                <input
+                  #state
+                  formControlName="state"
+                  type="text"
+                  placeholder=""
+                  class="w-100"
+                />
+              </div>
+              <div class="col3">
+                <input
+                  #statecode
+                  formControlName="stateCode"
+                  type="text"
+                  placeholder=""
+                />
+              </div>
+
+              <div class="col1">
+                District
+              </div>
+              <div class="col2 span2">
+                <input formControlName="district" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Taluk
+              </div>
+              <div class="col2 span2">
+                <input formControlName="taluk" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Town
+              </div>
+              <div class="col2 span2">
+                <input formControlName="town" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Village
+              </div>
+              <div class="col2 span2">
+                <input formControlName="village" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Suburb
+              </div>
+              <div class="col2 span2">
+                <input formControlName="suburb" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Pincode
+              </div>
+              <div class="col2 span2">
+                <input formControlName="pincode" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Latittude
+              </div>
+              <div class="col2 span2">
+                <input formControlName="lat" type="text" class="w-100" />
+              </div>
+              <div class="col1">
+                Longitute
+              </div>
+              <div class="col2 span2">
+                <input formControlName="lng" type="text" class="w-100" />
+              </div>
+            </div>
+          </form>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

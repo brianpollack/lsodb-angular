@@ -449,6 +449,7 @@ public records: IVillage[] = [];
 
      this.dataService.insertVillage(saveAllData, townId).subscribe(
        res =>{
+        this.rowData = res.InsertVillage
          console.log("save data ",saveAllData);
          this.observableService.setTosterMsg({
           type: "info",

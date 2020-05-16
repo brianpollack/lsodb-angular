@@ -25,12 +25,20 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
 // tracking dashboard components
 import { TrackingComponent } from './tracking.component';
 
-import { MasterModule } from '../dashboard-master/master.module'
+import { MasterModule } from '../dashboard-master/master.module';
+import { OwnershipDetailsComponent } from './ownership-details/ownership-details.component';
+import { BirthDeathTackingComponent } from './birth-death-tacking/birth-death-tacking.component';
+import { SalesTackingComponent } from './sales-tacking/sales-tacking.component';
+import { TackingDashboardComponent } from './tacking-dashboard/tacking-dashboard.component'
 
 @NgModule({
   declarations: [
     routingComponents,
-    TrackingComponent
+    TrackingComponent,
+    OwnershipDetailsComponent,
+    BirthDeathTackingComponent,
+    SalesTackingComponent,
+    TackingDashboardComponent
   ],
   imports: [
     // UnderConstructionComponent,

@@ -172,6 +172,7 @@ public records: ITaluk[] = [];
 
   //============= grid taluk button ===========
   talukTab(sectedRow) {
+    if(sectedRow.id !== ""){
     console.log(sectedRow);
     let countryDetails = {
       talukId: sectedRow.id,
@@ -185,6 +186,13 @@ public records: ITaluk[] = [];
       tabName: "TOWN"
     }
     this.observableService.setTab(countryDetails);
+  }else{
+    this.observableService.setTosterMsg({
+      type: "warning",
+        title: "Save Data!",
+        message: "Before entering the Town tab Save all data!"
+    })
+  }
   }
 
   backTab() {
@@ -458,6 +466,7 @@ public records: ITaluk[] = [];
 
      this.dataService.insertTaluk(saveAllData, countryId).subscribe(
        res =>{
+        this.rowData = res.InsertTaluk
          console.log("save data ",saveAllData);
          this.observableService.setTosterMsg({
           type: "info",

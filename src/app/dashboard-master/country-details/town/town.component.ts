@@ -43,11 +43,11 @@ export class TownComponent implements OnInit {
   talukId: string;
   talukTitle: string = "Select Taluk";
 
-  
 
-// csv variables
-public records: ITown[] = [];
-@ViewChild('csvReader', { static: false }) csvReader: any;
+
+  // csv variables
+  public records: ITown[] = [];
+  @ViewChild('csvReader', { static: false }) csvReader: any;
   saveBtn: string;
 
   constructor(
@@ -172,25 +172,34 @@ public records: ITown[] = [];
   onFilterChanged() {
     console.log(this.quickSearchValue);
     this.gridApi.setQuickFilter(this.quickSearchValue)
-   
-}
+
+  }
   //============= grid taluk button ===========
   townTab(sectedRow) {
-    console.log(sectedRow);
-    let countryDetails = {
-      townId: sectedRow.id,
-      townName:  sectedRow.town,
-      talukId: this.talukId,
-      talukName: this.talukTitle,
-      districtId: this.districtID,
-      distinctName: this.districtTitle,
-      stateId: this.stateId,
-      stateName: this.stateTitle,
-      countryId: this.countryId,
-      countryName: this.countryTitle,
-      tabName: "VILLAGE"
+    if (sectedRow.id !== "") {
+      console.log(sectedRow);
+      let countryDetails = {
+        townId: sectedRow.id,
+        townName: sectedRow.town,
+        talukId: this.talukId,
+        talukName: this.talukTitle,
+        districtId: this.districtID,
+        distinctName: this.districtTitle,
+        stateId: this.stateId,
+        stateName: this.stateTitle,
+        countryId: this.countryId,
+        countryName: this.countryTitle,
+        tabName: "VILLAGE"
+      }
+      this.observableService.setTab(countryDetails);
     }
-    this.observableService.setTab(countryDetails);
+    else {
+      this.observableService.setTosterMsg({
+        type: "warning",
+        title: "Save Data!",
+        message: "Before entering the village tab Save all data!"
+      })
+    }
   }
 
   backTab() {
@@ -198,19 +207,19 @@ public records: ITown[] = [];
     this.observableService.setNav(changeData);
   }
 
-    //====== grid on load data based on country =========
-   gridData() {
-  
+  //====== grid on load data based on country =========
+  gridData() {
+
     this.dataService.FindAllTalukTown(this.talukId).subscribe(
       res => {
-  
+
         this.rowData = res.FindAllTalukTown
         console.log(this.rowData);
       }
     )
-  } 
+  }
 
-   // ====== Unique ===================
+  // ====== Unique ===================
 
   /* isUnique(state: string): boolean {
    const findedValue = this.rowData.findIndex((obj: IState) => {
@@ -284,42 +293,42 @@ public records: ITown[] = [];
 
     // this.editBtnClicked = true;
 
-  } 
+  }
 
 
   // ====== delete button click ===================
   onDelete(deleteData: ITown): void {
- 
-     let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
-     
-     this.delete(deleteIndex);
- 
-   } 
+
+    let deleteIndex = this.gridApi.getRowNode(deleteData.id).rowIndex;
+
+    this.delete(deleteIndex);
+
+  }
 
   // ====== update country ========
   UpdateTown(cellData) {
-   let town = cellData.town;
-   let pincode = cellData.pincode
-   let countryId = this.countryId
-   let taluckId = this.talukId
+    let town = cellData.town;
+    let pincode = cellData.pincode
+    let countryId = this.countryId
+    let taluckId = this.talukId
 
-   this.dataService.createTown(
-     { countryId, taluckId, town, pincode }, taluckId
-   ).subscribe(
-     res => {
-       this.rowData = [...this.rowData, res.CreateTown]
-       this.observableService.setTosterMsg({
-        type: "info",
-        title: "Saved",
-        message: "Sucessfully saved"
-    })
-     },
-    
-   )
- } 
+    this.dataService.createTown(
+      { countryId, taluckId, town, pincode }, taluckId
+    ).subscribe(
+      res => {
+        this.rowData = [...this.rowData, res.CreateTown]
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved"
+        })
+      },
+
+    )
+  }
 
   // ======edit town =========
-   edit(cellData, rowIndex) {
+  edit(cellData, rowIndex) {
 
     let town = cellData.town;
     let pincode = cellData.pincode
@@ -327,22 +336,22 @@ public records: ITown[] = [];
     let townId = this.rowData[rowIndex].id
     let taluckId = this.talukId
 
-    this.dataService.editTown({countryId, townId, town, pincode }, taluckId).subscribe(
+    this.dataService.editTown({ countryId, townId, town, pincode }, taluckId).subscribe(
       res => {
         this.rowData[rowIndex] = res.EditTown;
         this.observableService.setTosterMsg({
           type: "info",
           title: "Edit",
           message: "Sucessfully Editted"
-      })
+        })
       },
-      
+
     )
   }
 
   // ====== Delete country ======
 
-   delete(rowIndex) {
+  delete(rowIndex) {
     let countryId = this.countryId;
     let taluckId = this.talukId
     let townId = this.rowData[rowIndex].id
@@ -355,24 +364,24 @@ public records: ITown[] = [];
           return data.id !== res.DeleteTown.id
         });
         // setTimeout(() => {
-          let lastRec = _.last(this.rowData)
-          let currentNode = this.gridApi.getRowNode(lastRec.id)
+        let lastRec = _.last(this.rowData)
+        let currentNode = this.gridApi.getRowNode(lastRec.id)
 
-          currentNode.setSelected(true);
-          this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+        currentNode.setSelected(true);
+        this.gridApi.ensureIndexVisible(currentNode.rowIndex);
         // }, 100);
 
         this.observableService.setTosterMsg({
           type: "info",
           title: "Delete",
           message: "Sucessfully Deleted"
-      })
+        })
       },
-      
+
     )
   }
-  
-  
+
+
   uploadListener($event: any): void {
 
     let text = [];
@@ -419,7 +428,7 @@ public records: ITown[] = [];
         csvRecord.id = "";
         csvRecord.town = curruntRecord[1].trim();
         // csvRecord.pincode = curruntRecord[4].trim();
-       
+
         csvArr.push(csvRecord);
       }
     }
@@ -450,7 +459,7 @@ public records: ITown[] = [];
 
     let saveAllData = [] as IParamsCreateTown[]; //= _.cloneDeep(this.rowData);
 
-    
+
     this.rowData.forEach((e) => {
       let newObj = {} as IParamsCreateTown;
       Object.assign(newObj, e);
@@ -461,17 +470,18 @@ public records: ITown[] = [];
     });
     console.log(saveAllData);
 
-     this.dataService.insertTown(saveAllData, taluckId).subscribe(
-       res =>{
-         console.log("save data ",saveAllData);
-         this.observableService.setTosterMsg({
+    this.dataService.insertTown(saveAllData, taluckId).subscribe(
+      res => {
+        this.rowData = res.InsertTown
+        console.log("save data ", saveAllData);
+        this.observableService.setTosterMsg({
           type: "info",
           title: "Save All",
           message: "Sucessfully  Saved All"
-      })
-       }
-     )
+        })
+      }
+    )
     console.log(this.rowData);
-    
+
   }
 }

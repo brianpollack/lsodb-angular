@@ -26,7 +26,7 @@
   <div class="pages-grid">
       
               <div class="page-subgrid">
-              <div class="side-nav-grid "   >
+              <div class="side-nav-grid " *ngIf= "toggleBtn.checked" [@inOutAnimation]  >
                   <!-- *ngIf= "toggleBtn.checked" [@inOutAnimation] -->
                   <div class="ec-sidenav-container main-raised"  >
                     <div class="ec-sidenav-card">
@@ -34,42 +34,42 @@
               
                       <ul class="side-menu" id="menu">
               
-                        <li class="menu-link " routerLink="masterdashboard" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <li class="menu-link " routerLink="trackingdashboard" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
                           <p>
                             <i class="fal fa-tachometer-alt-average" ></i>
                             <span>Dashboard</span>
                           </p>
                         </li>
               
-                        <li class="menu-link " routerLink="livestock" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
+                        <li class="menu-link " routerLink="ownerShip" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
                           <p>
                             <i class="fal fa-paw"></i>
-                            <span>Livestock</span>
+                            <span>Ownership Details</span>
                           </p>
                         </li>
               
-                        <li class="menu-link " routerLink="breeds" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <li class="menu-link " routerLink="birthDeath" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
                           <p>
                             <i class="fal fa-ram"></i>
-                            <span>Livestock Breeds</span>
+                            <span>Birth & Death TrackingS </span>
                           </p>
                         </li>
               
                       
               
-                        <li class="menu-link " routerLink="country" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
+                        <li class="menu-link " routerLink="sales" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
                           <p>
                             <i class="fal fa-map-marked-alt"></i>
-                            <span>Country</span>
+                            <span>Buying & Salse Tracking</span>
                           </p>
                         </li>
               
-                        <li class="menu-link " routerLink="users" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
+                        <!-- <li class="menu-link " routerLink="disease" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
                           <p>
                             <i class="fal fa-user-friends"></i>
-                            <span>Users</span>
+                            <span>Disease</span>
                           </p>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </div>
@@ -79,7 +79,6 @@
   
     <!-- dashboard page contents  -->
     <div class="content-grid mt-1 ml-5 mr-5 mb-5">
-      <app-under-construction></app-under-construction>
         <router-outlet></router-outlet>
     </div>
   </div>

@@ -200,6 +200,7 @@ export class StateComponent implements OnInit {
 }
   
   stateTab(sectedRow) {
+    if(sectedRow.id !== ""){
     console.log(sectedRow);
     let countryDetails = {
       stateId: sectedRow.id,
@@ -210,6 +211,13 @@ export class StateComponent implements OnInit {
     }
 
     this.observableService.setTab(countryDetails);
+  }else{
+    this.observableService.setTosterMsg({
+      type: "warning",
+        title: "Save Data!",
+        message: "Before entering the District tab Save all data!"
+    })
+  }
   }
 
   backTab() {
@@ -475,7 +483,7 @@ export class StateComponent implements OnInit {
   handleSaveAll() {
     
     let countryId = this.countryId;
-
+    
 
     let saveAllData = [] as IParamsInsertState[]; //= _.cloneDeep(this.rowData);
 
@@ -491,6 +499,7 @@ export class StateComponent implements OnInit {
 
      this.dataService.insertState(saveAllData, countryId).subscribe(
        res =>{
+        this.rowData = res.InsertState
         this.observableService.setTosterMsg({
           type: "info",
           title: "Save All",
