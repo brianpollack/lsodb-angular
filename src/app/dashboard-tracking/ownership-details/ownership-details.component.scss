@@ -1,36 +1,32 @@
 .dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    
-  
-    .ds-title{
-        grid-column: 1 / -1;
-        grid-row: 1;
- 
-        .t-row{
-            display: grid;
-            grid-template-columns: 2fr 500px 1fr;
-            grid-template-rows: auto;
-            grid-gap: 50px;
-        }
-       
-        
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
 
-       
+  .ds-title {
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    .t-row {
+      display: grid;
+      grid-template-columns: 2fr 500px 1fr;
+      grid-template-rows: auto;
+      grid-gap: 50px;
     }
-  
-     .ds-content{
-        grid-column: 1 /-1;
-        grid-row: 2;
+  }
 
-        .c-row{
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            grid-template-rows: auto;
-            grid-gap: 10px;
-        }
-       /*  .content-flex{
+  .ds-content {
+    grid-column: 1 /-1;
+    grid-row: 2;
+
+    .c-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto;
+      grid-gap: 10px;
+    }
+    /*  .content-flex{
         //     background-color: darkgoldenrod;
         width: 140%;
             .mapCard{
@@ -61,53 +57,50 @@
             }
 
         } */
-        
-
-    } 
   }
+}
 
-  .row{
-      display: grid;
-      grid-template-columns: auto 1fr auto ;
-      grid-row: auto;
-      grid-gap:10px ;
-
-  }
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-row: auto;
+  grid-gap: 10px;
+}
 
 //    .col1{
 //       width: 100px;
 //   }
 
-   .col2{
-      input{
-          width: 150px;
-          min-width: 150px;
-      }
-  } 
-
-  .col3{
-    input{
-        width: 50px;
-        min-width: 50px;
-    }
-  } 
-
-  .span2{
-      grid-column: 2/-1;
+.col2 {
+  input {
+    width: 150px;
+    min-width: 150px;
   }
+}
 
-  .t-col-1 {
-      margin: 0 auto;
-      padding-top: 10px;
-      font-weight: 400;
+.col3 {
+  input {
+    width: 50px;
+    min-width: 50px;
   }
+}
 
-  .t-span-2{
-    grid-column: 2/3;
-  }
+.span2 {
+  grid-column: 2/-1;
+}
 
-  .map{
-    height: 500px;
-    width: 100%;
-    min-width: 500px;
-  }
+.t-col-1 {
+  margin: 0 auto;
+  padding-top: 10px;
+  font-weight: 400;
+}
+
+.t-span-2 {
+  grid-column: 2/3;
+}
+
+.map {
+  height: 500px;
+  width: 100%;
+  min-width: 500px;
+}

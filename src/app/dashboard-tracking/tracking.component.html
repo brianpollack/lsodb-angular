@@ -1,105 +1,116 @@
 <!--  header start  -->
 <div class="header-grid main main-raised fixed-top ml-3 mr-3">
-    <div class="navbar">
-      <div class="logo d-flex flex-row align-items-center navbar-left">
-        <img
-          src="../../../assets/img/lsodb-logo.svg"
-          class="logo-img"
-          alt="logo"
-        />
-        <span class="pl-2 h1 font-weight-bold">LSO-DB</span>
-  
-        <div class="ml-5">
-  
-          <mat-button-toggle class="border-0" #toggleBtn>
-              <i class=" fas fa-bars ec-font-2  ec-header-icon"></i>
-          </mat-button-toggle>
-  
-        </div>
+  <div class="navbar">
+    <div class="logo d-flex flex-row align-items-center navbar-left">
+      <img
+        src="../../../assets/img/lsodb-logo.svg"
+        class="logo-img"
+        alt="logo"
+      />
+      <span class="pl-2 h1 font-weight-bold">LSO-DB</span>
+
+      <div class="ml-5">
+        <mat-button-toggle class="border-0" #toggleBtn>
+          <i class="fas fa-bars ec-font-2 ec-header-icon"></i>
+        </mat-button-toggle>
       </div>
-  
-     
     </div>
   </div>
-  
-  <!-- pages -->
-  <div class="pages-grid">
-      
-              <div class="page-subgrid">
-              <div class="side-nav-grid " *ngIf= "toggleBtn.checked" [@inOutAnimation]  >
-                  <!-- *ngIf= "toggleBtn.checked" [@inOutAnimation] -->
-                  <div class="ec-sidenav-container main-raised"  >
-                    <div class="ec-sidenav-card">
-                      <div class="ec-font-1 text-center mb-5 es-sidenave-title">Tracking Menu</div>
-              
-                      <ul class="side-menu" id="menu">
-              
-                        <li class="menu-link " routerLink="trackingdashboard" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
-                          <p>
-                            <i class="fal fa-tachometer-alt-average" ></i>
-                            <span>Dashboard</span>
-                          </p>
-                        </li>
-              
-                        <li class="menu-link " routerLink="ownerShip" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
-                          <p>
-                            <i class="fal fa-paw"></i>
-                            <span>Ownership Details</span>
-                          </p>
-                        </li>
-              
-                        <li class="menu-link " routerLink="birthDeath" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
-                          <p>
-                            <i class="fal fa-ram"></i>
-                            <span>Birth & Death TrackingS </span>
-                          </p>
-                        </li>
-              
-                      
-              
-                        <li class="menu-link " routerLink="sales" routerLinkActive="active" (click)="toggleMenu(toggleBtn)">
-                          <p>
-                            <i class="fal fa-map-marked-alt"></i>
-                            <span>Buying & Salse Tracking</span>
-                          </p>
-                        </li>
-              
-                        <!-- <li class="menu-link " routerLink="disease" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
+</div>
+
+<!-- pages -->
+<div class="pages-grid">
+  <div class="page-subgrid">
+    <div class="side-nav-grid" *ngIf="toggleBtn.checked" [@inOutAnimation]>
+      <!-- *ngIf= "toggleBtn.checked" [@inOutAnimation] -->
+      <div class="ec-sidenav-container main-raised">
+        <div class="ec-sidenav-card">
+          <div class="ec-font-1 text-center mb-5 es-sidenave-title">
+            Tracking Menu
+          </div>
+
+          <ul class="side-menu" id="menu">
+            <li
+              class="menu-link"
+              routerLink="trackingdashboard"
+              routerLinkActive="active"
+              (click)="toggleMenu(toggleBtn)"
+            >
+              <p>
+                <i class="fal fa-tachometer-alt-average"></i>
+                <span>Dashboard</span>
+              </p>
+            </li>
+
+            <li
+              class="menu-link"
+              routerLink="ownerShip"
+              routerLinkActive="active"
+              (click)="toggleMenu(toggleBtn)"
+            >
+              <p>
+                <i class="fal fa-paw"></i>
+                <span>Ownership Details</span>
+              </p>
+            </li>
+
+            <li
+              class="menu-link"
+              routerLink="birthDeath"
+              routerLinkActive="active"
+              (click)="toggleMenu(toggleBtn)"
+            >
+              <p>
+                <i class="fal fa-ram"></i>
+                <span>Birth & Death Tracking</span>
+              </p>
+            </li>
+
+            <li
+              class="menu-link"
+              routerLink="sales"
+              routerLinkActive="active"
+              (click)="toggleMenu(toggleBtn)"
+            >
+              <p>
+                <i class="fal fa-map-marked-alt"></i>
+                <span>Buying & Selling Tracking</span>
+              </p>
+            </li>
+
+            <!-- <li class="menu-link " routerLink="disease" routerLinkActive="active" (click)="toggleMenu(toggleBtn)" >
                           <p>
                             <i class="fal fa-user-friends"></i>
                             <span>Disease</span>
                           </p>
                         </li> -->
-                      </ul>
-                    </div>
-                  </div>
-              
-              </div>
-     
-  
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <!-- dashboard page contents  -->
-    <div class="content-grid mt-1 ml-5 mr-5 mb-5">
-        <router-outlet></router-outlet>
+    <div class="content-grid">
+      <router-outlet></router-outlet>
     </div>
   </div>
+</div>
+
+<!-- footer  -->
+<div class="footer-grid main main-footer-raised fixed-bottom ml-3 mr-3">
+  <div
+    class="d-flex flex-row justify-content-between p-3 font-weight-bold ec-footer"
+  >
+    <p class="ec-black ec-font-1">
+      This Project is designed and guided by Easy-Cloud
+    </p>
+    <p class="ec-black ec-font-1">Mentor Mr.Sakar .SR</p>
+    <p class="ec-black ec-font-1">
+      Mail: sakar@easy-cloud.in <span> phone: 9362496202</span>
+    </p>
   </div>
-  
-  <!-- footer  -->
-  <div class="footer-grid main main-footer-raised fixed-bottom   ml-3 mr-3">
-    <div
-      class="d-flex flex-row justify-content-between  p-3 font-weight-bold ec-footer"
-    >
-      <p class="ec-black ec-font-1">
-        This Project is designed and guided by Easy-Cloud
-      </p>
-      <p class="ec-black ec-font-1">Mentor Mr.Sakar .SR</p>
-      <p class="ec-black ec-font-1">
-        Mail: sakar@easy-cloud.in <span> phone: 9362496202</span>
-      </p>
-    </div>
-  </div>
-  
-  <div>
-    <!-- <router-outlet></router-outlet> -->
-  </div>
-  
+</div>
+
+<!-- <div>
+   <router-outlet></router-outlet>
+</div> -->
