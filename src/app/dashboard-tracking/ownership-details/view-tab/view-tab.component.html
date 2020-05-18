@@ -1,0 +1,33 @@
+<mat-card class="m-3">
+  <div class="row">
+    <div
+      class="t-col d-flex justify-content-center ec-font-2 font-weight-bolder"
+    >
+      View Owner's Details
+    </div>
+    <div class="b-col d-flex">
+      <button class="btn btn-outline-primary btn-xs m-3">
+        <i class="fal fa-spinner mr-2"></i>Load
+      </button>
+      <button class="btn btn-outline-primary btn-xs m-3" (click)="onAddRow()">
+        <i class="fal fa-plus mr-2"></i>Add
+      </button>
+    </div>
+
+    <div class="g-col">
+      <ag-grid-angular
+        style="width: 900px; height: 250px;"
+        class="ag-theme-material"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [frameworkComponents]="frameworkComponents"
+        (gridReady)="onGridReady($event)"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [modules]="modules"
+        [getRowNodeId]="getRowNodeId"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</mat-card>

@@ -29,7 +29,12 @@ import { MasterModule } from '../dashboard-master/master.module';
 import { OwnershipDetailsComponent } from './ownership-details/ownership-details.component';
 import { BirthDeathTackingComponent } from './birth-death-tacking/birth-death-tacking.component';
 import { SalesTackingComponent } from './sales-tacking/sales-tacking.component';
-import { TackingDashboardComponent } from './tacking-dashboard/tacking-dashboard.component'
+import { TackingDashboardComponent } from './tacking-dashboard/tacking-dashboard.component';
+import { ViewTabComponent } from './ownership-details/view-tab/view-tab.component';
+import { AddTabComponent } from './ownership-details/add-tab/add-tab.component';
+import { LsdataTabComponent } from './ownership-details/lsdata-tab/lsdata-tab.component';
+import { PincodeTabComponent } from './ownership-details/pincode-tab/pincode-tab.component';
+import { MapTapComponent } from './ownership-details/map-tap/map-tap.component'
 
 @NgModule({
   declarations: [
@@ -38,7 +43,12 @@ import { TackingDashboardComponent } from './tacking-dashboard/tacking-dashboard
     OwnershipDetailsComponent,
     BirthDeathTackingComponent,
     SalesTackingComponent,
-    TackingDashboardComponent
+    TackingDashboardComponent,
+    ViewTabComponent,
+    AddTabComponent,
+    LsdataTabComponent,
+    PincodeTabComponent,
+    MapTapComponent
   ],
   imports: [
     // UnderConstructionComponent,
