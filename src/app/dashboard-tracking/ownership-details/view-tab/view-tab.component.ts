@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import * as _ from 'lodash';
 import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
@@ -136,5 +136,12 @@ export class ViewTabComponent implements OnInit {
      })
    }
    } */
+
+  onAddRow() {
+    let tabObj = {
+      tabName: "ADD"
+    }
+    this.observableService.setTab(tabObj);
+  }
 
 }
