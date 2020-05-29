@@ -70,6 +70,7 @@ export class AuthService {
 
   // Sign out 
   SignOut() {
+   
     return this.authFire.auth.signOut().then(() => {
       localStorage.removeItem('user');
     })

@@ -34,7 +34,8 @@ import { ViewTabComponent } from './ownership-details/view-tab/view-tab.componen
 import { AddTabComponent } from './ownership-details/add-tab/add-tab.component';
 import { LsdataTabComponent } from './ownership-details/lsdata-tab/lsdata-tab.component';
 import { PincodeTabComponent } from './ownership-details/pincode-tab/pincode-tab.component';
-import { MapTapComponent } from './ownership-details/map-tap/map-tap.component'
+// import { MapTapComponent } from './ownership-details/map-tap/map-tap.component';
+import { MapTabComponent } from './ownership-details/map-tab/map-tab.component'
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { MapTapComponent } from './ownership-details/map-tap/map-tap.component'
     AddTabComponent,
     LsdataTabComponent,
     PincodeTabComponent,
-    MapTapComponent
+    // MapTapComponent,
+    MapTabComponent
   ],
   imports: [
     // UnderConstructionComponent,

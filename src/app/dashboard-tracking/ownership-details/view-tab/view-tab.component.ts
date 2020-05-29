@@ -21,7 +21,7 @@ export class ViewTabComponent implements OnInit {
     buttonRender: typeof ActionBtnComponent,
     gridButtonRendender: typeof GridButtonComponent
   };
-  rowData: { id: string; state: string; stateCapital: string; stateCode: string; pincode: string; editMode: string; }[];
+  rowData: { id: string; ownerAvatar: string; state: string; stateCapital: string; stateCode: string; pincode: string; editMode: string; }[];
   constructor(
     private observableService: ObservableService
   ) {
@@ -33,6 +33,7 @@ export class ViewTabComponent implements OnInit {
     this.rowData = [
       {
         id: "",
+        ownerAvatar: "",
         state: "",
         stateCapital: "",
         stateCode: "",
@@ -57,11 +58,22 @@ export class ViewTabComponent implements OnInit {
       width: 100,
       sortable: true,
 
+    }, {
+      headerName: 'Image',
+      field: 'ownerAvatar',
+      width: 200,
+      sortable: true,
+      valueSetter: function (params) {
+        console.log(params);
+        params.data.state = _.startCase(params.newValue);
+        return true;
+      },
+
     },
     {
       headerName: 'Name',
       field: 'ownerName',
-      width: 250,
+      width: 200,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
@@ -73,7 +85,7 @@ export class ViewTabComponent implements OnInit {
     {
       headerName: 'Place',
       field: 'place',
-      width: 250,
+      width: 200,
       sortable: true,
       valueSetter: function (params) {
         console.log(params);
@@ -112,8 +124,8 @@ export class ViewTabComponent implements OnInit {
     //   width: 150,
     //   cellRenderer: 'gridButtonRendender',
     //   cellRendererParams: {
-    //     btnName: "District",
-    //     // onSelect: this.stateTab.bind(this)
+    //     btnName: "Livestock",
+    //     onSelect: this.LivestockTab.bind(this)
     //   }
     // }
 
@@ -137,11 +149,17 @@ export class ViewTabComponent implements OnInit {
    }
    } */
 
-  onAddRow() {
+  LivestockTab(sectedRow) {
     let tabObj = {
-      tabName: "ADD"
+      tabName: "LSDATA"
     }
-    this.observableService.setTab(tabObj);
+    this.observableService.setNav(tabObj);
+  }
+
+  onAddRow() {
+   
+      let changetab = "ADD";   
+    this.observableService.setNav(changetab);
   }
 
 }

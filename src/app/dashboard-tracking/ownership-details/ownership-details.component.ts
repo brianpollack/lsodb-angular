@@ -26,12 +26,14 @@ export class OwnershipDetailsComponent implements OnInit {
   ngOnInit() {
     this.observableService.navigateTab().subscribe(
       data => {
+        console.log("navigateTab with data",this.tabs[data.tabName])
         this.tagIndex.selectedIndex = this.tabs[data.tabName];
       }
     )
 
     this.observableService.navChange().subscribe(
       data => {
+        console.log("naviage only tab",this.tabs[data]);
         this.tagIndex.selectedIndex = this.tabs[data];
       }
     )

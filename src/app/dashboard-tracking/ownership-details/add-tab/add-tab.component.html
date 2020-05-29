@@ -3,9 +3,11 @@
 <div class="d-flex justify-content-center mt-2">
   <mat-card class="c-border">
     <div
-      class="t-col mt-2 mb-1 d-flex justify-content-center ec-font-2 font-weight-bolder"
+      class="t-col mt-2 mb-1 d-flex justify-content-center"
     >
+    <p class="m-0 p-0 ec-font-2 font-weight-bold">
       Enter Owner's Details
+    </p>
     </div>
     <form
       autocomplete="off"
@@ -17,7 +19,10 @@
       <!-- addres fields -->
       <div class="f-row-1 m-2">
         <div class="p-col-1">
-          <mat-card class="c-avata c-border">
+          <!-- image card -->
+         
+
+          <mat-card class="c-avata c-border shadow-lg mt-4">
             <div *ngIf="imageURL && imageURL !== ''">
               <img [src]="imageURL" class="image" />
             </div>
@@ -33,15 +38,24 @@
               formControlName="avatar"
               [alt]="uploadForm.value.name"
          -->
-          <button
-            class="btn btn-outline-primary btn-xs mt-2"
-            onclick="document.getElementById('uploadeImg').click()"
-          >
-            Uploade Image
-          </button>
+
+         <button
+         type="button"
+         class="btn btn-outline-primary btn-xs mt-4 d-flex justify-content-center"
+         onclick="document.getElementById('uploadeImg').click()"
+       >
+         Uploade Image
+       </button>
+          
         </div>
         <div class="add-col-2">
           <div class="add-row">
+            <div class="f-col-1 span-3">
+              <button type="submit" class="btn btn-outline-primary btn-xs">
+                <i class="fal fa-save"></i> Save
+              </button>
+              <button type="button" class="btn p-0 ml-3 ec-font-1" (click)="backTab()" ><i class="fal fa-home text-primary"></i></button>
+            </div>
             <!-- name  -->
             <div class="f-col-1">
               Owner Name
@@ -74,8 +88,12 @@
             <div class="f-col-1">
               Pincode
             </div>
-            <div class="f-col-2 d-flex justify-content-between">
+            <div class="f-col-2">
               <input type="text" formControlName="pincode" />
+              <input type="checkbox" class="ml-5" formControlName="verifyPin" />
+              <label class="ml-2 ">{{pinVerified}}</label>
+            </div>
+            <div class="f-col-3">
               <button
                 type="button"
                 class="btn btn-outline-primary btn-xs"
@@ -84,9 +102,21 @@
                 Search Pincode
               </button>
             </div>
-            <div class="invisible f-col-3">
-              <button type="button" class="btn btn-outline-primary btn-xs">
-                Search Pincode
+            <!-- post office place -->
+            <div class="f-col-1">
+              Post office place
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="postPlace" />
+            </div>
+          
+            <div class="f-col-3 span-3 d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-xs"
+                (click)="location()"
+              >
+                Search Place on Map
               </button>
             </div>
           </div>
@@ -97,13 +127,33 @@
       <div class="f-row-2 m-2">
         <div><hr /></div>
         <div class="d-flex align-items-center ec-font-1 font-weight-bolder">
-          Locate On Map
+          Locate Owner's place On Map
+          <!-- <button type="button" class="btn ml-3 p-0">
+            <i
+              class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
+              (click)="expanded()"
+            ></i>
+          </button> -->
         </div>
         <div><hr /></div>
       </div>
-      <!-- location fields -->
-      <div class="f-row-3 m-2">
+      <!-- location fields [ngClass]="expand ? 'd-block ' : 'd-none'"  -->
+      <div class="f-row-3 m-2" >
         <div class="location-row-1 m-2">
+          <!-- Latitude -->
+          <div class="f-col-1">
+            Latitude
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="lat" />
+          </div>
+          <!-- Longitude -->
+          <div class="f-col-1">
+            Longitude
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="lag" />
+          </div>
           <!-- place -->
           <div class="f-col-1">
             Place/Village
@@ -111,15 +161,7 @@
           <div class="f-col-2 w-wide">
             <input type="text" formControlName="place" />
           </div>
-          <div class="f-col-3 span-3 d-flex justify-content-center">
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-xs"
-              (click)="location()"
-            >
-              Search Place on Map
-            </button>
-          </div>
+
           <!-- town -->
           <div class="f-col-1">
             Town
@@ -155,29 +197,64 @@
           <div class="f-col-2 w-wide">
             <input type="text" formControlName="country" />
           </div>
-          <!-- Latitude -->
-          <div class="f-col-1">
-            Latitude
-          </div>
-          <div class="f-col-2 w-wide">
-            <input type="text" formControlName="lat" />
-          </div>
-          <!-- Longitude -->
-          <div class="f-col-1">
-            Longitude
-          </div>
-          <div class="f-col-2 w-wide">
-            <input type="text" formControlName="lag" />
-          </div>
 
           <!-- save button -->
-          <div class="f-col-1 span-3 d-flex justify-content-center">
+          <!--  <div class="f-col-1 span-3">
             <button
               type="submit"
               class="btn btn-outline-primary btn-xs ec-font-1"
             >
               <i class="fal fa-save"></i> Save
             </button>
+          </div> -->
+        </div>
+      </div>
+<!--  separator title Owner's verification ID -->
+      <div class="f-row-2 m-2">
+        <div><hr /></div>
+        <div class="d-flex align-items-center ec-font-1 font-weight-bolder">
+          Owner's verification ID
+          <button type="button" class="btn ml-3 p-0">
+            <i
+              class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
+              (click)="idexpand = !idexpand"
+            ></i>
+          </button>
+        </div>
+        <div><hr /></div>
+        <!--  <button type="button" aria-expanded="false" class="btn btn-link">click</button>
+        <div class="collapse">hello</div> -->
+      </div>
+       <!--  Owner's verification fields  -->
+      <div class="f-row-3 m-2" [ngClass]="idexpand ? 'd-block ' : 'd-none'">
+        <div class="location-row-1 m-2">
+          <!-- Adhaar -->
+          <div class="f-col-1">
+            Adhaar No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="adhaar" />
+          </div>
+          <!-- pan -->
+          <div class="f-col-1">
+            Pan No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="pan" />
+          </div>
+          <!-- contact no  -->
+          <div class="f-col-1">
+            Contact No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="phone" />
+          </div>
+          <!-- email  -->
+          <div class="f-col-1">
+            email
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="email" />
           </div>
         </div>
       </div>

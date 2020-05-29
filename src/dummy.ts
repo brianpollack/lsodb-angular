@@ -5,8 +5,8 @@ import {
   FormGroupDirective,
   FormGroup,
 } from "@angular/forms";
-import { ObservableService } from "./../../../services/observable.service"
-// import { ObservableService } from "./../../services/observable.service";
+// import { ObservableService } from "./../../../services/observable.service"
+import { ObservableService } from "./../../services/observable.service";
 import { IMapLocation } from "src/app/models/maplocation";
 import { MapServiceService } from "src/app/services/map/map-service.service";
 import { TosterType, mapType } from "../../../enum/enums";
@@ -75,9 +75,10 @@ export class MapTapComponent implements OnInit {
     // let url =
     //   "https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
-    let url =
+    let url1 =
       "https://tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
+      let url2 ="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
     // let url =
     //   "https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
@@ -90,15 +91,19 @@ export class MapTapComponent implements OnInit {
     // let url =
     //   "https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
-    let osm = L.tileLayer(url, {
-      attribution:
-        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    });
 
+    let osm = L.tileLayer(url2, {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      
+    });
+// attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     // .addTo(map);
-    this.map = L.map("map")
+     this.map = L.map("map")
       .addLayer(osm)
-      .setView([22.998851594142913, 78.44238281249999], 4);
+      .setView([22.998851594142913, 78.44238281249999], 4); 
+
+    
+
 
     this.marker = new L.marker([22.998851594142913, 78.44238281249999], {
       draggable: "true",

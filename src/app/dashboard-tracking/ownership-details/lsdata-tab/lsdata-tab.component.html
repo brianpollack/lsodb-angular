@@ -1,1 +1,25 @@
-<p>lsdata-tab works!</p>
+<div>
+  <mat-card>
+    <div
+      class="t-col mt-2 mb-1 d-flex justify-content-center ec-font-2 font-weight-bolder"
+    >
+      Enter Owner's Livestock Details
+    </div>
+
+    <div class="ag-col d-flex justify-content-center">
+      <ag-grid-angular
+        style="width: 1000px; height: 250px;"
+        class="ag-theme-material"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [frameworkComponents]="frameworkComponents"
+        (gridReady)="onGridReady($event)"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [modules]="modules"
+        [getRowNodeId]="getRowNodeId"
+      >
+      </ag-grid-angular>
+    </div>
+  </mat-card>
+</div>
