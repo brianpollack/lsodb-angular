@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare let L;
 
 @Component({
   selector: 'app-birth-death-tacking',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BirthDeathTackingComponent implements OnInit {
 
+  map:any;
   constructor() { }
 
   ngOnInit() {
+   
   }
+
+  
 
 }

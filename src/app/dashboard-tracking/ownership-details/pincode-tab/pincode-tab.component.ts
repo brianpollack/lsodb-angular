@@ -102,17 +102,24 @@ export class PincodeTabComponent implements OnInit {
      {
       headerName: 'country',
       field: 'country',
-      hide: true,
+      width: 150,
+      hide: false,
+      filter: true,
     },
      {
       headerName: 'state',
       field: 'state',
-      hide: true,
+      width: 150,
+      hide: false,
+      filter: true,
     },
      {
       headerName: 'district',
       field: 'district',
-      hide: true,
+      width: 150,
+      hide: false,
+      filter: true,
+
     },
      {
       headerName: 'taluk',
@@ -140,14 +147,14 @@ export class PincodeTabComponent implements OnInit {
   ];
 
   selectTab(sectedRow){
-console.log("hello");
+
     let formData = {
       country: sectedRow.country,
       state: sectedRow.state,
       district: sectedRow.district,
       taluk: sectedRow.taluk,
       town: sectedRow.town,
-      village: sectedRow.village,
+      postvillage: sectedRow.village,
       pincode: sectedRow.pincode,
       tabName: "ADD"
     }
@@ -198,9 +205,19 @@ console.log("hello");
 
       this.pincodeService.getpincode(pin).subscribe(
         (res) => {
-          this.pickLocation(res);
+          
+          if(res[0].Status !== "Error"){
+            this.pickLocation(res);
+          }else{
+            this.observableService.setTosterMsg({
+              type: TosterType.ERROR,
+            title: "Wrong Pincode!",
+            message: `${res[0].Message}, Please enter correct Pincode.`,
+            })
+          }          
         },
         (err) => {
+          console.log(err)
           this.observableService.setTosterMsg({
             type: TosterType.ERROR,
             title: "Request failed",
@@ -209,7 +226,28 @@ console.log("hello");
         }
       );
     } else {
-      console.log(place);
+      console.log(place)
+      this.pincodeService.getPlace(place).subscribe(
+        (res) => {
+          if(res[0].Status !== "Error"){
+            this.pickLocation(res);
+          }else{
+            this.observableService.setTosterMsg({
+              type: TosterType.ERROR,
+            title: "Wrong Pincode!",
+            message: `${res[0].Message}, Please enter correct Pincode.`,
+            })
+          }
+        },
+        (err) => {
+          console.log(err)
+          this.observableService.setTosterMsg({
+            type: TosterType.ERROR,
+            title: "Request failed",
+            message: err,
+          });
+        }
+      );
     }
   }
 

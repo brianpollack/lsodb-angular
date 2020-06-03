@@ -10,8 +10,13 @@ export class PincodeService {
 
   getpincode(pin: string){
     let url = `https://api.postalpincode.in/pincode/${pin}`
-    return this.http.get(url)
-    // return this.http.get(url)
+    return this.http.get(url);
+  }
+
+  getPlace(place: string){
+    console.log("place", place)
+    let url = `https://api.postalpincode.in/postoffice/${place}`
+    return this.http.get(url);
   }
 
 }

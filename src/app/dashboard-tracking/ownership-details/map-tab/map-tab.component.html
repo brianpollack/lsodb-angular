@@ -1,1 +1,159 @@
-<p>map-tab works!</p>
+<div class="d-flex justify-content-center mt-2">
+  <mat-card>
+    <!-- title starts -->
+    <div class="m-1 mb-2 d-flex">
+      <div class="d-flex w-10 justify-content-end">
+        <button
+        type="button"
+        class="d-flex btn ec-font-1"
+        (click)="backTab()"
+      >
+        <i class="fal fa-chevron-circle-left d-flex align-self-center text-primary mr-2"></i>Back
+      </button>
+      </div>
+      <div class="d-flex justify-content-center align-items-center w-100">
+        <p class="m-0 p-0 ec-font-2 font-weight-bold">
+         Locate Place On Map
+        </p>
+      </div>
+    </div>
+ <!-- title ends -->
+ <!-- search starts -->
+    <div class=" m-3">
+        <form
+        autocomplete="off"
+        [formGroup]="searchForm"
+        #searchDirective="ngForm"
+        (ngSubmit)="onSubmit(searchDirective)"
+        class="d-flex justify-content-center"
+        >
+        <input formControlName="search"/>
+        <button class="btn btn-xs btn-primary ml-3" type="submit">Search</button>
+    </form>
+    </div>
+    <!-- search ends -->
+    <div class="c-row">
+      <!-- map  -->
+      <div class="c-col-1">
+        <div class="map" id="leafLetmap"></div>
+      </div>
+
+      <!-- form -->
+      <div class="c-col-2 ">
+        <div>
+            <p
+              class="m-0 p-0 ec-font-1 font-weight-bolder d-flex justify-content-center"
+            >
+              MAP LOCATION
+            </p>
+          </div>
+
+          <form
+          autocomplete="off"
+          [formGroup]="mapLocationForm"
+          #mapLocationDirective="ngForm"
+          (ngSubmit)="locationSubmit(mapLocationDirective)"
+          class="d-flex flex-column mt-2 p-3"
+        >
+          
+          <div class="row">
+            <div class="col1">
+              Country
+            </div>
+            <div class="col2">
+              <input
+                #country
+                formControlName="country"
+                type="text"
+                placeholder=""
+                class="w-100"
+              />
+            </div>
+            <div class="col3">
+              <input
+                #country
+                formControlName="countryCode"
+                type="text"
+                placeholder=""
+              />
+            </div>
+
+            <div class="col1">
+              Satate
+            </div>
+            <div class="col2">
+              <input
+                #state
+                formControlName="state"
+                type="text"
+                placeholder=""
+                class="w-100"
+              />
+            </div>
+            <div class="col3">
+              <input
+                #statecode
+                formControlName="stateCode"
+                type="text"
+                placeholder=""
+              />
+            </div>
+
+            <div class="col1">
+              District
+            </div>
+            <div class="col2 span2">
+              <input formControlName="district" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              Taluk
+            </div>
+            <div class="col2 span2">
+              <input formControlName="taluk" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              Town
+            </div>
+            <div class="col2 span2">
+              <input formControlName="town" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              Village
+            </div>
+            <div class="col2 span2">
+              <input formControlName="village" type="text" class="w-100" />
+            </div>
+          <!--   <div class="col1">
+              Suburb
+            </div>
+            <div class="col2 span2">
+              <input formControlName="suburb" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              Pincode
+            </div>
+            <div class="col2 span2">
+              <input formControlName="pincode" type="text" class="w-100" />
+            </div> -->
+            <div class="col1">
+              Latittude
+            </div>
+            <div class="col2 span2">
+              <input formControlName="lat" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              Longitute
+            </div>
+            <div class="col2 span2">
+              <input formControlName="lng" type="text" class="w-100" />
+            </div>
+            <div class="col1">
+              <button type="submit" class="btn btn-outline-primary btn-xs">Locate Place</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -14,13 +14,6 @@ export class AddTabComponent implements OnInit {
   private expand = false;
   private idexpand = false;
   private pinVerified = "Not verify";
-  private country;
-  private state;
-  private district;
-  private taluk;
-  private town;
-  private village;
-  private pincode;
 
   constructor(
     private fb: FormBuilder,
@@ -29,32 +22,11 @@ export class AddTabComponent implements OnInit {
     this.observableService.navigateTab().subscribe(
       data => {
         if(data.tabName === "ADD"){
-          console.log("object", data);
-          this.pincodeVerified();
-
           this.setFormData(data);
-          this.country = data.country;
-          this.state = data.state;
-          this.district = data.district;
-          this.taluk = data.taluk;
-          this.town = data.town;
-          this.village = data.village;
-          this.pincode = data.pincode;
         } else{
           console.log("not ADD tab!!")
         }
       })
-   
-      
-     /*  this.ownerForm.setValue({
-        country:  this.country,
-        state: this.state,
-        district: this.district,
-        taluk: this.taluk,
-        town: this.town,
-        postPlace: this.village,
-      }) */
-      
   }
 
   ngOnInit() {
@@ -112,8 +84,6 @@ export class AddTabComponent implements OnInit {
   }
 
   setFormData(data){
-    console.log("from select field", data)
-    console.log(this.ownerForm.value);
     this.ownerForm.setValue({
       avatar: "",
       onwerName: "",
@@ -122,7 +92,7 @@ export class AddTabComponent implements OnInit {
       landmark: "",
       pincode: data.pincode,
       place: "",
-      postPlace: data.village,
+      postPlace: data.postvillage,
       town: data.town,
       taluk: data.taluk,
       district: data.district,
@@ -137,17 +107,21 @@ export class AddTabComponent implements OnInit {
       email: "",
     })
     
+    this.pincodeVerified();
   }
+
+  // ========== verify pincode ==========
   pincodeVerified() {
-    console.log(this.ownerForm.get("verifyPin").value);
+    if(this.ownerForm.get("verifyPin").value === true)
     this.pinVerified = "Verify";
   }
 
+  // ========== accotation =============
   expanded() {
     console.log(this.expand);
     this.expand = !this.expand;
   }
-  // Image Preview
+  //================== Image Preview ================
   showPreview(event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.ownerForm.patchValue({
@@ -165,6 +139,7 @@ export class AddTabComponent implements OnInit {
     console.log(this.imageURL);
   }
 
+   // ======== save submit data ===========
   onSubmit(ownerDirective) {
     console.log(this.ownerForm.value);
 
@@ -174,13 +149,19 @@ export class AddTabComponent implements OnInit {
     this.observableService.setTab(tabObj);
   }
 
+   // ======== navigate to map tab ===========
   location() {
     
-     let tabName = "MAP";
+    let tabObj = {
+      place: this.ownerForm.get('postPlace').value,
+      tabName: "MAP",
+    };
+    //  let tabName = "MAP";
     
-    this.observableService.setNav(tabName);
+    this.observableService.setTab(tabObj);
   }
 
+  // ======== navigate to pincode tab ===========
   verifypin() {
     let tabObj = {
       pincode: this.ownerForm.get('pincode').value,
@@ -189,6 +170,7 @@ export class AddTabComponent implements OnInit {
     this.observableService.setTab(tabObj);
   }
 
+  // back tab
   backTab() {
     let changetab = "VIEW";
     this.observableService.setNav(changetab);

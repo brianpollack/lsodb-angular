@@ -12,6 +12,7 @@ export class ObservableService {
   private changeTab = new Subject<any>();
   private loginnavigate = new BehaviorSubject<any>('');
   private tosterMessage = new Subject<any>();
+  private mapOnLoad = new Subject<any>();
 
   /* ************ selectedTab *****************  */
   // ======= subcribe function ==========
@@ -52,6 +53,17 @@ export class ObservableService {
 
   setTosterMsg(tosterMsg: any) {
     return this.tosterMessage.next(tosterMsg);
+  }
+
+
+  /* *********************** load Map ************ */
+
+  loadMap(): Observable<any> {
+    return this.mapOnLoad.asObservable();
+  }
+
+  setMap() {
+    return this.mapOnLoad.next();
   }
 
 }

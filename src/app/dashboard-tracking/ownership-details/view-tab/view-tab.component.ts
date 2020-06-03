@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { ActionBtnComponent } from 'src/app/ag-grid-components/action-btn/action-btn.component';
 import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 import { ObservableService } from 'src/app/services/observable.service';
+declare let L;
 
 @Component({
   selector: 'app-view-tab',
@@ -12,6 +13,7 @@ import { ObservableService } from 'src/app/services/observable.service';
 })
 export class ViewTabComponent implements OnInit {
 
+  map: any
   private gridApi: GridApi;
   private defaultColDef;
   private rowSelection;
@@ -45,9 +47,11 @@ export class ViewTabComponent implements OnInit {
     this.getRowNodeId = (d): string => {
       return d.id
     }
+
   }
 
   ngOnInit() {
+    
   }
 
   columnDefs: ColDef[] = [
@@ -161,5 +165,7 @@ export class ViewTabComponent implements OnInit {
       let changetab = "ADD";   
     this.observableService.setNav(changetab);
   }
+
+ 
 
 }

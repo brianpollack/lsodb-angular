@@ -21,13 +21,18 @@ export class OwnershipDetailsComponent implements OnInit {
 
   constructor(
     private observableService: ObservableService
-  ) { }
+  ) {
+    console.log("constructor owner")
+   }
 
   ngOnInit() {
     this.observableService.navigateTab().subscribe(
       data => {
         console.log("navigateTab with data",this.tabs[data.tabName])
         this.tagIndex.selectedIndex = this.tabs[data.tabName];
+        /*if(data.tabName === "MAP"){
+          this.observableService.setMap();
+        }*/
       }
     )
 
@@ -37,6 +42,7 @@ export class OwnershipDetailsComponent implements OnInit {
         this.tagIndex.selectedIndex = this.tabs[data];
       }
     )
+    console.log("init owner")
   }
 
 

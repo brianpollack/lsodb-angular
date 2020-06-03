@@ -2,12 +2,23 @@
 <!-- <div class="row"> -->
 <div class="d-flex justify-content-center mt-2">
   <mat-card class="c-border">
-    <div
-      class="t-col mt-2 mb-1 d-flex justify-content-center"
-    >
-    <p class="m-0 p-0 ec-font-2 font-weight-bold">
-      Enter Owner's Details
-    </p>
+    <div class="m-1 mb-2 d-flex">
+      <div class="d-flex w-10 justify-content-end" >
+        <button
+          type="button"
+          class="d-flex btn ec-font-1"
+          (click)="backTab()"
+        >
+          <i class="fal fa-chevron-circle-left d-flex align-self-center text-primary mr-2"></i>Back
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center w-100">
+        <p class="m-0 p-0 ec-font-2 font-weight-bold">
+          Enter Owner's Details
+        </p>
+      </div>
+     
     </div>
     <form
       autocomplete="off"
@@ -18,9 +29,8 @@
       <!-- -->
       <!-- addres fields -->
       <div class="f-row-1 m-2">
-        <div class="p-col-1">
+        <div class="p-col-1 d-flex flex-column">
           <!-- image card -->
-         
 
           <mat-card class="c-avata c-border shadow-lg mt-4">
             <div *ngIf="imageURL && imageURL !== ''">
@@ -39,14 +49,13 @@
               [alt]="uploadForm.value.name"
          -->
 
-         <button
-         type="button"
-         class="btn btn-outline-primary btn-xs mt-4 d-flex justify-content-center"
-         onclick="document.getElementById('uploadeImg').click()"
-       >
-         Uploade Image
-       </button>
-          
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-xs mt-4 d-flex justify-content-center"
+            onclick="document.getElementById('uploadeImg').click()"
+          >
+            Uploade Image
+          </button>
         </div>
         <div class="add-col-2">
           <div class="add-row">
@@ -54,7 +63,13 @@
               <button type="submit" class="btn btn-outline-primary btn-xs">
                 <i class="fal fa-save"></i> Save
               </button>
-              <button type="button" class="btn p-0 ml-3 ec-font-1" (click)="backTab()" ><i class="fal fa-home text-primary"></i></button>
+              <!-- <button
+                type="button"
+                class="btn p-0 ml-3 ec-font-1"
+                (click)="backTab()"
+              >
+                <i class="fal fa-chevron-circle-left text-primary"></i> Back
+              </button> -->
             </div>
             <!-- name  -->
             <div class="f-col-1">
@@ -91,7 +106,7 @@
             <div class="f-col-2">
               <input type="text" formControlName="pincode" />
               <input type="checkbox" class="ml-5" formControlName="verifyPin" />
-              <label class="ml-2 ">{{pinVerified}}</label>
+              <label class="ml-2">{{ pinVerified }}</label>
             </div>
             <div class="f-col-3">
               <button
@@ -109,7 +124,7 @@
             <div class="f-col-2 span-2 w-wide">
               <input type="text" formControlName="postPlace" />
             </div>
-          
+
             <div class="f-col-3 span-3 d-flex justify-content-center">
               <button
                 type="button"
@@ -138,7 +153,7 @@
         <div><hr /></div>
       </div>
       <!-- location fields [ngClass]="expand ? 'd-block ' : 'd-none'"  -->
-      <div class="f-row-3 m-2" >
+      <div class="f-row-3 m-2">
         <div class="location-row-1 m-2">
           <!-- Latitude -->
           <div class="f-col-1">
@@ -209,23 +224,27 @@
           </div> -->
         </div>
       </div>
-<!--  separator title Owner's verification ID -->
+      <!--  separator title Owner's verification ID -->
       <div class="f-row-2 m-2">
         <div><hr /></div>
         <div class="d-flex align-items-center ec-font-1 font-weight-bolder">
-          Owner's verification ID
-          <button type="button" class="btn ml-3 p-0">
-            <i
-              class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
-              (click)="idexpand = !idexpand"
-            ></i>
-          </button>
+          Enter Owner's Goverment ID's
         </div>
-        <div><hr /></div>
+        <div><hr/></div>
+        <div class="ec-font-1"><button
+          type="button"
+          class="btn btn-outline-primary btn-xs"
+          (click)="idexpand = !idexpand"
+        >
+          <!--  <i
+            class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
+          ></i> -->
+          Click to Enter Data
+        </button></div>
         <!--  <button type="button" aria-expanded="false" class="btn btn-link">click</button>
         <div class="collapse">hello</div> -->
       </div>
-       <!--  Owner's verification fields  -->
+      <!--  Owner's verification fields  -->
       <div class="f-row-3 m-2" [ngClass]="idexpand ? 'd-block ' : 'd-none'">
         <div class="location-row-1 m-2">
           <!-- Adhaar -->

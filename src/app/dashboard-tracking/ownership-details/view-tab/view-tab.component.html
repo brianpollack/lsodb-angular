@@ -30,13 +30,15 @@
         [rowData]="rowData"
         [columnDefs]="columnDefs"
         [frameworkComponents]="frameworkComponents"
-        (gridReady)="onGridReady($event)"
         [defaultColDef]="defaultColDef"
         [rowSelection]="rowSelection"
         [modules]="modules"
         [getRowNodeId]="getRowNodeId"
-      >
+        >
+        <!-- (gridReady)="onGridReady($event)" -->
       </ag-grid-angular>
     </div>
+
+    
   </mat-card>
 </div>

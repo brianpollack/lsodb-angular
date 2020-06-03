@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
   Validators,
@@ -6,10 +6,12 @@ import {
   FormGroup,
 } from "@angular/forms";
 // import { ObservableService } from "./../../../services/observable.service"
-import { ObservableService } from "./../../services/observable.service";
+import { ObservableService } from "../src/app/services/observable.service";
 import { IMapLocation } from "src/app/models/maplocation";
 import { MapServiceService } from "src/app/services/map/map-service.service";
-import { TosterType, mapType } from "../../../enum/enums";
+// import { TosterType, mapType } from "../../../enum/enums";
+import { TosterType, mapType } from "../src/app/enum/enums";
+
 import * as _ from "lodash";
 // declare variable
 //  import { * as  L } from '../../asserts/leaflet/leaflet';
@@ -17,12 +19,11 @@ import * as _ from "lodash";
 declare let L: any;
 
 @Component({
-  selector: 'app-map-tap',
-  templateUrl: './map-tap.component.html',
-  styleUrls: ['./map-tap.component.scss']
+  selector: "app-map-tap",
+  templateUrl: "./map-tap.component.html",
+  styleUrls: ["./map-tap.component.scss"],
 })
 export class MapTapComponent implements OnInit {
-
   public map: any;
   public marker: any;
 
@@ -48,7 +49,6 @@ export class MapTapComponent implements OnInit {
   //   shadowUrl: "../../assets/leaflet/images/marker-icon.png",
   // });
 
-
   markerIcon = L.icon({
     iconUrl: "../../assets/img/maker-cow-01.svg",
     iconSize: [100, 100],
@@ -60,9 +60,7 @@ export class MapTapComponent implements OnInit {
     private fb: FormBuilder,
     private observableService: ObservableService,
     private mapService: MapServiceService
-  ) { }
-
-
+  ) {}
 
   ngOnInit() {
     // let osm = L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
@@ -78,7 +76,7 @@ export class MapTapComponent implements OnInit {
     let url1 =
       "https://tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
-      let url2 ="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+    let url2 = "https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png";
     // let url =
     //   "https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
@@ -91,19 +89,15 @@ export class MapTapComponent implements OnInit {
     // let url =
     //   "https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=0044ae63e2434d1380cf37327d6677b6";
 
-
     let osm = L.tileLayer(url2, {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     });
-// attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    // attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     // .addTo(map);
-     this.map = L.map("map")
+    this.map = L.map("map")
       .addLayer(osm)
-      .setView([22.998851594142913, 78.44238281249999], 4); 
-
-    
-
+      .setView([22.998851594142913, 78.44238281249999], 4);
 
     this.marker = new L.marker([22.998851594142913, 78.44238281249999], {
       draggable: "true",
@@ -205,7 +199,6 @@ export class MapTapComponent implements OnInit {
       }
     );
   }
-
 
   json(response) {
     return response.json();
