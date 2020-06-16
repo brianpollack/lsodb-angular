@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { FindAllLivestockResponse, FindLivestockResponse, FIND_ALL_LIVESTOCK, FIND_LIVESTOCK } from 'src/app/dashboard-master/grphql/queries/query/livestockQuery';
 import { Livestock, ParamsCreateLivestock, ParamsEditLiveStock, ParamsDeleteLivestock } from './../../dashboard-master/grphql/interface/livestockInterface';
 import { CreateLivestockResponse, CREATE_LIVESTOCK, EDIT_LIVESTOCK, EditLivestockResponse, DeleteLivestockResponse, DELETE_LIVESTOCK } from 'src/app/dashboard-master/grphql/queries/mutation/livestockMutation';

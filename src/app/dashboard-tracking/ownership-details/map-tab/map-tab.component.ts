@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { ObservableService } from "./../../../services/observable.service";
 import {
   FormBuilder,
@@ -9,6 +9,7 @@ import {
 import { MapServiceService } from "src/app/services/map/map-service.service";
 import { TosterType, mapType } from "../../../enum/enums";
 import * as _ from "lodash";
+
 declare let L;
 
 @Component({
@@ -16,7 +17,11 @@ declare let L;
   templateUrl: "./map-tab.component.html",
   styleUrls: ["./map-tab.component.scss"],
 })
-export class MapTabComponent implements OnInit {
+export class MapTabComponent implements OnInit, OnChanges {
+
+ @Output() navigateTo = new EventEmitter<any>();
+ @Input() tabValue: any;
+
   public map: any;
   public marker: any;
   mapLocationForm: FormGroup;
@@ -37,8 +42,6 @@ export class MapTabComponent implements OnInit {
     taluk: "",
     town: "",
     village: "",
-    pincode: "",
-    suburb: "",
     lat: "",
     lng: "",
   };
@@ -64,6 +67,20 @@ export class MapTabComponent implements OnInit {
       }
     });
   }
+  ngOnChanges(changes: SimpleChanges): void {
+
+    
+    // console.log(changes);
+    if(!changes.tabValue.firstChange){
+      setTimeout(() => {
+        this.addMap();
+      }, 1000);
+      this.searchForm.setValue({
+        search: changes.tabValue.currentValue['place']
+      })
+    }
+    
+  }
 
   ngOnInit() {
     // ========== mapLocation Form group ===========
@@ -76,8 +93,6 @@ export class MapTabComponent implements OnInit {
       taluk: [""],
       town: [""],
       village: [""],
-      suburb: [""],
-      pincode: [""],
       lat: [""],
       lng: [""],
     });
@@ -87,8 +102,12 @@ export class MapTabComponent implements OnInit {
   }
 
   backTab() {
-    let changeTab = "ADD";
-    this.observableService.setNav(changeTab);
+    let changetab = {
+      tabName: "ADD"
+    };  
+
+    this.navigateTo.emit(changetab);
+    
   }
 
   addMap() {
@@ -130,8 +149,6 @@ export class MapTabComponent implements OnInit {
       taluk: data.taluk,
       town: data.town,
       village: data.village,
-      suburb: data.suburb,
-      pincode: data.pincode,
       lat: data.lat,
       lng: data.lng,
     });
@@ -147,7 +164,6 @@ export class MapTabComponent implements OnInit {
     this.locationData.taluk = "";
     this.locationData.town = "";
     this.locationData.village = "";
-    this.locationData.pincode = "";
     this.locationData.lat = "";
     this.locationData.lng = "";
   }
@@ -198,16 +214,20 @@ export class MapTabComponent implements OnInit {
     if (results.length !== 0) {
       let mapData = results[0];
       let bbox = mapData.boundingbox;
+      console.log(mapData);
 
       let first = L.latLng(bbox[0], bbox[2]);
       let second = L.latLng(bbox[1], bbox[3]);
 
+      
+     
       this.setFormData(mapData);
 
       // this.setForm(this.locationData);
 
       let bounds = L.latLngBounds([first, second]);
       this.map.fitBounds(bounds);
+    
 
       this.marker.setLatLng(new L.LatLng(mapData.lat, mapData.lon));
       this.map.panTo(new L.LatLng(mapData.lat, mapData.lon));
@@ -223,6 +243,7 @@ export class MapTabComponent implements OnInit {
 //================= set form data =====================
   setFormData(mapData){
 
+    let searchData = this.searchForm.value;
     this.initMapData();
 
     this.locationData.country = mapData.address.country;
@@ -236,11 +257,16 @@ export class MapTabComponent implements OnInit {
     if("town" in mapData.address){
       this.locationData.town = mapData.address.town;
       // this.locationData.town =  mapData.address.suburb;
+    }else if("suburb" in mapData.address && searchData.search !== mapData.address.suburb){
+      this.locationData.town = mapData.address.suburb;
     }
 
     if ("village" in mapData.address ) {
       this.locationData.village = mapData.address.village;
+    }else if("suburb" in mapData.address && _.startCase(searchData.search) === mapData.address.suburb){
+      this.locationData.village = mapData.address.suburb;
     }
+
 
     this.locationData.lat = mapData.lat;
     this.locationData.lng = mapData.lon;
@@ -309,7 +335,7 @@ export class MapTabComponent implements OnInit {
     this.locateData(this.locationData);
   }
   locateData(data){
-    let formData = {
+    let changetab = {
       country: data.country,
       state: data.state,
       district: data.district,
@@ -318,9 +344,10 @@ export class MapTabComponent implements OnInit {
       village: data.village,
       lat: data.lat,
       log: data.lng,
-      tabName: "ADD"
+      tabName: "ADD",
+      fromTab: "MAP"
     }
 
-    // this.observableService.setTab(formData);
+    this.navigateTo.emit(changetab);
   }
 }

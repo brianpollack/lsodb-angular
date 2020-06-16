@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ObservableService } from 'src/app/services/observable.service';
+import { OwnerDetailsService } from 'src/app/services/graphql/owner-details.service';
 
 
 @Component({
@@ -19,31 +20,57 @@ export class OwnershipDetailsComponent implements OnInit {
     "MAP": 4,
   }
 
+  formData = {};
+  pincodeData = {};
+  mapData = {};
+  viewData = {};
+  
   constructor(
-    private observableService: ObservableService
+    private observableService: ObservableService,
+    private dataService: OwnerDetailsService,
   ) {
-    console.log("constructor owner")
    }
 
   ngOnInit() {
-    this.observableService.navigateTab().subscribe(
+    /* this.observableService.navigateTab().subscribe(
       data => {
         console.log("navigateTab with data",this.tabs[data.tabName])
         this.tagIndex.selectedIndex = this.tabs[data.tabName];
-        /*if(data.tabName === "MAP"){
-          this.observableService.setMap();
-        }*/
+       
       }
-    )
+    ) */
 
-    this.observableService.navChange().subscribe(
+    /* this.observableService.navChange().subscribe(
       data => {
         console.log("naviage only tab",this.tabs[data]);
-        this.tagIndex.selectedIndex = this.tabs[data];
+        // this.tagIndex.selectedIndex = this.tabs[data];
       }
-    )
-    console.log("init owner")
+    ) */
+   
   }
+
+  changeTab(data){
+    console.log(data,data.tabName );
+    this.tagIndex.selectedIndex = this.tabs[data.tabName];
+    if (data.tabName === 'ADD') {
+      this.formData = data;
+      console.log(this.formData)
+    } else if ( data.tabName === 'PINCODE') {
+      this.pincodeData = data;
+      console.log(this.pincodeData)
+    } else if ( data.tabName === 'MAP') {
+      this.mapData = data;
+      console.log(this.mapData);
+    } else if (data.tabName === 'VIEW') {
+      // this.dataService.findAllOwner().subscribe(
+      //   res => {
+          this.viewData = data
+        // }
+      // )
+    }
+  }
+
+  
 
 
 }

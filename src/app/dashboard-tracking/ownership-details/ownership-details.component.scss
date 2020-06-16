@@ -14,3 +14,15 @@
     grid-row: 2;
   }
 }
+
+.tab-header{
+  display: flex;
+  justify-content: center;
+}
+
+.tab-head-btn{
+  display: flex;
+  margin-right: auto;
+  width: 740px;
+  justify-content: center;
+}

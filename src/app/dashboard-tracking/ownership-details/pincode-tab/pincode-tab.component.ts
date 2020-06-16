@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { GridApi, ColDef } from "ag-grid-community";
 import { GridButtonComponent } from "src/app/ag-grid-components/grid-button/grid-button.component";
 import * as _ from "lodash";
@@ -13,7 +13,11 @@ import { Ilocation, IPickLocation } from "./../../../models/place";
   templateUrl: "./pincode-tab.component.html",
   styleUrls: ["./pincode-tab.component.scss"],
 })
-export class PincodeTabComponent implements OnInit {
+export class PincodeTabComponent implements OnInit, OnChanges {
+
+  @Output() navigateTo = new EventEmitter<any>();
+  @Input() tabValue: any;
+
   private gridApi: GridApi;
   private defaultColDef;
   private rowSelection;
@@ -68,6 +72,19 @@ export class PincodeTabComponent implements OnInit {
         }
       }
     )
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+  //  console.log(changes);
+   if(!changes.tabValue.firstChange){
+
+     let pin =changes.tabValue.currentValue['pincode']
+
+            this.searchPinForm.setValue({
+              place: "",
+              pin:  pin
+             })
+   }
+
   }
 
   ngOnInit() {
@@ -148,7 +165,7 @@ export class PincodeTabComponent implements OnInit {
 
   selectTab(sectedRow){
 
-    let formData = {
+    let changetab = {
       country: sectedRow.country,
       state: sectedRow.state,
       district: sectedRow.district,
@@ -156,9 +173,10 @@ export class PincodeTabComponent implements OnInit {
       town: sectedRow.town,
       postvillage: sectedRow.village,
       pincode: sectedRow.pincode,
-      tabName: "ADD"
+      tabName: "ADD",
+      fromTab: "PINCODE"
     }
-    this.observableService.setTab(formData);
+    this.navigateTo.emit(changetab);
   }
   /* ========= set locationData =========== */
   setpickLocationData(data){
@@ -191,8 +209,11 @@ export class PincodeTabComponent implements OnInit {
 
   /* ============ back tab =========== */
   backTab() {
-    let changeData = "ADD";
-    this.observableService.setNav(changeData);
+    let changetab = {
+      tabName: "ADD"
+    };  
+
+    this.navigateTo.emit(changetab);
   } 
 
 
@@ -255,13 +276,13 @@ export class PincodeTabComponent implements OnInit {
     let result = data[0].PostOffice;
     this.rowData = []
     result.forEach(obj => {
-      console.log(obj);
+      // console.log(obj);
       this.setpickLocationData(obj);
     })
     /* result.forEach((e) => {
       this.setpickLocationData(e)
   }); */
-  console.log(this.locationData);
+  // console.log(this.locationData);
   
   }
 

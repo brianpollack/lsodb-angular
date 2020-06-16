@@ -8,41 +8,43 @@
   </div>
 
   <!-- content -->
-  <div class="ds-content">
+  <div class="ds-content ">
     <!-- tab header -->
-    <div class="d-none tag-header mt-2">
+    <div class=" tab-header mt-2 ">
+      <div class="tab-head-btn">
       <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 0"
       >
-        View
+        View Owners's Detail
       </button>
       <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 1"
       >
-        Add
+        Add Owners's Detail
       </button>
       <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
-        (click)="mtg.selectedIndex = 2"
+        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
+        (click)="mtg.selectedIndex = 2" 
       >
-        Livestock Details
+        Track Owners's Livestock
       </button>
+    </div>
       <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        class= " d-none btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 3"
       >
         Pincode
       </button>
       <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        class="d-none btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 4"
       >
         Map
       </button>
       <!-- <button
-        class="btn btn-primary btn-lg ec-mat-btn ec-btn-shadow"
+        class="btn btn-primary btn-lg ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 5"
       >
         Village
@@ -51,19 +53,19 @@
 
     <mat-tab-group #mtg class="header-less-tabs">
       <mat-tab label="Tab 1">
-        <app-view-tab></app-view-tab>
+        <app-view-tab [tabValue]="viewData" (navigateTo)="changeTab($event)"></app-view-tab>
       </mat-tab>
       <mat-tab label="Tab 2">
-        <app-add-tab></app-add-tab>
+        <app-add-tab [tabValue]="formData" (navigateTo)="changeTab($event)"></app-add-tab>
       </mat-tab>
       <mat-tab label="Tab 3">
-        <app-lsdata-tab></app-lsdata-tab>
+        <app-lsdata-tab (navigateTo)="changeTab($event)"></app-lsdata-tab>
       </mat-tab>
       <mat-tab label="Tab 4">
-        <app-pincode-tab></app-pincode-tab>
+        <app-pincode-tab [tabValue]="pincodeData" (navigateTo)="changeTab($event)"></app-pincode-tab>
       </mat-tab>
       <mat-tab label="Tab 5">
-        <app-map-tab></app-map-tab>
+        <app-map-tab [tabValue]="mapData" (navigateTo)="changeTab($event)"></app-map-tab>
       </mat-tab>
     </mat-tab-group>
   </div>
