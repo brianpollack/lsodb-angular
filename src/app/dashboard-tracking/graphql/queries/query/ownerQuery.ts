@@ -25,6 +25,7 @@ query{
         pan
         phone
         email
+        totalLs
       
     }
   }
@@ -53,6 +54,7 @@ query{
         pan
         phone
         email
+        totalLs
     }
   }
 `;

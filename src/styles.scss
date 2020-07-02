@@ -40,3 +40,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   // overflow-y: scroll;
 }
+
+
+.ag-theme-material .ag-row-selected {
+  background-color: #eee;
+}
+
+.ag-theme-material .ag-ltr .ag-cell-focus {
+  border: 1px solid #eee;
+}

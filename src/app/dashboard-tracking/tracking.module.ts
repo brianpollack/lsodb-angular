@@ -17,8 +17,10 @@ import { TrackingRoutingModule, routingComponents } from './tracking-routing.mod
 // ui components
 // import { UnderConstructionComponent } from '../components/under-construction/under-construction.component';
 import { ActionBtnComponent } from '../ag-grid-components/action-btn/action-btn.component';
-import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-button.component'
-
+import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-button.component';
+import { GridSelectComponentComponent } from '../ag-grid-components/drop-box/grid-select-component.component';
+import { LivestockSelectComponent } from '../ag-grid-components/drop-box/livestock-select/livestock-select.component'
+import { BreedSelectComponent } from '../ag-grid-components/drop-box/breed-select/breed-select.component'
 // toster modules
 import {ToasterModule, ToasterService} from 'angular2-toaster';
 
@@ -53,14 +55,16 @@ import { MapTabComponent } from './ownership-details/map-tab/map-tab.component'
     MapTabComponent
   ],
   imports: [
-    // UnderConstructionComponent,
+  
+  
+// UnderConstructionComponent,
     CommonModule,
     TrackingRoutingModule,
     appModuleMaterials,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ClickOutsideModule,
-    AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent]),
+    AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent, GridSelectComponentComponent, LivestockSelectComponent, BreedSelectComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
     MasterModule

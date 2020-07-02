@@ -51,11 +51,11 @@ export class MapTabComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private mapService: MapServiceService
   ) {
-    console.log("constructor map");
+    
 
-    this.observableService.navigateTab().subscribe((data) => {
+    /* this.observableService.navigateTab().subscribe((data) => {
       if (data.tabName === "MAP") {
-        console.log("Map", data);
+        
         this.searchForm.setValue({
           search: data.place
         })
@@ -63,14 +63,14 @@ export class MapTabComponent implements OnInit, OnChanges {
           this.addMap();
         }, 1000);
       } else {
-        console.log("not MAP tab!!");
+        
       }
-    });
+    }); */
   }
   ngOnChanges(changes: SimpleChanges): void {
 
     
-    // console.log(changes);
+ 
     if(!changes.tabValue.firstChange){
       setTimeout(() => {
         this.addMap();
@@ -214,7 +214,7 @@ export class MapTabComponent implements OnInit, OnChanges {
     if (results.length !== 0) {
       let mapData = results[0];
       let bbox = mapData.boundingbox;
-      console.log(mapData);
+     
 
       let first = L.latLng(bbox[0], bbox[2]);
       let second = L.latLng(bbox[1], bbox[3]);
@@ -223,7 +223,6 @@ export class MapTabComponent implements OnInit, OnChanges {
      
       this.setFormData(mapData);
 
-      // this.setForm(this.locationData);
 
       let bounds = L.latLngBounds([first, second]);
       this.map.fitBounds(bounds);
@@ -283,7 +282,7 @@ export class MapTabComponent implements OnInit, OnChanges {
   // =========== map marker drag ==============
   markerDragEnd(e) {
     var position = e.target._latlng;
-    console.log("Draged position", e);
+   
 
     this.marker.setLatLng(new L.LatLng(position.lat, position.lng));
     this.map.panTo(new L.LatLng(position.lat, position.lng));
@@ -296,7 +295,7 @@ export class MapTabComponent implements OnInit, OnChanges {
   // ========= map  onclick ==============
   mapClicked(e) {
     var position = e.latlng;
-    console.log("clicked position", e);
+   
 
     this.marker.setLatLng(new L.LatLng(position.lat, position.lng));
     this.map.panTo(new L.LatLng(position.lat, position.lng));
@@ -313,7 +312,7 @@ export class MapTabComponent implements OnInit, OnChanges {
 
       this.mapService.getClickLocation(url).subscribe(
         res => {
-          console.log(res)
+         
           this.setFormData(res);
         },
         err => {
@@ -325,14 +324,14 @@ export class MapTabComponent implements OnInit, OnChanges {
         }
       )
 
-    /* this.locationData.lat = position.lat;
-    this.locationData.lng = position.lng; */
-
-    // this.setForm(this.locationData);
+   
   }
 
   locationSubmit(mapLocationDirective: FormGroupDirective){
     this.locateData(this.locationData);
+
+    this.mapLocationForm.reset();
+    this.searchForm.reset();
   }
   locateData(data){
     let changetab = {

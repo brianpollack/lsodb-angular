@@ -637,3 +637,16 @@ inputFile {
 .ec-btn-space {
   margin-left: 20px;
 }
+
+/* .ag-theme-material .ag-row-selected {
+  background-color: #000305;
+}
+
+.ag-theme-material .ag-ltr .ag-cell-focus {
+  border: 1px solid red;
+} */
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+  color: #ed7117;
+  background-color: transparent;
+}

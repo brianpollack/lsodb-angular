@@ -1,71 +1,97 @@
 export interface IOwner {
 
-    id: String;
-    avatar: String;
-    oName: String;
-    door: String;
-    street: String;
-    landMark: String;
-    pincode: String;
-    poPlace: String;
-    lat: String;
-    log: String;
-    village: String;
-    taluk: String;
-    town: String;
-    district: String;
-    state: String;
-    country: String;
-    adhaar: String;
-    pan: String;
-    phone: String;
-    email: String;
-    
+    id: string;
+    avatar: string;
+    oName: string;
+    door: string;
+    street: string;
+    landMark: string;
+    pincode: string;
+    poPlace: string;
+    lat: string;
+    log: string;
+    village: string;
+    taluk: string;
+    town: string;
+    district: string;
+    state: string;
+    country: string;
+    adhaar: string;
+    pan: string;
+    phone: string;
+    email: string;
+    totalLs: string;
   };
 
+  export interface Ownlivestock {
+    id: string
+    lsName: string
+    breedName: string
+    lsCount: string
+    ownerId: string
+  }
+
   export interface  IParamsCreateOwner {
-    avatar: String;
-    oName: String;
-    door: String;
-    street: String;
-    landMark: String;
-    pincode: String;
-    poPlace: String;
-    lat: String;
-    log: String;
-    village: String;
-    taluk: String;
-    town: String;
-    district: String;
-    state: String;
-    country: String;
-    adhaar: String;
-    pan: String;
-    phone: String;
-    email: String;
+    avatar: string;
+    oName: string;
+    door: string;
+    street: string;
+    landMark: string;
+    pincode: string;
+    poPlace: string;
+    lat: string;
+    log: string;
+    village: string;
+    taluk: string;
+    town: string;
+    district: string;
+    state: string;
+    country: string;
+    adhaar: string;
+    pan: string;
+    phone: string;
+    email: string;
     
   }
 
   export interface IParamsEditOwner {
-    id: String;
-    avatar: String;
-    oName: String;
-    door: String;
-    street: String;
-    landMark: String;
-    pincode: String;
-    poPlace: String;
-    lat: String;
-    log: String;
-    village: String;
-    taluk: String;
-    town: String;
-    district: String;
-    state: String;
-    country: String;
-    adhaar: String;
-    pan: String;
-    phone: String;
-    email: String;
+   
+    avatar: string;
+    oName: string;
+    door: string;
+    street: string;
+    landMark: string;
+    pincode: string;
+    poPlace: string;
+    lat: string;
+    log: string;
+    village: string;
+    taluk: string;
+    town: string;
+    district: string;
+    state: string;
+    country: string;
+    adhaar: string;
+    pan: string;
+    phone: string;
+    email: string;
     
+  }
+
+  export interface IParamsCreateOwnLs {
+    ownerId: string
+    lsName: string
+    breedName: string
+    lsCount: string
+  }
+  export interface IParamsEditOwnLs {
+    ownLsId: string
+    ownerId: string
+    lsName: string
+    breedName: string
+    lsCount: string
+  }
+  export interface IParamsDeleteOwnLs {
+    ownLsId: string
+    ownerId: string
   }

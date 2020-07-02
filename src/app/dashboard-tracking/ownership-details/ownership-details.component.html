@@ -13,20 +13,22 @@
     <div class=" tab-header mt-2 ">
       <div class="tab-head-btn">
       <button
-        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
+        class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 0"
+        [disabled] = "Dview"
       >
         View Owners's Detail
       </button>
       <button
-        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
+        class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 1"
+        [disabled] = "Dadd"
       >
         Add Owners's Detail
       </button>
       <button
-        class="btn btn-outline-primary btn-xs ec-btn-space ec-btn-shadow"
-        (click)="mtg.selectedIndex = 2" 
+        class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
+        (click)="test(mtg)" 
       >
         Track Owners's Livestock
       </button>
@@ -50,16 +52,16 @@
         Village
       </button> -->
     </div>
-
-    <mat-tab-group #mtg class="header-less-tabs">
+    <!-- class="header-less-tabs" -->
+    <mat-tab-group #mtg >
       <mat-tab label="Tab 1">
-        <app-view-tab [tabValue]="viewData" (navigateTo)="changeTab($event)"></app-view-tab>
+        <app-view-tab [tabValue]="viewData"  (navigateTo)="changeTab($event)" (trackTab)="trackData($event)"></app-view-tab>
       </mat-tab>
       <mat-tab label="Tab 2">
         <app-add-tab [tabValue]="formData" (navigateTo)="changeTab($event)"></app-add-tab>
       </mat-tab>
       <mat-tab label="Tab 3">
-        <app-lsdata-tab (navigateTo)="changeTab($event)"></app-lsdata-tab>
+        <app-lsdata-tab [tabValue]="lsData" (navigateTo)="changeTab($event)"></app-lsdata-tab>
       </mat-tab>
       <mat-tab label="Tab 4">
         <app-pincode-tab [tabValue]="pincodeData" (navigateTo)="changeTab($event)"></app-pincode-tab>

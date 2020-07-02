@@ -22,7 +22,10 @@ declare let L;
   styleUrls: ["./view-tab.component.scss"],
 })
 export class ViewTabComponent implements OnInit {
+  // =================== Variable Initialization ==============
   @Output() navigateTo = new EventEmitter<any>();
+  @Output() trackTab = new EventEmitter<any>();
+
   @Input() tabValue: any;
 
   map: any;
@@ -31,7 +34,10 @@ export class ViewTabComponent implements OnInit {
   private rowSelection;
   private gridColumnApi;
   private getRowNodeId;
-  private rowData: IownerView[] | IOwner[];
+  private editIndex;
+  private editId;
+  private rowData: IOwner[];
+  //IownerView[] | 
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent;
     gridButtonRendender: typeof GridButtonComponent;
@@ -68,40 +74,91 @@ export class ViewTabComponent implements OnInit {
         pan: "",
         phone: "",
         email: "",
-        lscount: "",
-        editmode: "",
+        totalLs: "",
+        // editmode: "",
       },
     ];
 
+    this. rowSelection = "single"
     this.getRowNodeId = (d): string => {
       return d.id;
     };
-    
   }
 
+  onSelectionChanged(){
+    var selectedRows = this.gridApi.getSelectedRows();
+    
+    console.log("selected row",selectedRows);
+    let selectValue = {
+      oId:selectedRows[0].id,
+      oName: selectedRows[0].oName,
+      viewValue: true,
+      addValue: true,
+      tabName: "LSDATA"
+    }
+
+    this.trackTab.emit(selectValue);
+  }
+
+  onRowSelected(event) {
+    // console.log(event)
+    let selectValue = {
+      oId: event.data.id,
+      oName: event.data.oName,
+      viewValue: true,
+      addValue: true,
+      tabName: "LSDATA"
+    }
+
+    this.trackTab.emit(selectValue);
+  }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("view", changes);
+    
     if (
       !changes.tabValue.firstChange &&
       Object.keys(changes.tabValue.currentValue).length > 1
     ) {
-      // setTimeout(() => {
-        
-        this.rowData.push( changes.tabValue.currentValue);
-      //  let updateRow = this.gridApi.setRowData(this.rowData)
-      var res =this.gridApi.updateRowData({ add: [changes.tabValue.currentValue] });
-        console.log("view value",this.rowData);
-       
-      // }, 1000);
-      // this.onLoad();
-      let currentNode = this.gridApi.getRowNode(changes.tabValue.currentValue.id)
-      currentNode.setSelected(true, true);
-      
-      this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+
+      if (changes.tabValue.currentValue["fromTab"] === "ADD") {
+
+        if (changes.tabValue.currentValue["edit"] === "NEW") {
+          this.rowData.push(changes.tabValue.currentValue);
+          var res = this.gridApi.updateRowData({
+            add: [changes.tabValue.currentValue],
+          });
+          let currentNode = this.gridApi.getRowNode(
+            changes.tabValue.currentValue.id
+          );
+          currentNode.setSelected(true, true);
+          setTimeout(() => {
+            this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+          }, 500);
+        } else {
+
+          if (this.editId === changes.tabValue.currentValue.id) {
+            this.rowData[this.editIndex] = changes.tabValue.currentValue;
+            var res = this.gridApi.updateRowData({
+              update: [changes.tabValue.currentValue],
+            });
+          }
+
+          let currentNode = this.gridApi.getRowNode(
+            changes.tabValue.currentValue.id
+          );
+          currentNode.setSelected(true, true);
+          setTimeout(() => {
+            this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+          }, 500);
+         
+        }
+      }
+
+     
     }
 
-    console.log("row Data",this.rowData)
+   
   }
+
 
   ngOnInit() {
     this.dataService.findAllOwner().subscribe((res) => {
@@ -112,6 +169,8 @@ export class ViewTabComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api; // To access the grids API
   }
+
+ 
   columnDefs: ColDef[] = [
     {
       headerName: "Nos",
@@ -134,30 +193,26 @@ export class ViewTabComponent implements OnInit {
     },
     {
       headerName: "Place",
-      field: "village",
+      field: "poPlace",
       width: 200,
       sortable: true,
     },
     {
       headerName: "Livestock",
-      field: "lscount",
+      field: "totalLs",
       width: 150,
       sortable: true,
-      valueSetter: function (params) {
-        console.log(params);
-        params.data.stateCode = _.toUpper(params.newValue);
-
-        return true;
-      },
     },
 
     {
       headerName: "Action",
-      field: "editmode",
+      // field: "editmode",
       width: 150,
       cellRenderer: "buttonRender",
       cellRendererParams: {
         btn: "edit",
+        onEdit: this.onEdit.bind(this),
+        onDelete: this.onDelete.bind(this),
       },
     },
     {
@@ -182,7 +237,7 @@ export class ViewTabComponent implements OnInit {
     },
     {
       headerName: "postalPlace",
-      field: "poPlace",
+      field: "village",
       hide: true,
     },
     {
@@ -242,41 +297,71 @@ export class ViewTabComponent implements OnInit {
     },
   ];
 
-  /*  stateTab(sectedRow) {
-     if(sectedRow.id !== ""){
-     console.log(sectedRow);
-     let countryDetails = {
-       tabName: "ADD"
-     }
- 
-     this.observableService.setTab(countryDetails);
-   }else{
-     this.observableService.setTosterMsg({
-       type: "warning",
-         title: "Save Data!",
-         message: "Before entering the District tab Save all data!"
-     })
-   }
-   } */
+  // ==== On edit button ========
+  onEdit(editData: IOwner) {
 
-  LivestockTab(sectedRow) {
+    this.editId = editData.id;
+    this.editIndex = _.findIndex(this.rowData, (obj) => {
+      return obj.id === editData.id;
+    });
+
+    let changetab = {
+      ...editData,
+      tabName: "ADD",
+      fromTab: "VIEW",
+    };
+
+    this.navigateTo.emit(changetab);
+  }
+//  =========== on Delete button ===============
+  onDelete(deleteData: IOwner) {
+    const deleteIndex = _.findIndex(this.rowData, (obj) => {
+      return obj.id === deleteData.id;
+    });
+
+    this.delete(deleteIndex);
+  }
+
+  // ========
+  /* LivestockTab(sectedRow) {
     let changetab = {
       tabName: "LSDATA",
     };
 
     this.navigateTo.emit(changetab);
+  } */
+
+  
+
+  // =============== delete data ===========
+  delete(rowIndex) {
+    let ownerId = this.rowData[rowIndex].id;
+
+    this.dataService.deleteOwner(ownerId).subscribe((res) => {
+      this.rowData[rowIndex] = res.DeleteOwner;
+      this.rowData = this.rowData.filter((data) => {
+        return data.id !== res.DeleteOwner.id;
+      });
+
+      setTimeout(() => {
+        let lastRec = _.last(this.rowData);
+        let currentNode = this.gridApi.getRowNode(lastRec.id);
+        currentNode.setSelected(true);
+        this.gridApi.ensureIndexVisible(currentNode.rowIndex);
+      }, 100);
+    });
   }
 
-  onAddRow() {
+  /* onAddRow() {
     let changetab = {
       tabName: "ADD",
     };
 
     this.navigateTo.emit(changetab);
-  }
+  } */
 
   onLoad() {
-    console.log("loaded data")
+   
     this.dataService.findAllOwner().subscribe((res) => {
       this.rowData = res.FindAllOwners;
     });

@@ -1,11 +1,67 @@
-<div>
-  <mat-card>
-    <div
-      class="t-col mt-2 mb-1 d-flex justify-content-center ec-font-2 font-weight-bolder"
-    >
-      Enter Owner's Livestock Details
+<div class="d-flex justify-content-xl-center">
+  <mat-card class="m-3">
+    <div class="m-1 mb-2 d-flex">
+      <div class="d-flex w-10 ml-2 justify-content-end">
+        <button type="button" class="d-flex btn ec-font-1" (click)="backTab()">
+          <i
+            class="fal fa-chevron-circle-left d-flex align-self-center text-primary mr-2"
+          ></i
+          >Back
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center w-100">
+        <p class="m-0 p-0 ec-font-2 font-weight-bold">
+          Enter Owner's Livestock Details
+        </p>
+      </div>
     </div>
 
+    <!-- form  -->
+    <form
+      autocomplete="off"
+      [formGroup]="lsbreedForm"
+      #lsbreedDirective="ngForm"
+      (ngSubmit)="onSubmit(lsbreedDirective)"
+    >
+      <div class="f-row-1">
+        <div>
+          <mat-form-field>
+            <mat-label>Livestock</mat-label>
+            <mat-select
+              #lsList
+              formControlName="lsNameList"
+              (selectionChange)="onChange($event)"
+            >
+              <mat-option
+                *ngFor="
+                  let livestocksList of livestocksLists;
+                  let indexOfelement = index
+                "
+                [value]="livestocksLists[indexOfelement].id"
+              >
+                {{ livestocksLists[indexOfelement].livestockName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <mat-label>Breed Name</mat-label>
+            <mat-select #breedList formControlName="breedNameList">
+              <mat-option
+                *ngFor="let breedList of breedLists; let indexOfelement = index"
+                [value]="breedLists[indexOfelement].id"
+              >
+                {{ breedLists[indexOfelement].breedName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <!-- grid -->
     <div class="ag-col d-flex justify-content-center">
       <ag-grid-angular
         style="width: 1000px; height: 250px;"
@@ -17,9 +73,17 @@
         [rowSelection]="rowSelection"
         [modules]="modules"
         [getRowNodeId]="getRowNodeId"
-        >
-        <!-- (gridReady)="onGridReady($event)" -->
+        (gridReady)="onGridReady($event)"
+      >
       </ag-grid-angular>
+     
+      
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary ec-fab" (click)="onAddRow()">
+        <i class="fal fa-plus fa-2x"></i>
+      </button>
     </div>
   </mat-card>
 </div>

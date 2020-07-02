@@ -14,6 +14,9 @@ import { TrackingModule } from "./dashboard-tracking/tracking.module";
 import { ReportsModule } from "./dashboard-reports/reports.module";
 import { TosterComponent } from './components/toster/toster.component';
 import { ToasterModule } from 'angular2-toaster';
+import { GridSelectComponentComponent } from './ag-grid-components/drop-box/grid-select-component.component';
+import { LivestockSelectComponent } from './ag-grid-components/drop-box/livestock-select/livestock-select.component';
+import { BreedSelectComponent } from './ag-grid-components/drop-box/breed-select/breed-select.component';
 // import { GridButtonComponent } from './ag-grid-components/grid-button/grid-button.component';
 // import { ActionBtnComponent } from './ag-grid-components/action-btn/action-btn.component';
 // import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
@@ -23,6 +26,9 @@ import { ToasterModule } from 'angular2-toaster';
     AppComponent,
     routingComponents,
     TosterComponent,
+    GridSelectComponentComponent,
+    LivestockSelectComponent,
+    BreedSelectComponent,
     // GridButtonComponent,
     // ActionBtnComponent,
     // UnderConstructionComponent

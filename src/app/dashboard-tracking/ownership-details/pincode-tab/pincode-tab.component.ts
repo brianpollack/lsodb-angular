@@ -1,4 +1,12 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from "@angular/core";
 import { GridApi, ColDef } from "ag-grid-community";
 import { GridButtonComponent } from "src/app/ag-grid-components/grid-button/grid-button.component";
 import * as _ from "lodash";
@@ -14,7 +22,6 @@ import { Ilocation, IPickLocation } from "./../../../models/place";
   styleUrls: ["./pincode-tab.component.scss"],
 })
 export class PincodeTabComponent implements OnInit, OnChanges {
-
   @Output() navigateTo = new EventEmitter<any>();
   @Input() tabValue: any;
 
@@ -43,48 +50,44 @@ export class PincodeTabComponent implements OnInit, OnChanges {
     this.rowData = [
       {
         id: "",
-      country: "",
-      state: "",
-      district: "",
-      taluk: "",
-      town: "",
-      village: "",
-      pincode: "",
-      }
+        country: "",
+        state: "",
+        district: "",
+        taluk: "",
+        town: "",
+        village: "",
+        pincode: "",
+      },
     ];
 
     this.getRowNodeId = (d): string => {
       return d.id;
     };
 
-
-    this.observableService.navigateTab().subscribe(
+    /*  this.observableService.navigateTab().subscribe(
       data => {
         if(data.tabName === "PINCODE"){
-          console.log("pincode",data);
+         
           let pin =data.pincode
           this.searchPinForm.setValue({
             place: "",
             pin:  pin
            })
         }else {
-          console.log("not PINCODE tab!!")
+        
         }
       }
-    )
+    ) */
   }
   ngOnChanges(changes: SimpleChanges): void {
-  //  console.log(changes);
-   if(!changes.tabValue.firstChange){
+    if (!changes.tabValue.firstChange) {
+      let pin = changes.tabValue.currentValue["pincode"];
 
-     let pin =changes.tabValue.currentValue['pincode']
-
-            this.searchPinForm.setValue({
-              place: "",
-              pin:  pin
-             })
-   }
-
+      this.searchPinForm.setValue({
+        place: "",
+        pin: pin,
+      });
+    }
   }
 
   ngOnInit() {
@@ -116,40 +119,37 @@ export class PincodeTabComponent implements OnInit, OnChanges {
       width: 200,
       sortable: true,
     },
-     {
-      headerName: 'country',
-      field: 'country',
+    {
+      headerName: "country",
+      field: "country",
       width: 150,
       hide: false,
       filter: true,
     },
-     {
-      headerName: 'state',
-      field: 'state',
+    {
+      headerName: "state",
+      field: "state",
       width: 150,
       hide: false,
       filter: true,
     },
-     {
-      headerName: 'district',
-      field: 'district',
+    {
+      headerName: "district",
+      field: "district",
       width: 150,
       hide: false,
       filter: true,
-
     },
-     {
-      headerName: 'taluk',
-      field: 'taluk',
+    {
+      headerName: "taluk",
+      field: "taluk",
       hide: true,
     },
-     {
-      headerName: 'town',
-      field: 'town',
+    {
+      headerName: "town",
+      field: "town",
       hide: true,
     },
-    
-   
 
     {
       headerName: "Select",
@@ -158,13 +158,12 @@ export class PincodeTabComponent implements OnInit, OnChanges {
       cellRenderer: "gridButtonRendender",
       cellRendererParams: {
         btnName: "Select",
-        onSelect: this.selectTab.bind(this)
+        onSelect: this.selectTab.bind(this),
       },
     },
   ];
 
-  selectTab(sectedRow){
-
+  selectTab(sectedRow) {
     let changetab = {
       country: sectedRow.country,
       state: sectedRow.state,
@@ -174,14 +173,14 @@ export class PincodeTabComponent implements OnInit, OnChanges {
       postvillage: sectedRow.village,
       pincode: sectedRow.pincode,
       tabName: "ADD",
-      fromTab: "PINCODE"
-    }
+      fromTab: "PINCODE",
+    };
     this.navigateTo.emit(changetab);
   }
   /* ========= set locationData =========== */
-  setpickLocationData(data){
+  setpickLocationData(data) {
     this.locationData = {
-      id:"",
+      id: "",
       country: data.Country,
       state: data.State,
       district: data.District,
@@ -189,10 +188,9 @@ export class PincodeTabComponent implements OnInit, OnChanges {
       town: "",
       village: data.Name,
       pincode: data.Pincode,
-    }
+    };
     this.rowData.push(this.locationData);
-   
-  } 
+  }
   /* ============ pick location =========== */
   initPickLocation() {
     this.locationData = {
@@ -210,35 +208,33 @@ export class PincodeTabComponent implements OnInit, OnChanges {
   /* ============ back tab =========== */
   backTab() {
     let changetab = {
-      tabName: "ADD"
-    };  
+      tabName: "ADD",
+    };
 
     this.navigateTo.emit(changetab);
-  } 
-
+  }
 
   onSubmit(searchPinDirective) {
     let place = this.searchPinForm.get("place").value;
     let pin = this.searchPinForm.get("pin").value;
 
     if (pin !== "") {
-      // const url = `https://api.postalpincode.in/pincode/${pin}`;
+     
 
       this.pincodeService.getpincode(pin).subscribe(
         (res) => {
-          
-          if(res[0].Status !== "Error"){
+          if (res[0].Status !== "Error") {
             this.pickLocation(res);
-          }else{
+          } else {
             this.observableService.setTosterMsg({
               type: TosterType.ERROR,
-            title: "Wrong Pincode!",
-            message: `${res[0].Message}, Please enter correct Pincode.`,
-            })
-          }          
+              title: "Wrong Pincode!",
+              message: `${res[0].Message}, Please enter correct Pincode.`,
+            });
+          }
         },
         (err) => {
-          console.log(err)
+          
           this.observableService.setTosterMsg({
             type: TosterType.ERROR,
             title: "Request failed",
@@ -247,21 +243,21 @@ export class PincodeTabComponent implements OnInit, OnChanges {
         }
       );
     } else {
-      console.log(place)
+     
       this.pincodeService.getPlace(place).subscribe(
         (res) => {
-          if(res[0].Status !== "Error"){
+          if (res[0].Status !== "Error") {
             this.pickLocation(res);
-          }else{
+          } else {
             this.observableService.setTosterMsg({
               type: TosterType.ERROR,
-            title: "Wrong Pincode!",
-            message: `${res[0].Message}, Please enter correct Pincode.`,
-            })
+              title: "Wrong Pincode!",
+              message: `${res[0].Message}, Please enter correct Pincode.`,
+            });
           }
         },
         (err) => {
-          console.log(err)
+          
           this.observableService.setTosterMsg({
             type: TosterType.ERROR,
             title: "Request failed",
@@ -274,17 +270,12 @@ export class PincodeTabComponent implements OnInit, OnChanges {
 
   pickLocation(data) {
     let result = data[0].PostOffice;
-    this.rowData = []
-    result.forEach(obj => {
-      // console.log(obj);
+    this.rowData = [];
+    result.forEach((obj) => {
+      
       this.setpickLocationData(obj);
-    })
-    /* result.forEach((e) => {
-      this.setpickLocationData(e)
-  }); */
-  // console.log(this.locationData);
-  
+    });
+   
+   
   }
-
- 
 }

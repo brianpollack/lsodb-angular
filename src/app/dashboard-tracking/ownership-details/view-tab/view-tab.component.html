@@ -35,7 +35,10 @@
         [modules]="modules"
         [getRowNodeId]="getRowNodeId"
         (gridReady)="onGridReady($event)"
+        
+        (selectionChanged)="onSelectionChanged($event)"
         >
+        <!-- (rowSelected)="onRowSelected($event)" -->
       </ag-grid-angular>
     </div>
 

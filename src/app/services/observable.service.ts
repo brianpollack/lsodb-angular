@@ -6,6 +6,8 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 })
 export class ObservableService {
 
+  public list = [];
+  public breedList = [];
   constructor() { }
 
   private selectedTab = new Subject<any>();
@@ -13,6 +15,8 @@ export class ObservableService {
   private loginnavigate = new BehaviorSubject<any>('');
   private tosterMessage = new Subject<any>();
   private mapOnLoad = new Subject<any>();
+  private loadList = new Subject<any>();
+  private livestockList = new Subject<any>();
 
   /* ************ selectedTab *****************  */
   // ======= subcribe function ==========
@@ -65,5 +69,34 @@ export class ObservableService {
   setMap() {
     return this.mapOnLoad.next();
   }
+
+  /* livestock and breed list */
+
+  getList(){
+    console.log("service breed", this.breedList)
+    return this.breedList;
+    // return this.loadList.asObservable();
+  }
+
+  setList(list){
+    console.log("service breedlist", list);
+    this.breedList = list
+    // return this.loadList.next(list);
+  }
+
+
+  getls(){
+    return this.list;
+    // return this.livestockList.asObservable();
+  }
+
+  setls(list){
+    
+    this.list = list;
+    // return this.livestockList.next(list);
+  }
+  
+  
+
 
 }

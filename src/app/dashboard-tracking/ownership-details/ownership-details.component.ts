@@ -20,10 +20,15 @@ export class OwnershipDetailsComponent implements OnInit {
     "MAP": 4,
   }
 
+  Dview ;
+  Dadd;
+  btnDisable = true;
   formData = {};
   pincodeData = {};
   mapData = {};
   viewData = {};
+  lsData = {};
+  localLSData = {};
   
   constructor(
     private observableService: ObservableService,
@@ -32,45 +37,40 @@ export class OwnershipDetailsComponent implements OnInit {
    }
 
   ngOnInit() {
-    /* this.observableService.navigateTab().subscribe(
-      data => {
-        console.log("navigateTab with data",this.tabs[data.tabName])
-        this.tagIndex.selectedIndex = this.tabs[data.tabName];
-       
-      }
-    ) */
+  }
 
-    /* this.observableService.navChange().subscribe(
-      data => {
-        console.log("naviage only tab",this.tabs[data]);
-        // this.tagIndex.selectedIndex = this.tabs[data];
-      }
-    ) */
-   
+  trackData(data){
+    this.Dview = data.viewValue
+    this.Dadd = data.addValue
+    if(data.tabName === 'LSDATA') {
+      this.localLSData = data;
+    }
+    // console.log("trackData",data);
   }
 
   changeTab(data){
-    console.log(data,data.tabName );
+   
     this.tagIndex.selectedIndex = this.tabs[data.tabName];
     if (data.tabName === 'ADD') {
       this.formData = data;
-      console.log(this.formData)
+     
     } else if ( data.tabName === 'PINCODE') {
       this.pincodeData = data;
-      console.log(this.pincodeData)
+
     } else if ( data.tabName === 'MAP') {
       this.mapData = data;
-      console.log(this.mapData);
+     
     } else if (data.tabName === 'VIEW') {
-      // this.dataService.findAllOwner().subscribe(
-      //   res => {
+     
           this.viewData = data
-        // }
-      // )
+        
     }
   }
 
-  
+  test(mtg){
+    mtg.selectedIndex = 2;
+    this.lsData = this.localLSData
+  }
 
 
 }
