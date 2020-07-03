@@ -81,7 +81,8 @@ export class LsdataTabComponent implements OnInit {
         breedName: "",
         lsCount: "",
         ownerId: "",
-        editmode: ""
+        editmode: "",
+        breedList: []
       },
     ];
 
@@ -106,10 +107,10 @@ ngOnChanges(changes:SimpleChanges): void {
 }
 
   ngOnInit() {
-    this.lsbreedForm = this.fb.group({
+    /* this.lsbreedForm = this.fb.group({
       lsNameList: [""],
       breedNameList: [""],
-    });
+    }); */
     
 
   
@@ -150,22 +151,25 @@ ngOnChanges(changes:SimpleChanges): void {
         list: this.livestocksLists,
         onDrop: this.onselectls.bind(this),
       },
+      
     },
     {
       headerName: "Breed",
       field: "breedName",
       width: 200,
       sortable: true,
+      // editable: true,
+      // cellEditor: 'agRichSelectCellEditor',
+      // cellRendererParams: {
+      //   values : this.getBreedList.bind(this)
+      // }
       cellRenderer: "breedSelect",
-      cellRendererParams: {
-        list: this.breedLists,
-        onDrop: this.onselectbreed.bind(this),
-      },
-      valueSetter: function (params) {
-        // console.log(params);
-        // params.data.lsCount = params.newValue;
-        return true;
-      },
+      // cellRendererParams: {
+      //   list: this.breedLists,
+      //   onDrop: this.onselectbreed.bind(this),
+      // },
+      //  cellRendererSelector: this.cellSelector.bind(this)
+      
     },
     {
       headerName: "Livestock count",
@@ -204,9 +208,26 @@ ngOnChanges(changes:SimpleChanges): void {
 
   } */
 
+  getBreedList(param){
+    const breedList = this.livestocksLists.find( e => e.livestockName  === param.data.lsName);
+    console.log(breedList.breeds.map( e => e.breedName));
+    return breedList.breeds.map( e => e.breedName);
+  }
+
+  cellSelector(param){
+      var breadRen = {
+        cellEditor: 'agRichSelectCellEditor',
+        cellRendererParams: {
+          values : this.getBreedList.bind(this)
+        }
+    };
+    return breadRen;
+  }
+
   onselectls(e) {
+    this.breedLists = e.livestockName;
     // console.log("in lsdata comp ",e);
-    this.BreedList(e);
+    // this.BreedList(e);
   }
 
   onselectbreed(e){
@@ -310,13 +331,14 @@ ngOnChanges(changes:SimpleChanges): void {
     let ownerId= this.oId;
 
     this.ownerService.creatOLivestock({lsName, breedName, lsCount, ownerId} ).subscribe(
-      res => {
-        this.rowData = [  res.CreateOwnLivestock ]
-      this.rowData.push(res.CreateOwnLivestock)
-      var result = this.gridApi.updateRowData({
-        add: [res.CreateOwnLivestock],
-      });
-        // console.log(this.rowData);
+      (res:any) => {
+        this.rowData = res.CreateOwnLivestock 
+      // this.rowData.push(res.CreateOwnLivestock)
+      // var result = this.gridApi.updateRowData({
+      //   add: [res.CreateOwnLivestock],
+      // });
+      console.log( this.rowData )
+        console.log(res.CreateOwnLivestock);
         this.observableService.setTosterMsg({
           type: "info",
           title: "Saved",

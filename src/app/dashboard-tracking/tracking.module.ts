@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms'
 import { AgGridModule } from 'ag-grid-angular';
 import { ClickOutsideModule  } from 'ng-click-outside';
-
+// import { AllModules } from 'ag-grid-enterprise';
 // graphql module
 import { GraphqlModule } from '../graphql.module'
 

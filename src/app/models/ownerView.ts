@@ -30,4 +30,5 @@ export interface ILsData {
   lsCount: String;
   ownerId: String;
   editmode: String;
+  breedList: any;
 }

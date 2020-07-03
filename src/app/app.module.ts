@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import { BreedSelectComponent } from './ag-grid-components/drop-box/breed-select
   imports: [
   
   // angular modules
+  AgGridModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

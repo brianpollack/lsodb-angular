@@ -4,8 +4,8 @@ import {
   ICellRendererParams,
   IAfterGuiAttachedParams,
 } from "ag-grid-community";
-import { ObservableService } from 'src/app/services/observable.service';
-import * as _ from 'lodash';
+import { ObservableService } from "src/app/services/observable.service";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-livestock-select",
@@ -25,51 +25,51 @@ import * as _ from 'lodash';
 })
 export class LivestockSelectComponent implements ICellRendererAngularComp {
   params: any;
-  livestocksLists:any;
+  livestocksLists: any;
   selected;
 
-  constructor(private observableService: ObservableService) {
-    
-  }
-
+  constructor(private observableService: ObservableService) {}
 
   refresh(params: any): boolean {
     return true;
   }
 
-
   agInit(params: ICellRendererParams): void {
-    // this.observableService.getls().subscribe(
-    //   res =>{
-    //     this.livestocksLists  = res;
-    //     console.log("list obs", this.livestocksLists);
-    //   }
-    //   );
+    this.params = params;
+
+    /* ******* on load data from back end ************** */
+
+    // get whole livestock list
     this.livestocksLists = this.observableService.getls();
-      this.params = params;
-      this.selected =  _.find(this.livestocksLists, (e) => e.livestockName === this.params.value);
-      if(this.selected && this.selected.id) {
-        // console.log(this.selected.id);
-        
-        this.lsSelected(this.selected.id);
-      }
+
+    // to show current row value of breed object
+
+    this.selected = _.find(
+      this.livestocksLists,
+      (e) => e.livestockName === this.params.value
+    );
+
+    if (this.selected && this.selected.id) {
+      this.lsSelected(this.selected.breeds);
+    }
+
   }
 
-  
-  onChange(e){
-    let livestockId = e.value.id
-    // console.log("ls change event",livestockId);
-    // this.lsSelected(livestockId);
-    this.params.data.lsName = e.value.livestockName
-    // this.params.onselecls(this.params.node)
+  onChange(e) {
+
+    let breedList= e.value.breeds;
+    this.lsSelected(breedList);
+    this.params.data.lsName = e.value.livestockName;
+    this.params.data.breedList = e.value.breeds;
+    // this.params.node.setData(this.params.data);
+    
   }
 
-  lsSelected(livestockId){
-    console.log("in ls drop cmp" ,livestockId)
-    this.params.onDrop(livestockId)
+  lsSelected(breedList) {
+    // this.params.onDrop(breedList); .next
+    //  this.observableService.setList(breedList)
   }
 
-  
   ngOnInit() {
     // this.observableService.getls().subscribe(
     //   res =>{

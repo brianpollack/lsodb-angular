@@ -73,15 +73,15 @@ export class ObservableService {
   /* livestock and breed list */
 
   getList(){
-    console.log("service breed", this.breedList)
-    return this.breedList;
-    // return this.loadList.asObservable();
+    // console.log("service breed", this.breedList)
+    // return this.breedList;
+    return this.loadList.asObservable();
   }
 
   setList(list){
-    console.log("service breedlist", list);
-    this.breedList = list
-    // return this.loadList.next(list);
+    // console.log("service breedlist", list);
+    // this.breedList = list
+    return this.loadList.next(list);
   }
 
 
