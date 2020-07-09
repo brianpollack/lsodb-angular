@@ -14,6 +14,7 @@ import { ObservableService } from "src/app/services/observable.service";
 import { IownerView } from "src/app/models/ownerView";
 import { OwnerDetailsService } from "src/app/services/graphql/owner-details.service";
 import { IOwner } from "./../../graphql/interface/ownerInterface";
+import { DiplayImgComponent } from "src/app/ag-grid-components/diplay-img/diplay-img.component";
 declare let L;
 
 @Component({
@@ -36,11 +37,14 @@ export class ViewTabComponent implements OnInit {
   private getRowNodeId;
   private editIndex;
   private editId;
+  private paginationPageSize;
+  private paginationNumberFormatter;
   private rowData: IOwner[];
-  //IownerView[] | 
+  //IownerView[] |
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent;
     gridButtonRendender: typeof GridButtonComponent;
+    diplayImgRender: typeof DiplayImgComponent;
   };
 
   constructor(
@@ -50,6 +54,11 @@ export class ViewTabComponent implements OnInit {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent,
       gridButtonRendender: GridButtonComponent,
+      diplayImgRender: DiplayImgComponent,
+    };
+
+    this.defaultColDef = {
+      autoHeight: true,
     };
 
     this.rowData = [
@@ -79,28 +88,42 @@ export class ViewTabComponent implements OnInit {
       },
     ];
 
-    this. rowSelection = "single"
+    this.rowSelection = "single";
+    this.paginationPageSize = 4
     this.getRowNodeId = (d): string => {
       return d.id;
     };
   }
 
-  onSelectionChanged(){
+  onSelectionChanged(event) {
+    // console.log(event);
     var selectedRows = this.gridApi.getSelectedRows();
-    
-    console.log("selected row",selectedRows);
-    let selectValue = {
-      oId:selectedRows[0].id,
-      oName: selectedRows[0].oName,
-      viewValue: true,
-      addValue: true,
-      tabName: "LSDATA"
+    // console.log("selected row", selectedRows);
+    let changetab
+    if (selectedRows.length === 0) {
+       changetab = {
+        viewValue: false,
+        addValue: false,
+        tabName: "LSDATA",
+      };
+    } else {
+       changetab = {
+        oId: selectedRows[0].id,
+        oName: selectedRows[0].oName,
+        viewValue: true,
+        addValue: true,
+        tabName: "LSDATA",
+      };
     }
 
-    this.trackTab.emit(selectValue);
+    // this.navigateTo.emit(changetab);
+    this.trackTab.emit(changetab);
   }
 
-  onRowSelected(event) {
+  /* onSelectionChanged(){
+  gridOptions.checkboxSelection
+} */
+  /* onRowSelected(event) {
     // console.log(event)
     let selectValue = {
       oId: event.data.id,
@@ -111,16 +134,14 @@ export class ViewTabComponent implements OnInit {
     }
 
     this.trackTab.emit(selectValue);
-  }
+  } */
   ngOnChanges(changes: SimpleChanges): void {
-    
     if (
       !changes.tabValue.firstChange &&
       Object.keys(changes.tabValue.currentValue).length > 1
     ) {
-
+      console.log("back tab");
       if (changes.tabValue.currentValue["fromTab"] === "ADD") {
-
         if (changes.tabValue.currentValue["edit"] === "NEW") {
           this.rowData.push(changes.tabValue.currentValue);
           var res = this.gridApi.updateRowData({
@@ -134,7 +155,6 @@ export class ViewTabComponent implements OnInit {
             this.gridApi.ensureIndexVisible(currentNode.rowIndex);
           }, 500);
         } else {
-
           if (this.editId === changes.tabValue.currentValue.id) {
             this.rowData[this.editIndex] = changes.tabValue.currentValue;
             var res = this.gridApi.updateRowData({
@@ -149,28 +169,22 @@ export class ViewTabComponent implements OnInit {
           setTimeout(() => {
             this.gridApi.ensureIndexVisible(currentNode.rowIndex);
           }, 500);
-         
         }
       }
-
-     
+      this.onLoad();
     }
 
-   
   }
 
-
   ngOnInit() {
-    this.dataService.findAllOwner().subscribe((res) => {
-      this.rowData = res.FindAllOwners;
-    });
+    this.onLoad();
+   
   }
 
   onGridReady(params) {
     this.gridApi = params.api; // To access the grids API
   }
 
- 
   columnDefs: ColDef[] = [
     {
       headerName: "Nos",
@@ -178,12 +192,17 @@ export class ViewTabComponent implements OnInit {
       valueGetter: "node.rowIndex + 1",
       width: 100,
       sortable: true,
+      checkboxSelection: function (params) {
+        console.log(params);
+        return true;
+      },
     },
     {
       headerName: "Image",
       field: "avatar",
       width: 200,
       sortable: true,
+      cellRenderer: "diplayImgRender",
     },
     {
       headerName: "Name",
@@ -299,7 +318,6 @@ export class ViewTabComponent implements OnInit {
 
   // ==== On edit button ========
   onEdit(editData: IOwner) {
-
     this.editId = editData.id;
     this.editIndex = _.findIndex(this.rowData, (obj) => {
       return obj.id === editData.id;
@@ -313,7 +331,7 @@ export class ViewTabComponent implements OnInit {
 
     this.navigateTo.emit(changetab);
   }
-//  =========== on Delete button ===============
+  //  =========== on Delete button ===============
   onDelete(deleteData: IOwner) {
     const deleteIndex = _.findIndex(this.rowData, (obj) => {
       return obj.id === deleteData.id;
@@ -330,8 +348,6 @@ export class ViewTabComponent implements OnInit {
 
     this.navigateTo.emit(changetab);
   } */
-
-  
 
   // =============== delete data ===========
   delete(rowIndex) {
@@ -361,9 +377,13 @@ export class ViewTabComponent implements OnInit {
   } */
 
   onLoad() {
-   
     this.dataService.findAllOwner().subscribe((res) => {
       this.rowData = res.FindAllOwners;
+      console.log( res.FindAllOwners);
     });
+
+    /* this.dataService.findAllOwner().subscribe((res) => {
+      this.rowData = res.FindAllOwners;
+    }); */
   }
 }

@@ -16,6 +16,7 @@ export const CREATE_OWNLS = gql`
 export const EDIT_OWNLS = gql`
   mutation EditOwnLivestock($ownLsId: String, $input: ParamsEditOwnLs) {
     EditOwnLivestock(ownLsId: $ownLsId, input: $input) {
+      id
       lsName
       breedName
       lsCount

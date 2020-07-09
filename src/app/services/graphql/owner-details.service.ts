@@ -44,10 +44,12 @@ export class OwnerDetailsService {
   // ======= find Owner ==========
   findAllOwner(): Observable<IFindAllOwners> {
     return this.apollo
-      .query<IFindAllOwners>({ query: FIND_ALL_OWNERS })
+      .query<IFindAllOwners>({ query: FIND_ALL_OWNERS,
+        fetchPolicy: 'network-only' 
+      })
       .pipe(map((result) => result.data));
   }
-
+  // fetchPolicy: "network-only",
   // ======= find one Owner ==========
   findOneOwner(id: string): Observable<IFindOwner> {
     return this.apollo
@@ -123,7 +125,7 @@ export class OwnerDetailsService {
       mutation: CREATE_OWNLS,
       variables: {input},
 
-      refetchQueries: [{ query: FIND_OWNWESLS }]
+      // refetchQueries: [{ query: FIND_ALL_OWNERS }]
     })
     .pipe(map((result) => result.data));
   }
@@ -133,7 +135,7 @@ export class OwnerDetailsService {
     .mutate<IEditOwnLsResponse>({
       mutation: EDIT_OWNLS,
       variables: {ownLsId, input},
-      refetchQueries: [{ query: FIND_OWNWESLS }]
+      // refetchQueries: [{ query: FIND_ALL_OWNERS }]
     })
     .pipe(map((result) => result.data));
   }
@@ -143,7 +145,7 @@ export class OwnerDetailsService {
     .mutate<IDeleteOwnLsResponse>({
       mutation: DELETE_OWNLS,
       variables: {input},
-      refetchQueries: [{ query: FIND_OWNWESLS }]
+      // refetchQueries: [{ query: FIND_ALL_OWNERS }]
     })
     .pipe(map((result) => result.data));
   }

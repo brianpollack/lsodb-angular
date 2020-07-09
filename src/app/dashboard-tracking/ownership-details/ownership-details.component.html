@@ -52,8 +52,8 @@
         Village
       </button> -->
     </div>
-    <!-- class="header-less-tabs" -->
-    <mat-tab-group #mtg >
+    <!--  -->
+    <mat-tab-group #mtg class="header-less-tabs">
       <mat-tab label="Tab 1">
         <app-view-tab [tabValue]="viewData"  (navigateTo)="changeTab($event)" (trackTab)="trackData($event)"></app-view-tab>
       </mat-tab>
@@ -61,7 +61,7 @@
         <app-add-tab [tabValue]="formData" (navigateTo)="changeTab($event)"></app-add-tab>
       </mat-tab>
       <mat-tab label="Tab 3">
-        <app-lsdata-tab [tabValue]="lsData" (navigateTo)="changeTab($event)"></app-lsdata-tab>
+        <app-lsdata-tab [tabValue]="lsData" (navigateTo)="changeTab($event)" (trackTab)="trackData($event)"></app-lsdata-tab>
       </mat-tab>
       <mat-tab label="Tab 4">
         <app-pincode-tab [tabValue]="pincodeData" (navigateTo)="changeTab($event)"></app-pincode-tab>

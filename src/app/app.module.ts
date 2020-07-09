@@ -18,6 +18,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { GridSelectComponentComponent } from './ag-grid-components/drop-box/grid-select-component.component';
 import { LivestockSelectComponent } from './ag-grid-components/drop-box/livestock-select/livestock-select.component';
 import { BreedSelectComponent } from './ag-grid-components/drop-box/breed-select/breed-select.component';
+import { DiplayImgComponent } from './ag-grid-components/diplay-img/diplay-img.component';
 // import { GridButtonComponent } from './ag-grid-components/grid-button/grid-button.component';
 // import { ActionBtnComponent } from './ag-grid-components/action-btn/action-btn.component';
 // import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
@@ -30,6 +31,7 @@ import { BreedSelectComponent } from './ag-grid-components/drop-box/breed-select
     GridSelectComponentComponent,
     LivestockSelectComponent,
     BreedSelectComponent,
+    DiplayImgComponent,
     // GridButtonComponent,
     // ActionBtnComponent,
     // UnderConstructionComponent

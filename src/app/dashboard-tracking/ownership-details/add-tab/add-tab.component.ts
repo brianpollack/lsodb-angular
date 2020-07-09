@@ -26,13 +26,14 @@ export class AddTabComponent implements OnInit, OnChanges {
   @Output() navigateTo = new EventEmitter<any>();
   @Input() tabValue: any;
 
-  private imageURL: string;
+  private imageURL: string = '/assets/img/nouser01.svg';
   private ownerForm: FormGroup;
   private expand = false;
   private idexpand = false;
   private pinVerified = "Not verify";
   private isEditMode = false;
   private ownerId;
+
   private ownerData: IParamsCreateOwner = {
     avatar: "",
     oName: "",
@@ -75,6 +76,7 @@ export class AddTabComponent implements OnInit, OnChanges {
       } else if (changes.tabValue.currentValue["fromTab"] === "VIEW") {
         
         this.editData(changes.tabValue.currentValue);
+
       }
     }
   }
@@ -285,15 +287,17 @@ export class AddTabComponent implements OnInit, OnChanges {
     const reader = new FileReader();
     reader.onload = () => {
       this.imageURL = reader.result as string;
-      // console.log(this.imageURL);
+
+      this.ownerForm.patchValue({
+        avatar: this.imageURL
+      });
+      this.ownerForm.get("avatar").updateValueAndValidity();
+      console.log(this.imageURL);
     };
     reader.readAsDataURL(file);
 
-    this.ownerForm.patchValue({
-      avatar: this.imageURL,
-    });
-    this.ownerForm.get("avatar").updateValueAndValidity();
-   
+    
+   console.log(this.ownerForm.get("avatar").value)
   }
 
   // ======== save submit data ===========
@@ -306,6 +310,7 @@ export class AddTabComponent implements OnInit, OnChanges {
         this.dataService.editOwner(this.ownerId, this.ownerData).subscribe(
          
           res => {
+            console.log(res.EditOwner)
             this.changeTab(res.EditOwner);
           }
         )

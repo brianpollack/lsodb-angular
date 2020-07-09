@@ -21,6 +21,7 @@ import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-butt
 import { GridSelectComponentComponent } from '../ag-grid-components/drop-box/grid-select-component.component';
 import { LivestockSelectComponent } from '../ag-grid-components/drop-box/livestock-select/livestock-select.component'
 import { BreedSelectComponent } from '../ag-grid-components/drop-box/breed-select/breed-select.component'
+import { DiplayImgComponent } from '../ag-grid-components/diplay-img/diplay-img.component'
 // toster modules
 import {ToasterModule, ToasterService} from 'angular2-toaster';
 
@@ -64,7 +65,7 @@ import { MapTabComponent } from './ownership-details/map-tab/map-tab.component'
     BrowserAnimationsModule,
     ReactiveFormsModule,
     ClickOutsideModule,
-    AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent, GridSelectComponentComponent, LivestockSelectComponent, BreedSelectComponent]),
+    AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent, GridSelectComponentComponent, LivestockSelectComponent, BreedSelectComponent, DiplayImgComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
     MasterModule

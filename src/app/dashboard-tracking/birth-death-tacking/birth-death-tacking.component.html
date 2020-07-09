@@ -1,3 +1,29 @@
-<p>birth-death-tacking works!</p>
+<div class="dashboard-grid">
+    <div class="ds-title">
+        <div class="t-col-1 ec-font-2">
+          <i class="fal fa-ram"> </i> Birth & Death Tracking 
+        </div>
+        <div class="separator mb-1"></div>
+      </div>
+      <div class="ds-content ">
+          <!-- class="header-less-tabs" -->
+          <div>
+              <button class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
+              (click)="mtg.selectedIndex = 0"
+              >Seach Map</button>
+              <button class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
+              (click)="mtg.selectedIndex = 1"
+              >Choose Owner</button>
+              <button class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
+              (click)="mtg.selectedIndex = 2"
+              >Track Birth & Death</button>
+          </div>
+          <mat-tab-group #mtg>
+            <mat-tab label="First"> Seach Map </mat-tab>
+            <mat-tab label="Second"> Choose owner  </mat-tab>
+            <mat-tab label="Third"> Track Birth & Death </mat-tab>
+          </mat-tab-group>
+      </div>
+</div>
 
 
