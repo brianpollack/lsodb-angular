@@ -38,7 +38,8 @@ import { AddTabComponent } from './ownership-details/add-tab/add-tab.component';
 import { LsdataTabComponent } from './ownership-details/lsdata-tab/lsdata-tab.component';
 import { PincodeTabComponent } from './ownership-details/pincode-tab/pincode-tab.component';
 // import { MapTapComponent } from './ownership-details/map-tap/map-tap.component';
-import { MapTabComponent } from './ownership-details/map-tab/map-tab.component'
+import { MapTabComponent } from './ownership-details/map-tab/map-tab.component';
+import { SearchPlaceComponent } from './birth-death-tacking/searchplace/search-place.component'
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { MapTabComponent } from './ownership-details/map-tab/map-tab.component'
     LsdataTabComponent,
     PincodeTabComponent,
     // MapTapComponent,
-    MapTabComponent
+    MapTabComponent,
+    SearchPlaceComponent
   ],
   imports: [
   

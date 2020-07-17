@@ -52,8 +52,8 @@ export class LoginpageComponent implements OnInit {
   // form group infomation 
   loginForm = this.fb.group({
 
-    loginEmail: ['user@mail.com', [Validators.required, CustomValidators.email]],
-    loginPassword: ['123456', [Validators.required, Validators.minLength(6)]]
+    loginEmail: ['user@gmail.com', [Validators.required, CustomValidators.email]],
+    loginPassword: ['user@123', [Validators.required, Validators.minLength(6)]]
   }
   )
 
