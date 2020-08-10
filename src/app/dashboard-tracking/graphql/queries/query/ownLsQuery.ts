@@ -9,6 +9,8 @@ import { Ownlivestock } from '../../interface/ownerInterface';
       lsName
       breedName
       lsCount
+      birth
+      death
       ownerId
     }
   }
@@ -21,6 +23,8 @@ import { Ownlivestock } from '../../interface/ownerInterface';
        lsName
       breedName
       lsCount
+      birth
+      death
       ownerId
     }
   }`
@@ -33,10 +37,13 @@ query FindAllOwnersLs($ownerId: String) {
       lsName
       breedName
       lsCount
-      
+      birth
+      death
     }
   }
-  `
+  `;
+
+  
 
   export interface IFindAllOLivestocks {
     FindAllOwnLivestocks: [Ownlivestock]

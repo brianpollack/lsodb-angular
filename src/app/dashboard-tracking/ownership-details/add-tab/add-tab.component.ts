@@ -16,6 +16,7 @@ import {
   IParamsCreateOwner,
 } from "./../../graphql/interface/ownerInterface";
 import { TosterType } from "src/app/enum/enums";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-add-tab",
@@ -26,7 +27,7 @@ export class AddTabComponent implements OnInit, OnChanges {
   @Output() navigateTo = new EventEmitter<any>();
   @Input() tabValue: any;
 
-  private imageURL: string = '/assets/img/nouser01.svg';
+  private imageURL: string = "/assets/img/nouser01.svg";
   private ownerForm: FormGroup;
   private expand = false;
   private idexpand = false;
@@ -42,8 +43,8 @@ export class AddTabComponent implements OnInit, OnChanges {
     landMark: "",
     pincode: "",
     poPlace: "",
-    lat: "",
-    log: "",
+    lat: null,
+    log: null,
     village: "",
     taluk: "",
     town: "",
@@ -54,29 +55,25 @@ export class AddTabComponent implements OnInit, OnChanges {
     pan: "",
     phone: "",
     email: "",
+    latR: null,
+    logR: null,
   };
   constructor(
     private fb: FormBuilder,
     private observableService: ObservableService,
     private dataService: OwnerDetailsService
-  ) {
-    
-  }
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (
       !changes.tabValue.firstChange &&
       Object.keys(changes.tabValue.currentValue).length > 1
     ) {
-     
       if (changes.tabValue.currentValue["fromTab"] === "MAP") {
-       
         this.mapData(changes.tabValue.currentValue);
       } else if (changes.tabValue.currentValue["fromTab"] === "PINCODE") {
         this.picodeData(changes.tabValue.currentValue);
       } else if (changes.tabValue.currentValue["fromTab"] === "VIEW") {
-        
         this.editData(changes.tabValue.currentValue);
-
       }
     }
   }
@@ -94,7 +91,6 @@ export class AddTabComponent implements OnInit, OnChanges {
           value: "",
           disabled: true,
         },
-       
       ],
       poPlace: [
         {
@@ -174,8 +170,8 @@ export class AddTabComponent implements OnInit, OnChanges {
     this.ownerData.landMark = "";
     this.ownerData.pincode = "";
     this.ownerData.poPlace = "";
-    this.ownerData.lat = "";
-    this.ownerData.log = "";
+    this.ownerData.lat = null;
+    this.ownerData.log = null;
     this.ownerData.village = "";
     this.ownerData.taluk = "";
     this.ownerData.town = "";
@@ -186,10 +182,11 @@ export class AddTabComponent implements OnInit, OnChanges {
     this.ownerData.pan = "";
     this.ownerData.phone = "";
     this.ownerData.email = "";
+    this.ownerData.latR = null;
+    this.ownerData.logR = null;
   }
 
   setLocation(data) {
-   
     this.ownerData.avatar = data.avatar;
     this.ownerData.oName = data.oName;
     this.ownerData.door = data.door;
@@ -209,8 +206,10 @@ export class AddTabComponent implements OnInit, OnChanges {
     this.ownerData.pan = data.pan;
     this.ownerData.phone = data.phone;
     this.ownerData.email = data.email;
-
-  
+    this.ownerData.latR = _.round(data.lat, 4);
+    this.ownerData.logR = _.round(data.log, 4);
+    
+    
   }
 
   picodeData(data) {
@@ -231,9 +230,11 @@ export class AddTabComponent implements OnInit, OnChanges {
       taluk: data.taluk,
       town: data.town,
       village: data.village,
-      lat: data.lat,
-      log: data.log,
+      lat: data.lat * 1,
+      log: data.log * 1,
     });
+
+   
   }
 
   editData(data) {
@@ -262,26 +263,23 @@ export class AddTabComponent implements OnInit, OnChanges {
 
     this.pincodeVerified();
     this.isEditMode = true;
-    this.ownerId = data.id
+    this.ownerId = data.id;
   }
 
   // ========== verify pincode ==========
   pincodeVerified() {
-    
     if (this.ownerForm.get("verifyPin").value === true)
       this.pinVerified = "Verify";
   }
 
   // ========== accotation =============
   expanded() {
-
     this.expand = !this.expand;
   }
   //================== Image Preview ================
   showPreview(event) {
     const file = (event.target as HTMLInputElement).files[0];
     // console.log(file);
-    
 
     // File Preview
     const reader = new FileReader();
@@ -289,37 +287,37 @@ export class AddTabComponent implements OnInit, OnChanges {
       this.imageURL = reader.result as string;
 
       this.ownerForm.patchValue({
-        avatar: this.imageURL
+        avatar: this.imageURL,
       });
       this.ownerForm.get("avatar").updateValueAndValidity();
-      console.log(this.imageURL);
+      // console.log(this.imageURL);
     };
     reader.readAsDataURL(file);
 
-    
-   console.log(this.ownerForm.get("avatar").value)
+    // console.log(this.ownerForm.get("avatar").value);
   }
 
   // ======== save submit data ===========
   onSubmit(ownerDirective) {
     if (this.ownerForm.valid) {
-      console.log(this.ownerForm.value);
+      // console.log(this.ownerForm.value);
       if (this.isEditMode) {
         this.setLocation(this.ownerForm.getRawValue());
 
-        this.dataService.editOwner(this.ownerId, this.ownerData).subscribe(
-         
-          res => {
-            console.log(res.EditOwner)
+        this.dataService
+          .editOwner(this.ownerId, this.ownerData)
+          .subscribe((res) => {
+            // console.log(res.EditOwner);
             this.changeTab(res.EditOwner);
-          }
-        )
-        
+          });
       } else {
+
         this.setLocation(this.ownerForm.getRawValue());
-        this.dataService.createOwner(this.ownerData).subscribe((res) => {
-         
+        // console.log(this.ownerForm.get("latR").value);
+        // console.log(this.ownerForm.get("logR").value);
         
+
+        this.dataService.createOwner(this.ownerData).subscribe((res) => {
           this.changeTab(res.CreateOwner);
         });
       }
@@ -331,18 +329,16 @@ export class AddTabComponent implements OnInit, OnChanges {
         message: "Please fill all required Data",
       });
     }
-
-   
   }
 
   changeTab(data) {
     let editmode = {
-      edit: "NEW"
-    }
-    if(this.isEditMode){
+      edit: "NEW",
+    };
+    if (this.isEditMode) {
       editmode = {
-        edit: "EDIT"
-      }
+        edit: "EDIT",
+      };
     }
     let changetab = {
       ...editmode,
@@ -353,7 +349,6 @@ export class AddTabComponent implements OnInit, OnChanges {
 
     // console.log(data)
     // let changetab = Object.assign({}, data,tabName );
-   
 
     this.navigateTo.emit(changetab);
   }

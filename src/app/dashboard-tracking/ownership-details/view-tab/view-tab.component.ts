@@ -71,8 +71,8 @@ export class ViewTabComponent implements OnInit {
         landMark: "",
         pincode: "",
         poPlace: "",
-        lat: "",
-        log: "",
+        lat: null ,
+        log: null,
         village: "",
         taluk: "",
         town: "",
@@ -84,6 +84,8 @@ export class ViewTabComponent implements OnInit {
         phone: "",
         email: "",
         totalLs: "",
+        latR: null,
+        logR: null
         // editmode: "",
       },
     ];
@@ -140,7 +142,7 @@ export class ViewTabComponent implements OnInit {
       !changes.tabValue.firstChange &&
       Object.keys(changes.tabValue.currentValue).length > 1
     ) {
-      console.log("back tab");
+      // console.log("back tab");
       if (changes.tabValue.currentValue["fromTab"] === "ADD") {
         if (changes.tabValue.currentValue["edit"] === "NEW") {
           this.rowData.push(changes.tabValue.currentValue);
@@ -190,10 +192,10 @@ export class ViewTabComponent implements OnInit {
       headerName: "Nos",
       // field: 'id',
       valueGetter: "node.rowIndex + 1",
-      width: 100,
+      width: 150,
       sortable: true,
       checkboxSelection: function (params) {
-        console.log(params);
+        // console.log(params);
         return true;
       },
     },
@@ -379,7 +381,7 @@ export class ViewTabComponent implements OnInit {
   onLoad() {
     this.dataService.findAllOwner().subscribe((res) => {
       this.rowData = res.FindAllOwners;
-      console.log( res.FindAllOwners);
+      // console.log( res.FindAllOwners);
     });
 
     /* this.dataService.findAllOwner().subscribe((res) => {

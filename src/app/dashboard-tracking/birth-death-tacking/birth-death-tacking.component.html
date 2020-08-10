@@ -7,7 +7,7 @@
   </div>
   <div class="ds-content">
     <!-- class="header-less-tabs" -->
-    <div class="d-none">
+    <div class="">
       <button
         class="btn btn-primary btn-sm ec-btn-space ec-btn-shadow"
         (click)="mtg.selectedIndex = 0"
@@ -29,10 +29,22 @@
     </div>
     <mat-tab-group #mtg>
       <mat-tab label="First">
-        <app-search-place></app-search-place>
+        <app-search-place
+          [tabData]="search"
+          (changeTab)="handleChange($event)"
+        ></app-search-place>
       </mat-tab>
-      <mat-tab label="Second"> Choose owner </mat-tab>
-      <mat-tab label="Third"> Track Birth & Death </mat-tab>
+      <mat-tab label="Second">
+        <app-find-owner
+          [tabData]="find"
+          (changeTab)="handleChange($event)"
+        ></app-find-owner>
+      </mat-tab>
+      <mat-tab label="Third">
+        <app-tracking-ls-birth-death 
+        [tabData]="track"
+        (changeTab)="handleChange($event)"></app-tracking-ls-birth-death>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>

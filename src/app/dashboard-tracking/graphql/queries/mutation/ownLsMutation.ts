@@ -34,6 +34,19 @@ export const DELETE_OWNLS = gql`
   }
 `;
 
+export const CREATE_LIVESPAN = gql`
+mutation CreatLivespan($input: ParamsCreatLivespan) {
+  CreatLivespan(input: $input) {
+    id
+    lsName
+    breedName
+    lsCount
+    birth
+    death
+    ownerId
+  }
+}`
+
 
 
 export interface ICreateOwnLsResponse {
@@ -44,4 +57,8 @@ export interface ICreateOwnLsResponse {
   }
   export interface IDeleteOwnLsResponse {
     DeleteOwnLivestock: Ownlivestock;
+  }
+
+  export interface ICreatLivespanResponse{
+    CreatLivespan: Ownlivestock;
   }

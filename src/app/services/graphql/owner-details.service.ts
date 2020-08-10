@@ -8,6 +8,8 @@ import {
   FIND_ALL_OWNERS,
   IFindOwner,
   FIND_OWNER,
+  ISearchOwner,
+  SEARCH_OWNER,
 } from "src/app/dashboard-tracking/graphql/queries/query/ownerQuery";
 import {
   IParamsCreateOwner,
@@ -15,6 +17,8 @@ import {
   IParamsCreateOwnLs,
   IParamsEditOwnLs,
   IParamsDeleteOwnLs,
+  IParamsSearchOwner,
+  IParamsCreatLivespan,
 } from "src/app/dashboard-tracking/graphql/interface/ownerInterface";
 import {
   ICreateOwner,
@@ -33,7 +37,7 @@ import {
   IFindOwnersLs,
   FIND_OWNWESLS,
 } from "src/app/dashboard-tracking/graphql/queries/query/ownLsQuery";
-import { ICreateOwnLsResponse, CREATE_OWNLS, IEditOwnLsResponse, EDIT_OWNLS, IDeleteOwnLsResponse, DELETE_OWNLS } from 'src/app/dashboard-tracking/graphql/queries/mutation/ownLsMutation';
+import { ICreateOwnLsResponse, CREATE_OWNLS, IEditOwnLsResponse, EDIT_OWNLS, IDeleteOwnLsResponse, DELETE_OWNLS, ICreatLivespanResponse, CREATE_LIVESPAN } from 'src/app/dashboard-tracking/graphql/queries/mutation/ownLsMutation';
 
 @Injectable({
   providedIn: "root",
@@ -55,6 +59,16 @@ export class OwnerDetailsService {
     return this.apollo
       .query<IFindOwner>({ query: FIND_OWNER, variables: { id: id } })
       .pipe(map((result) => result.data));
+  }
+
+  // ============ search =================
+  SearchOwner(input: IParamsSearchOwner): Observable<ISearchOwner> {
+    return this.apollo
+    .query<ISearchOwner>({
+      query: SEARCH_OWNER,
+      variables: { input: input },
+    })
+    .pipe(map((result) => result.data));
   }
 
   // ========== find all livestocks
@@ -144,6 +158,16 @@ export class OwnerDetailsService {
     return this.apollo
     .mutate<IDeleteOwnLsResponse>({
       mutation: DELETE_OWNLS,
+      variables: {input},
+      // refetchQueries: [{ query: FIND_ALL_OWNERS }]
+    })
+    .pipe(map((result) => result.data));
+  }
+
+  creatLivespan(input: IParamsCreatLivespan): Observable<ICreatLivespanResponse>{
+    return this.apollo
+    .mutate<ICreatLivespanResponse>({
+      mutation: CREATE_LIVESPAN,
       variables: {input},
       // refetchQueries: [{ query: FIND_ALL_OWNERS }]
     })

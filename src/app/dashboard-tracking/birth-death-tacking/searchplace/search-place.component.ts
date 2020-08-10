@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
 declare let places;
 declare let L;
 
@@ -8,7 +8,11 @@ declare let L;
   styleUrls: ["./search-place.component.scss"],
 })
 export class SearchPlaceComponent implements OnInit {
+
   @ViewChild("input", { static: false }) inputMap;
+
+  @Output() changeTab = new EventEmitter<any>();
+  @Input() tabData: any;
   private instance: any = null;
 
   // map variables
@@ -24,6 +28,16 @@ export class SearchPlaceComponent implements OnInit {
 
   constructor() {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    
+    if (
+      !changes.tabData.firstChange &&
+      Object.keys(changes.tabData.currentValue).length > 1
+      ){
+        console.log("navigated",changes);
+    } 
+
+  }
   ngOnInit() {
     setTimeout(() => {
       this.addMap();
@@ -78,13 +92,18 @@ export class SearchPlaceComponent implements OnInit {
     );
 
     this.marker = new L.marker([22.998851594142913, 78.44238281249999], {
-      // draggable: "true",
-      // autoPan: "true",
+      draggable: "true",
+      autoPan: "true",
+      click: "true",
       icon: this.markerIcon,
-    }).addTo(this.map);
+    })
+    .addTo(this.map)
+    // .on('click', this.mapClicked(event))
 
     this.map.setView([22.998851594142913, 78.44238281249999], 4);
     this.map.addLayer(osm);
+
+    this.marker.on("click", <LeafletMouseEvent>(e) => this.mapClicked(e))
   }
 
   autoComplete() {
@@ -132,28 +151,34 @@ export class SearchPlaceComponent implements OnInit {
     // this.map.panBy([200, 300]);
     this.map.setView([position.lat, position.lng], 13)
 
+   
   }
 
   onClear(e) {
     console.log("Clear",e);
   }
 
+  mapClicked(e) {
+    var position = e.latlng;
+   console.log("clicked", e);
 
-
-   addMarker(suggestion) {
-    this.marker = new L.marker( [suggestion.latlng.lat,suggestion.latlng.lng ], {opacity: .4});
-    console.log(this.marker);
-    this.marker.addTo(this.map);
-    // this.markers.push(this.marker);
+    this.marker.setLatLng(new L.LatLng(position.lat, position.lng));
+    this.map.panTo(new L.LatLng(position.lat, position.lng));
+   
+    this.navigateTab(position);
+   
   }
 
-   removeMarker(marker) {
-    this.map.removeLayer(marker);
-  }
+  navigateTab(data) {
 
-   findBestZoom() {
-    var featureGroup = L.featureGroup(this.markers);
-    this.map.fitBounds(featureGroup.getBounds().pad(0.5), {animate: false});
+    let tabDetails = {
+      lat: data.lat,
+      lng: data.lng,
+      tabName: "FIND"
+    }
+
+    this.changeTab.emit(tabDetails);
   }
+  
   
 }

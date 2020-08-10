@@ -1,0 +1,33 @@
+<div  class="d-flex justify-content-center mt-2">
+    <mat-card>
+        <!-- title starts -->
+    <div class="m-1 mb-2 d-flex">
+        <div class="d-flex  align-items-center w-100">
+          <p class="m-0 p-0 ec-font-1 font-weight-bold">
+           Select Owner to Track Birth & Death
+          </p>
+        </div>
+      </div>
+      <!-- title ends -->
+      <div class="ag-col d-flex justify-content-center">
+        <ag-grid-angular
+          style="width: 1050px; height: 351px;"
+          class="ag-theme-material"
+          [rowData]="rowData"
+          [columnDefs]="columnDefs"
+          [frameworkComponents]="frameworkComponents"
+          [defaultColDef]="defaultColDef"
+          [rowSelection]="rowSelection"
+          [modules]="modules"
+          [getRowNodeId]="getRowNodeId"
+          [pagination]="true"
+          [paginationPageSize]="paginationPageSize"
+          [paginationNumberFormatter]="paginationNumberFormatter"
+          (gridReady)="onGridReady($event)"
+          >
+          <!-- (selectionChanged)="onSelectionChanged($event)" -->
+          <!-- (rowSelected)="onRowSelected($event)" -->
+        </ag-grid-angular>
+      </div>
+    </mat-card>
+</div>

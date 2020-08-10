@@ -8,8 +8,8 @@ export interface IOwner {
     landMark: string;
     pincode: string;
     poPlace: string;
-    lat: string;
-    log: string;
+    lat: number;
+    log: number;
     village: string;
     taluk: string;
     town: string;
@@ -21,13 +21,17 @@ export interface IOwner {
     phone: string;
     email: string;
     totalLs: string;
+    latR: number;
+    logR: number;
   };
 
   export interface Ownlivestock {
     id: string
     lsName: string
     breedName: string
-    lsCount: string
+    lsCount: number
+    birth: number
+    death: number
     ownerId: string
   }
 
@@ -39,8 +43,8 @@ export interface IOwner {
     landMark: string;
     pincode: string;
     poPlace: string;
-    lat: string;
-    log: string;
+    lat: number;
+    log: number;
     village: string;
     taluk: string;
     town: string;
@@ -51,6 +55,8 @@ export interface IOwner {
     pan: string;
     phone: string;
     email: string;
+    latR: number;
+    logR: number;
     
   }
 
@@ -63,8 +69,8 @@ export interface IOwner {
     landMark: string;
     pincode: string;
     poPlace: string;
-    lat: string;
-    log: string;
+    lat: number;
+    log: number;
     village: string;
     taluk: string;
     town: string;
@@ -75,6 +81,8 @@ export interface IOwner {
     pan: string;
     phone: string;
     email: string;
+    latR: number;
+    logR: number;
     
   }
 
@@ -82,16 +90,30 @@ export interface IOwner {
     ownerId: string
     lsName: string
     breedName: string
-    lsCount: string
+    lsCount: number
   }
   export interface IParamsEditOwnLs {
     ownLsId: string
     ownerId: string
     lsName: string
     breedName: string
-    lsCount: string
+    lsCount: number
   }
   export interface IParamsDeleteOwnLs {
     ownLsId: string
     ownerId: string
+  }
+  export interface IParamsSearchOwner {
+    page : number
+    limit: number
+    latR: number
+    logR: number
+
+  }
+
+  export interface IParamsCreatLivespan {
+    ownLsId: String
+    ownerId: String
+    birth: number
+    death: number
   }
