@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-xl-center">
+  <mat-card class="m-3">
+    <div
+      class="t-col d-flex justify-content-center"
+    >
+    <p class="m-0 p-0 ec-font-2 font-weight-bold">
+      View Owner's Details
+    </p>
+    </div>
+
+    <div class="btn-col d-flex justify-content-start">
+      <button class="btn btn-outline-primary btn-xs m-3" (click)="onLoad()">
+        <i class="fal fa-spinner mr-2"></i>Load Owner's Detail
+      </button>
+      <!-- <button class="btn btn-outline-primary btn-xs m-3" (click)="onAddRow()">
+        <i class="fal fa-plus mr-2"></i>Add Owner's Detail
+      </button>
+      <button
+        class="btn btn-outline-primary btn-xs m-3"
+        (click)="LivestockTab()"
+      >
+        <i class="fal fa-tractor mr-2"></i>Track Owner's Livestock
+      </button> -->
+    </div>
+
+    <div class="ag-col d-flex justify-content-center">
+      <ag-grid-angular
+        style="width: 1050px; height: 351px;"
+        class="ag-theme-material"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [frameworkComponents]="frameworkComponents"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [modules]="modules"
+        [getRowNodeId]="getRowNodeId"
+        [pagination]="true"
+        [paginationPageSize]="paginationPageSize"
+        [paginationNumberFormatter]="paginationNumberFormatter"
+        (gridReady)="onGridReady($event)"
+        (selectionChanged)="onSelectionChanged($event)"
+        >
+        <!-- (rowSelected)="onRowSelected($event)" -->
+      </ag-grid-angular>
+    </div>
+
+    
+  </mat-card>
+</div>

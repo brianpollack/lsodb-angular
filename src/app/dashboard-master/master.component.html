@@ -18,6 +18,11 @@
       </div>
     </div>
 
+    <div >
+      <button class="btn text-primary" (click) = "logOut()">
+        <i class="fal fa-sign-out fa-2x font-weight-medium "></i>
+      </button>
+    </div>
    
   </div>
 </div>
@@ -26,7 +31,7 @@
 <div class="pages-grid">
     
             <div class="page-subgrid">
-            <div class="side-nav-grid "   >
+            <div class="side-nav-grid " *ngIf= "toggleBtn.checked" [@inOutAnimation]   >
                 <!-- *ngIf= "toggleBtn.checked" [@inOutAnimation] -->
                 <div class="ec-sidenav-container main-raised"  >
                   <div class="ec-sidenav-card">

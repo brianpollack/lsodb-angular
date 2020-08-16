@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { FindAllLivestockResponse, FindLivestockResponse, FIND_ALL_LIVESTOCK, FIND_LIVESTOCK } from 'src/app/dashboard-master/grphql/queries/query/livestockQuery';
 import { Livestock, ParamsCreateLivestock, ParamsEditLiveStock, ParamsDeleteLivestock } from './../../dashboard-master/grphql/interface/livestockInterface';
 import { CreateLivestockResponse, CREATE_LIVESTOCK, EDIT_LIVESTOCK, EditLivestockResponse, DeleteLivestockResponse, DELETE_LIVESTOCK } from 'src/app/dashboard-master/grphql/queries/mutation/livestockMutation';
@@ -97,6 +98,7 @@ export class MasterfileService {
       .pipe(map(result => result.data));
   }
 
+ 
   createBreed(input: IParamsCreateBreeds, livestockId: string): Observable<ICreateBreedResponse> {
     return this.apollo
       .mutate<ICreateBreedResponse>({
@@ -140,14 +142,12 @@ export class MasterfileService {
       variables: { livestockId }
     }
     );
-   
     data.FindAllLivestockBreeds = [...data.FindAllLivestockBreeds, CreateBreed ]
-
     store.writeQuery({
      query: FIND_ALL_LIVESTOCK_BREEDS,
      variables: { livestockId },
      data
-    })
+    });
 
   }
   // ****************** Breed service ends **********************

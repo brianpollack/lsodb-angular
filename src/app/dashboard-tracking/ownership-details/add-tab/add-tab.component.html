@@ -1,0 +1,285 @@
+<!-- <mat-card class="m-3"> -->
+<!-- <div class="row"> -->
+<div class="d-flex justify-content-center mt-2">
+  <mat-card class="c-border">
+    <div class="m-1 mb-2 d-flex">
+      <div class="d-flex w-10 justify-content-end" >
+        <button
+          type="button"
+          class="d-flex btn ec-font-1"
+          (click)="backTab()"
+        >
+          <i class="fal fa-chevron-circle-left d-flex align-self-center text-primary mr-2"></i>Back
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center w-100">
+        <p class="m-0 p-0 ec-font-2 font-weight-bold">
+          Enter Owner's Details
+        </p>
+      </div>
+     
+    </div>
+    <form
+      autocomplete="off"
+      [formGroup]="ownerForm"
+      #ownerDirective="ngForm"
+      (ngSubmit)="onSubmit(ownerDirective)"
+    >
+      <!-- -->
+      <!-- addres fields -->
+      <div class="f-row-1 m-2">
+        <div class="p-col-1 d-flex flex-column">
+          <!-- image card -->
+<!-- shadow-lg -->
+          <mat-card class="c-avata c-border  mt-4">
+            <div *ngIf="imageURL && imageURL !== ''">
+              <img [src]="imageURL" class="image" />
+            </div>
+          </mat-card>
+          <input
+            type="file"
+            id="uploadeImg"
+            accept="image/*"
+            (change)="showPreview($event)"
+            class="d-none"
+          />
+          <!-- 
+              formControlName="avatar"
+              [alt]="uploadForm.value.name"
+         -->
+
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-xs mt-4 d-flex justify-content-center"
+            onclick="document.getElementById('uploadeImg').click()"
+          >
+            Uploade Image
+          </button>
+        </div>
+        <div class="add-col-2">
+          <div class="add-row">
+            <div class="f-col-1 span-3">
+              <button type="submit" class="btn btn-outline-primary btn-xs">
+                <i class="fal fa-save"></i> Save
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-xs  ml-3 "
+                (click)="fakeData()"
+              >
+              Fake Data
+              </button>
+            </div>
+            <!-- name  -->
+            <div class="f-col-1">
+              Owner Name 
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="oName" />
+            </div>
+            
+            <!-- doorno -->
+            <div class="f-col-1">
+              Door No
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="door" />
+            </div>
+            <!-- street -->
+            <div class="f-col-1">
+              Street/Lane
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="street" />
+            </div>
+            <!-- landmark -->
+            <div class="f-col-1">
+              Landmark
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="landMark" />
+            </div>
+            <!-- pincode -->
+            <div class="f-col-1">
+              Pincode *
+            </div>
+            <div class="f-col-2">
+              <input type="text" formControlName="pincode" />
+              <input type="checkbox" class="ml-5" formControlName="verifyPin" />
+              <label class="ml-2">{{ pinVerified }}</label>
+            </div>
+            <div class="f-col-3">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-xs"
+                (click)="verifypin()"
+              >
+                Search Pincode
+              </button>
+            </div>
+            <!-- post office place -->
+            <div class="f-col-1">
+              Post office place
+            </div>
+            <div class="f-col-2 span-2 w-wide">
+              <input type="text" formControlName="poPlace" />
+            </div>
+
+            <div class="f-col-3 span-3 d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-xs"
+                (click)="location()"
+              >
+                Search Place on Map
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- separator title  -->
+      <div class="f-row-2 m-2">
+        <div><hr /></div>
+        <div class="d-flex align-items-center ec-font-1 font-weight-bolder">
+          Locate Owner's place On Map
+          <!-- <button type="button" class="btn ml-3 p-0">
+            <i
+              class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
+              (click)="expanded()"
+            ></i>
+          </button> -->
+        </div>
+        <div><hr /></div>
+      </div>
+      <!-- location fields [ngClass]="expand ? 'd-block ' : 'd-none'"  -->
+      <div class="f-row-3 m-2">
+        <div class="location-row-1 m-2">
+          <!-- Latitude -->
+          <div class="f-col-1">
+            Latitude
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="lat" />
+          </div>
+          <!-- Longitude -->
+          <div class="f-col-1">
+            Longitude
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="log" />
+          </div>
+          <!-- place -->
+          <div class="f-col-1">
+            Place/Village
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="village" />
+          </div>
+
+          <!-- town -->
+          <div class="f-col-1">
+            Town
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="town" />
+          </div>
+          <!-- taluk -->
+          <div class="f-col-1">
+            Taluk
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="taluk" />
+          </div>
+          <!-- district -->
+          <div class="f-col-1">
+            District
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="district" />
+          </div>
+          <!-- state -->
+          <div class="f-col-1">
+            State
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="state" />
+          </div>
+          <!-- country -->
+          <div class="f-col-1">
+            Country
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="country" />
+          </div>
+
+          <!-- save button -->
+          <!--  <div class="f-col-1 span-3">
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-xs ec-font-1"
+            >
+              <i class="fal fa-save"></i> Save
+            </button>
+          </div> -->
+        </div>
+      </div>
+      <!--  separator title Owner's verification ID -->
+      <div class="f-row-2 m-2">
+        <div><hr /></div>
+        <div class="d-flex align-items-center ec-font-1 font-weight-bolder">
+          Enter Owner's Goverment ID's
+        </div>
+        <div><hr/></div>
+        <div class="ec-font-1"><button
+          type="button"
+          class="btn btn-outline-primary btn-xs"
+          (click)="idexpand = !idexpand"
+        >
+          <!--  <i
+            class="fal fa-chevron-circle-down fa-1x text-primary hand-cursor"
+          ></i> -->
+          Click to Enter Data
+        </button></div>
+        <!--  <button type="button" aria-expanded="false" class="btn btn-link">click</button>
+        <div class="collapse">hello</div> -->
+      </div>
+      <!--  Owner's verification fields  -->
+      <div class="f-row-3 m-2" [ngClass]="idexpand ? 'd-block ' : 'd-none'">
+        <div class="location-row-1 m-2">
+          <!-- Adhaar -->
+          <div class="f-col-1">
+            Adhaar No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="adhaar" />
+          </div>
+          <!-- pan -->
+          <div class="f-col-1">
+            Pan No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="pan" />
+          </div>
+          <!-- contact no  -->
+          <div class="f-col-1">
+            Contact No
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="phone" />
+          </div>
+          <!-- email  -->
+          <div class="f-col-1">
+            email
+          </div>
+          <div class="f-col-2 w-wide">
+            <input type="text" formControlName="email" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<!-- </div> -->
+<!-- </mat-card> -->

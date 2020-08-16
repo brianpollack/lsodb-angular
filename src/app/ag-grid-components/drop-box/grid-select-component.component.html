@@ -1,0 +1,17 @@
+<!-- <button class="btn btn-outline-primary ec-font-0" (click)="dropBox()" >
+   drop
+    </button> -->
+
+
+    <mat-form-field>
+        <!-- <mat-label>Favorite food</mat-label> -->
+        <mat-select
+        (selectionChange)="onChange($event)"
+        >
+        <mat-option
+         *ngFor="let livestocksList of livestocksLists
+        " [value]="livestocksList?.id">
+            {{livestocksList?.livestockName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>

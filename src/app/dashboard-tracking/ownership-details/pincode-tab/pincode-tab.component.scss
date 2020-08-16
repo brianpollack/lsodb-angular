@@ -1,0 +1,13 @@
+.f-row-1{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+}
+
+.w-wide {
+    input {
+      width: 150px;
+      min-width: 150px;
+    }
+  }

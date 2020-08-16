@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from '../services/firebase/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reports',
@@ -32,7 +34,10 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class ReportsComponent implements OnInit {
 
   showMenu: boolean = false;
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -40,5 +45,15 @@ export class ReportsComponent implements OnInit {
   toggleMenu(btn) {
     console.log(btn.checked);
     btn.checked = !btn.checked;
+  }
+
+  logOut(){
+    
+    this.authService.SignOut().then(
+      res => {
+        this.router.navigateByUrl('/home');
+      }
+    )
+
   }
 }

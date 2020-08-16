@@ -20,6 +20,7 @@ export class ActionBtnComponent implements ICellRendererAngularComp  {
 
   edit() {
     this.params.onEdit(this.params.node.data)
+    // console.log(this.params.node.data)
   }
 
   delete() {

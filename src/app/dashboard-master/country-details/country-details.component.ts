@@ -11,7 +11,7 @@ export class CountryDetailsComponent implements OnInit {
   @ViewChild('mtg', { static: false }) tagIndex: any;
   tabs = {
     "COUNTRY": 0,
-    "STATE":1,
+    "STATE": 1,
     "DISTRICT": 2,
     "TALUK": 3,
     "TOWN": 4,
@@ -19,25 +19,24 @@ export class CountryDetailsComponent implements OnInit {
   }
   constructor(
     private observableService: ObservableService
-    ) { 
-      this.observableService.navigateTab().subscribe(
-        data => {
-          console.log(data)
-          this.tagIndex.selectedIndex = this.tabs[data.tabName];
-        }
-      )
+  ) {
+    this.observableService.navigateTab().subscribe(
+      data => {
+        this.tagIndex.selectedIndex = this.tabs[data.tabName];
+      }
+    )
 
-      this.observableService.navChange().subscribe(
-        data =>{
-          this.tagIndex.selectedIndex = this.tabs[data];
-        }
-      )
-    }
+    this.observableService.navChange().subscribe(
+      data => {
+        this.tagIndex.selectedIndex = this.tabs[data];
+      }
+    )
+  }
 
   ngOnInit() {
   }
 
-  
+
 
 
 

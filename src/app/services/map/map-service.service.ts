@@ -16,5 +16,8 @@ export class MapServiceService {
      return this.http.get(url)
    }
 
+   getClickLocation(url: string){
+     return this.http.get(url)
+   }
 
 }
