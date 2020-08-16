@@ -17,6 +17,7 @@ import {
 } from "./../../graphql/interface/ownerInterface";
 import { TosterType } from "src/app/enum/enums";
 import * as _ from "lodash";
+import * as faker from "faker";
 
 @Component({
   selector: "app-add-tab",
@@ -74,6 +75,8 @@ export class AddTabComponent implements OnInit, OnChanges {
         this.picodeData(changes.tabValue.currentValue);
       } else if (changes.tabValue.currentValue["fromTab"] === "VIEW") {
         this.editData(changes.tabValue.currentValue);
+        console.log(changes.tabValue.currentValue);
+        this.ownerId = changes.tabValue.currentValue.id
       }
     }
   }
@@ -279,11 +282,12 @@ export class AddTabComponent implements OnInit, OnChanges {
   //================== Image Preview ================
   showPreview(event) {
     const file = (event.target as HTMLInputElement).files[0];
-    // console.log(file);
+    console.log(file);
 
     // File Preview
     const reader = new FileReader();
     reader.onload = () => {
+      console.log(reader.result)
       this.imageURL = reader.result as string;
 
       this.ownerForm.patchValue({
@@ -300,18 +304,17 @@ export class AddTabComponent implements OnInit, OnChanges {
   // ======== save submit data ===========
   onSubmit(ownerDirective) {
     if (this.ownerForm.valid) {
-      // console.log(this.ownerForm.value);
+      console.log(this.ownerForm.value);
       if (this.isEditMode) {
+        console.log("Edit",this.isEditMode, this.ownerId)
         this.setLocation(this.ownerForm.getRawValue());
-
         this.dataService
           .editOwner(this.ownerId, this.ownerData)
           .subscribe((res) => {
-            // console.log(res.EditOwner);
+            console.log(res.EditOwner);
             this.changeTab(res.EditOwner);
           });
       } else {
-
         this.setLocation(this.ownerForm.getRawValue());
         // console.log(this.ownerForm.get("latR").value);
         // console.log(this.ownerForm.get("logR").value);
@@ -379,4 +382,25 @@ export class AddTabComponent implements OnInit, OnChanges {
 
     this.navigateTo.emit(changetab);
   }
+
+  fakeData() {
+    // faker = Faker('it_IT')
+    faker.locale = 'en_IND'
+    let door = _.toString( faker.random.number())
+    console.log(typeof(door));
+    
+    this.ownerForm.patchValue({
+      oName: faker.name.findName(),
+      door: door,
+      street: faker.address.streetAddress(),
+      landMark: faker.address.streetName()
+    });
+
+    this.imageURL = faker.image.avatar();
+    this.ownerForm.patchValue({
+      avatar: this.imageURL,
+    });
+    
+  }
+  
 }

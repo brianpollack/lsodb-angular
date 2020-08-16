@@ -164,12 +164,19 @@ export class OwnerDetailsService {
     .pipe(map((result) => result.data));
   }
 
-  creatLivespan(input: IParamsCreatLivespan): Observable<ICreatLivespanResponse>{
+  creatLivespan(input: IParamsCreatLivespan, ownerId): Observable<ICreatLivespanResponse>{
     return this.apollo
     .mutate<ICreatLivespanResponse>({
       mutation: CREATE_LIVESPAN,
       variables: {input},
-      // refetchQueries: [{ query: FIND_ALL_OWNERS }]
+      refetchQueries: [
+        {
+          query: FIND_OWNWESLS ,
+          variables: {ownerId}
+        }
+      ]
+
+     
     })
     .pipe(map((result) => result.data));
   }

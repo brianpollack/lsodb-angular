@@ -142,14 +142,12 @@ export class MasterfileService {
       variables: { livestockId }
     }
     );
-   
     data.FindAllLivestockBreeds = [...data.FindAllLivestockBreeds, CreateBreed ]
-
     store.writeQuery({
      query: FIND_ALL_LIVESTOCK_BREEDS,
      variables: { livestockId },
      data
-    })
+    });
 
   }
   // ****************** Breed service ends **********************

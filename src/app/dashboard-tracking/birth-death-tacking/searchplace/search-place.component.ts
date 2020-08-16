@@ -26,6 +26,13 @@ export class SearchPlaceComponent implements OnInit {
     // popupAnchor: [100, -100],
   });
 
+  private location = {
+    country:"",
+    state: "",
+    district: "",
+    place: "",
+
+  }
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -144,7 +151,10 @@ export class SearchPlaceComponent implements OnInit {
   handleOnChange(e){
     console.log("Change", e);
     var position = e.suggestion.latlng;
-    
+    this.location.country = e.suggestion.country
+    this.location.state = e.suggestion.administrative
+    this.location.district = e.suggestion.county
+    this.location.place = e.suggestion.name
 
     this.marker.setLatLng(new L.LatLng(position.lat, position.lng));
     this.map.panTo(new L.LatLng(position.lat, position.lng));
@@ -172,9 +182,11 @@ export class SearchPlaceComponent implements OnInit {
   navigateTab(data) {
 
     let tabDetails = {
+      
       lat: data.lat,
       lng: data.lng,
-      tabName: "FIND"
+      tabName: "FIND",
+      ...this.location
     }
 
     this.changeTab.emit(tabDetails);

@@ -61,6 +61,7 @@ export const SEARCH_OWNER = gql`
   query SearchOwner($input: ParamsSearchOwner) {
     SearchOwner(input: $input) {
       id
+      avatar
       oName
       door
       street

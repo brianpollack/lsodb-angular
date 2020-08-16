@@ -324,6 +324,7 @@ export class ViewTabComponent implements OnInit {
     this.editIndex = _.findIndex(this.rowData, (obj) => {
       return obj.id === editData.id;
     });
+    
 
     let changetab = {
       ...editData,

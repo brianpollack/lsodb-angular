@@ -8,6 +8,8 @@ export const CREATE_OWNLS = gql`
       lsName
       breedName
       lsCount
+      birth
+      death
       ownerId
     }
   }

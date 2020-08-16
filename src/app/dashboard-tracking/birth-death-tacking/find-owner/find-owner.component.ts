@@ -22,6 +22,10 @@ export class FindOwnerComponent implements OnInit {
   private paginationPageSize;
   private paginationNumberFormatter;
   private rowData: any;
+  private state;
+  private district;
+  private place;
+  // private name;
   frameworkComponents: {
     gridButtonRendender: typeof GridButtonComponent;
     diplayImgRender: typeof DiplayImgComponent;
@@ -56,6 +60,9 @@ export class FindOwnerComponent implements OnInit {
     ){
       if(changes.tabData.currentValue["tabName"] === "FIND"){
         this.getOwners(changes.tabData.currentValue);
+        // this.state = changes.tabData.currentValue.state;
+        // this.district = changes.tabData.currentValue.district;
+        // this.place = changes.tabData.currentValue.poPlace;
       }
     }
 
@@ -75,10 +82,6 @@ export class FindOwnerComponent implements OnInit {
       valueGetter: "node.rowIndex + 1",
       width: 150,
       sortable: true,
-      checkboxSelection: function (params) {
-        console.log(params);
-        return true;
-      },
     },
     {
       headerName: "Image",
@@ -138,11 +141,21 @@ export class FindOwnerComponent implements OnInit {
 
     console.log(sectedRow)
     let tabDetails = {
+      name: sectedRow.oName,
       id: sectedRow.id,
       lsDetails: sectedRow.ownLivestocks,
       tabName: "TRACK"
     }
 
     this.changeTab.emit(tabDetails);
+  }
+
+  backTab() {
+    let tabDetails = {
+      tabName: "SEARCH"
+    }
+
+    this.changeTab.emit(tabDetails);
+
   }
 }

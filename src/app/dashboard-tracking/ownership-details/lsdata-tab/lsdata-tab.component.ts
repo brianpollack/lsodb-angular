@@ -89,7 +89,7 @@ export class LsdataTabComponent implements OnInit {
         id: "",
         lsName: "",
         breedName: "",
-        lsCount: "",
+        lsCount: null,
         ownerId: "",
         editmode: "",
         breedList: [],
@@ -285,7 +285,7 @@ export class LsdataTabComponent implements OnInit {
       id: "",
       lsName: "",
       breedName: "",
-      lsCount: "",
+      lsCount: null,
       ownerId: "",
       editmode: "",
     };
@@ -334,7 +334,7 @@ export class LsdataTabComponent implements OnInit {
   createList(cellData) {
     let lsName = cellData.lsName;
     let breedName = cellData.breedName;
-    let lsCount = cellData.lsCount;
+    let lsCount = _.parseInt(cellData.lsCount);
     let ownerId = this.oId;
 
     this.ownerService

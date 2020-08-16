@@ -1,8 +1,17 @@
-import { Component, OnInit, Output, EventEmitter, Input, SimpleChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  SimpleChanges,
+} from "@angular/core";
 import { GridApi, ColDef } from "ag-grid-community";
 import { ActionBtnComponent } from "src/app/ag-grid-components/action-btn/action-btn.component";
 import { ObservableService } from "src/app/services/observable.service";
 import { OwnerDetailsService } from "src/app/services/graphql/owner-details.service";
+import * as _ from "lodash";
+import { GridButtonComponent } from 'src/app/ag-grid-components/grid-button/grid-button.component';
 
 @Component({
   selector: "app-tracking-ls-birth-death",
@@ -18,8 +27,10 @@ export class TrackingLsBirthDeathComponent implements OnInit {
   private gridColumnApi;
   private getRowNodeId;
   private rowData: any;
+  private name;
   frameworkComponents: {
     buttonRender: typeof ActionBtnComponent;
+    gridButtonRendender: typeof GridButtonComponent;
   };
   constructor(
     private observableService: ObservableService,
@@ -27,6 +38,7 @@ export class TrackingLsBirthDeathComponent implements OnInit {
   ) {
     this.frameworkComponents = {
       buttonRender: ActionBtnComponent,
+      gridButtonRendender: GridButtonComponent,
     };
 
     this.defaultColDef = {
@@ -40,23 +52,24 @@ export class TrackingLsBirthDeathComponent implements OnInit {
     };
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("navigated BD",changes);
+    console.log("navigated BD", changes);
     if (
       !changes.tabData.firstChange &&
       Object.keys(changes.tabData.currentValue).length > 1
-    ){
-      this.rowData = changes.tabData.currentValue.lsDetails
+    ) {
+      this.rowData = changes.tabData.currentValue.lsDetails;
       console.log(this.rowData);
+      this.name = changes.tabData.currentValue.name;
     }
-
   }
 
   ngOnInit() {}
 
   onGridReady(params) {
-    this.gridApi = params.api; // To access the grids API
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    // To access the grids API
   }
 
   columnDefs: ColDef[] = [
@@ -82,45 +95,66 @@ export class TrackingLsBirthDeathComponent implements OnInit {
     {
       headerName: "count",
       field: "lsCount",
-      width:150,
-      sortable: true
+      width: 150,
+      sortable: true,
     },
     {
       headerName: "Birth",
       field: "birth",
       width: 150,
-      
-      editable:true
+
+      editable: true,
     },
     {
       headerName: "Death",
       field: "death",
       width: 150,
-      editable:true
+      editable: true,
     },
     {
       headerName: "Action",
       width: 150,
-      cellRenderer: "buttonRender",
+      cellRenderer: "gridButtonRendender",
       cellRendererParams: {
-        btn: "save",
-        onEdit: this.onSave.bind(this),
-        onDelete: this.onDelete.bind(this),
+        btnName : "save",
+        // onEdit: this.onSave.bind(this),
+        onSelect: this.onSave.bind(this)
+        // onDelete: this.onDelete.bind(this),
       },
     },
   ];
 
-  onSave(data){
+  onSave(data) {
+    console.log(data);
+    let currentNode = this.gridApi.getRowNode(data.id);
+    let index = currentNode.rowIndex;
 
-    let ownLsId;
-    let ownerId;
-    let birth;
+    let ownLsId = data.id;
+    let ownerId = data.ownerId;
 
-    // this.dataService.creatLivespan().subscribe()
+    let birth = _.parseInt(data.birth);
+    let death = _.parseInt(data.death);
+
+    this.dataService
+      .creatLivespan({ ownLsId, ownerId, birth, death }, ownerId)
+      .subscribe((res) => {
+        this.rowData[index] = res.CreatLivespan;
+        let updateNode = this.gridApi.getRowNode(this.rowData[index].id);
+        updateNode.setDataValue("lsCount", res.CreatLivespan.lsCount);
+
+        this.observableService.setTosterMsg({
+          type: "info",
+          title: "Saved",
+          message: "Sucessfully saved",
+        });
+      });
   }
-  onDelete(data){
-    console.log(data)
+  backTab() {
+    let tabDetails = {
+      tabName: "FIND"
+    }
+
+    this.changeTab.emit(tabDetails);
+
   }
-
-
 }
