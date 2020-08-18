@@ -26,14 +26,18 @@ import {ToasterModule, ToasterService} from 'angular2-toaster';
 // tracking dashboard components
 import { ReportsComponent } from './reports.component';
 
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { ReportLivestockComponent } from './report-livestock/report-livestock.component';
+import { ReportOwnerComponent } from './report-owner/report-owner.component';
 
 
 
 @NgModule({
   declarations: [
     ReportsComponent,
-    routingComponents],
+    routingComponents,
+    ReportLivestockComponent,
+    ReportOwnerComponent],
   imports: [
     CommonModule,
     ReportsRoutingModule,
@@ -44,6 +48,7 @@ import { ReportsComponent } from './reports.component';
     AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
+    NgCircleProgressModule.forRoot(),
   ]
 })
 export class ReportsModule { }

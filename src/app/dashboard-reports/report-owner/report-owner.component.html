@@ -1,0 +1,224 @@
+<div class="page-content">
+  <div class="m-1 p-1 d-flex flex-row ml-3">
+    <!-- line chart -->
+    <div>
+      <mat-card>
+        <h4 class="d-flex justify-content-start">Distric wise Owner Report</h4>
+        <div class="chart-container">
+          <canvas id="canvas"></canvas>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="m-1 p-1 d-flex flex-column ml-3">
+    <div class="d-flex flex-row mb-3">
+      <!-- Total Owner's Livestock Count -->
+      <div class="ml-4">
+        <mat-card>
+          <h4 class="d-flex">
+            Owner Count By District
+          </h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Select District</mat-label>
+            <mat-select (selectionChange)="onChange($event)">
+              <mat-option
+                *ngFor="let districtList of districtLists"
+                [value]="districtList.ownCount"
+              >
+                {{ districtList.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <circle-progress
+            [percent]="dataCount"
+            [animation]="true"
+            [showSubtitle]="false"
+            [startFromZero]="true"
+            [titleFontWeight]="600"
+            [animationDuration]="2800"
+            [backgroundGradient]="true"
+            [backgroundColor]="'#a20707'"
+            [backgroundGradientStopColor]="'#d44949'"
+            [backgroundOpacity]="0"
+            [backgroundStrokeWidth]="19"
+            [backgroundPadding]="50"
+            [radius]="110"
+            [space]="10"
+            [unitsFontWeight]="500"
+            [outerStrokeWidth]="15"
+            [outerStrokeColor]="'#e2863b'"
+            [innerStrokeColor]="'#f6c797'"
+            [innerStrokeWidth]="5"
+            [titleColor]="'#0f0f0f'"
+            [titleFontSize]="44"
+            [titleFontWeight]="600"
+            [subtitleFontSize]="23"
+            [subtitleFontWeight]="500"
+            [imageHeight]="250"
+            [imageWidth]="250"
+            [animationDuration]="2800"
+            [showUnits]="false"
+            [showBackground]="false"
+          ></circle-progress>
+        </mat-card>
+      </div>
+      <!-- Total Birth Count -->
+
+      <div class="ml-4">
+        <mat-card>
+          <h4 class="d-flex justify-content-start">
+            Birth Count By District
+          </h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Select District</mat-label>
+            <mat-select (selectionChange)="birthChange($event)">
+              <mat-option
+                *ngFor="let districtList of districtLists"
+                [value]="districtList.birth"
+              >
+                {{ districtList.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <circle-progress
+            [percent]="birth"
+            [animation]="true"
+            [showSubtitle]="false"
+            [startFromZero]="true"
+            [titleFontWeight]="600"
+            [animationDuration]="2800"
+            [backgroundGradient]="true"
+            [backgroundColor]="'#a20707'"
+            [backgroundGradientStopColor]="'#d44949'"
+            [backgroundOpacity]="0"
+            [backgroundStrokeWidth]="19"
+            [backgroundPadding]="50"
+            [radius]="110"
+            [space]="10"
+            [unitsFontWeight]="500"
+            [outerStrokeWidth]="15"
+            [outerStrokeColor]="'#e7523e'"
+            [innerStrokeColor]="'#d6a779'"
+            [innerStrokeWidth]="5"
+            [titleColor]="'#0f0f0f'"
+            [titleFontSize]="44"
+            [titleFontWeight]="600"
+            [subtitleFontSize]="23"
+            [subtitleFontWeight]="500"
+            [imageHeight]="250"
+            [imageWidth]="250"
+            [animationDuration]="2800"
+            [showUnits]="false"
+            [showBackground]="false"
+          ></circle-progress>
+        </mat-card>
+      </div>
+    </div>
+    <!-- row two -->
+    <div class="d-flex flex-row mb-3">
+        <!-- Total Owner's Livestock Count -->
+        <div class="ml-4">
+          <mat-card>
+            <h4 class="d-flex">
+              Death Count By District
+            </h4>
+            <mat-form-field appearance="outline">
+              <mat-label>Select District</mat-label>
+              <mat-select (selectionChange)="deathChange($event)">
+                <mat-option
+                  *ngFor="let districtList of districtLists"
+                  [value]="districtList.ownCount"
+                >
+                  {{ districtList.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <circle-progress
+              [percent]="death"
+              [animation]="true"
+              [showSubtitle]="false"
+              [startFromZero]="true"
+              [titleFontWeight]="600"
+              [animationDuration]="2800"
+              [backgroundGradient]="true"
+              [backgroundColor]="'#a20707'"
+              [backgroundGradientStopColor]="'#d44949'"
+              [backgroundOpacity]="0"
+              [backgroundStrokeWidth]="19"
+              [backgroundPadding]="50"
+              [radius]="110"
+              [space]="10"
+              [unitsFontWeight]="500"
+              [outerStrokeWidth]="15"
+              [outerStrokeColor]="'#e2863b'"
+              [innerStrokeColor]="'#f6c797'"
+              [innerStrokeWidth]="5"
+              [titleColor]="'#0f0f0f'"
+              [titleFontSize]="44"
+              [titleFontWeight]="600"
+              [subtitleFontSize]="23"
+              [subtitleFontWeight]="500"
+              [imageHeight]="250"
+              [imageWidth]="250"
+              [animationDuration]="2800"
+              [showUnits]="false"
+              [showBackground]="false"
+            ></circle-progress>
+          </mat-card>
+        </div>
+        <!-- Total Birth Count -->
+  
+        <div class="ml-4 invisible">
+          <mat-card>
+            <h4 class="d-flex justify-content-start">
+              Birth Count By District
+            </h4>
+            <mat-form-field appearance="outline">
+              <mat-label>Select District</mat-label>
+              <mat-select (selectionChange)="birthChange($event)">
+                <mat-option
+                  *ngFor="let districtList of districtLists"
+                  [value]="districtList.birth"
+                >
+                  {{ districtList.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <circle-progress
+              [percent]="birth"
+              [animation]="true"
+              [showSubtitle]="false"
+              [startFromZero]="true"
+              [titleFontWeight]="600"
+              [animationDuration]="2800"
+              [backgroundGradient]="true"
+              [backgroundColor]="'#a20707'"
+              [backgroundGradientStopColor]="'#d44949'"
+              [backgroundOpacity]="0"
+              [backgroundStrokeWidth]="19"
+              [backgroundPadding]="50"
+              [radius]="110"
+              [space]="10"
+              [unitsFontWeight]="500"
+              [outerStrokeWidth]="15"
+              [outerStrokeColor]="'#e7523e'"
+              [innerStrokeColor]="'#d6a779'"
+              [innerStrokeWidth]="5"
+              [titleColor]="'#0f0f0f'"
+              [titleFontSize]="44"
+              [titleFontWeight]="600"
+              [subtitleFontSize]="23"
+              [subtitleFontWeight]="500"
+              [imageHeight]="250"
+              [imageWidth]="250"
+              [animationDuration]="2800"
+              [showUnits]="false"
+              [showBackground]="false"
+            ></circle-progress>
+          </mat-card>
+        </div>
+      </div>
+
+    
+  </div>
+</div>

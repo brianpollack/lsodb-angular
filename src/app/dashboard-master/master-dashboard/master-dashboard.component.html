@@ -1,24 +1,51 @@
 <div class="page-content">
-  <div>
-    <mat-card>
-      <div>
+  <div class="d-flex flex-row ml-3">
+    <div>
+      <mat-card>
+        <div>
+          <h4>Livestock and breed count</h4>
+          <div class="chart-container">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </mat-card>
+    </div>
 
-        <h4>Livestock and breed count</h4>
-        <div class="chart-container" >    
-          <canvas id="canvas"></canvas>    
-        </div>
-      </div>
-    </mat-card>
-    <mat-card>
-      <div>
+    <div class="ml-4">
+      <mat-card>
         <h4>User Count</h4>
-        <div class="chart-container" >    
-          <canvas id="donut"></canvas>    
-        </div>
-      </div>
-    </mat-card>
-    
+        <circle-progress
+          [percent]="10"
+          [animation]="true"
+          [showSubtitle]="false"
+          [startFromZero]="true"
+          [titleFontWeight]="600"
+          [animationDuration]="2800"
+          [backgroundGradient]="true"
+          [backgroundColor]="'#a20707'"
+          [backgroundGradientStopColor]="'#d44949'"
+          [backgroundOpacity]="0"
+          [backgroundStrokeWidth]="19"
+          [backgroundPadding]="50"
+          [radius]="110"
+          [space]="10"
+          [unitsFontWeight]="500"
+          [outerStrokeWidth]="15"
+          [outerStrokeColor]="'#e2863b'"
+          [innerStrokeColor]="'#f6c797'"
+          [innerStrokeWidth]="5"
+          [titleColor]="'#0f0f0f'"
+          [titleFontSize]="44"
+          [titleFontWeight]="600"
+          [subtitleFontSize]="23"
+          [subtitleFontWeight]="500"
+          [imageHeight]="250"
+          [imageWidth]="250"
+          [animationDuration]="2800"
+          [showUnits]="false"
+          [showBackground]="false"
+        ></circle-progress>
+      </mat-card>
+    </div>
   </div>
-  
-  
 </div>

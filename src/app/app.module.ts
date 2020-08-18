@@ -22,7 +22,7 @@ import { DiplayImgComponent } from './ag-grid-components/diplay-img/diplay-img.c
 // import { GridButtonComponent } from './ag-grid-components/grid-button/grid-button.component';
 // import { ActionBtnComponent } from './ag-grid-components/action-btn/action-btn.component';
 // import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +53,7 @@ import { DiplayImgComponent } from './ag-grid-components/diplay-img/diplay-img.c
     TrackingModule,
     ReportsModule,
     ToasterModule.forRoot(),
+    NgCircleProgressModule.forRoot()
   ],
   providers: [],
   exports: [

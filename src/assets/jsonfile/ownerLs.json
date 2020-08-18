@@ -1,0 +1,10 @@
+{
+    "totalLs":[
+        {"ls": "cow", "count": 3000, "breedcount": 47373 },
+        {"ls": "goat", "count": 1000, "breedcount": 57363 },
+        {"ls": "sheep", "count": 4637, "breedcount": 46738 },
+        {"ls": "donkey", "count": 789, "breedcount": 947 },
+        {"ls": "camel", "count": 10, "breedcount": 30 }
+
+    ]
+}

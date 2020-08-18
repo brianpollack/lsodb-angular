@@ -34,6 +34,8 @@ import { GridButtonComponent } from '../ag-grid-components/grid-button/grid-butt
 import { ToasterModule } from 'angular2-toaster';
 // app module 
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { ToasterModule } from 'angular2-toaster';
     AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
+    NgCircleProgressModule.forRoot(),
 
   ],
   exports: [

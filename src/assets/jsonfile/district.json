@@ -1,0 +1,227 @@
+
+{
+  "district":
+  [
+      {
+          "name":"Ariyalur",
+          "ownCount": 30,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Chengalpet",
+          "ownCount": 20,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Chennai",
+          "ownCount": 40,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Coimbatore",
+          "ownCount": 50,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Cuddalore",
+          "ownCount": 38,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Dharmapuri",
+          "ownCount": 86,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Dindigul",
+          "ownCount": 29,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Erode",
+          "ownCount": 58,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Kallakurichi",
+          "ownCount": 2,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Karur",
+          "ownCount": 20,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Krishnagiri",
+          "ownCount": 28,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Madurai",
+          "ownCount": 20,
+          "birth": 20,
+          "death": 10
+
+      },
+      {
+          "name":"Nagapattinam",
+          "ownCount": 30,
+          "birth": 20,
+          "death": 10
+        
+      },
+      {
+          "name":"Kanyakumari",
+          "ownCount": 40,
+          "birth": 20,
+          "death": 10
+        
+      },
+      {
+          "name":"Namakkal",
+          "ownCount": 50,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Perambalur",
+          "ownCount": 69,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Pudukottai",
+          "ownCount": 20,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Ramanathapuram",
+          "ownCount": 90,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Ranipet",
+          "ownCount": 58,
+          "birth": 2,
+          "death": 10
+      },
+      
+      {
+          "name":"Salem",
+          "ownCount": 62,
+          "birth": 8,
+          "death": 4
+      },
+      {
+          "name":"Sivagangai",
+          "ownCount": 19,
+          "birth": 2,
+          "death": 3
+      },
+      {
+          "name":"Tenkasi",
+          "ownCount": 48,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Thanjavur",
+          "ownCount": 26,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Theni",
+          "ownCount": 48,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Thiruvarur",
+          "ownCount": 28,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Thiruvallur",
+          "ownCount": 94,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Tuticorin",
+          "ownCount": 56,
+          "birth": 27,
+          "death": 10
+      },
+      {
+          "name":"Trichirappalli",
+          "ownCount": 84,
+          "birth": 21,
+          "death": 37
+      },
+      {
+          "name":"Thirunelveli",
+          "ownCount": 65,
+          "birth": 3,
+          "death": 27
+      },
+      {
+          "name":"Tirupathur",
+          "ownCount": 49,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Tiruppur",
+          "ownCount": 50,
+          "birth": 20,
+          "death": 10
+      },
+      {
+          "name":"Thiruvannamalai",
+          "ownCount": 30,
+          "birth": 2,
+          "death": 10
+      },
+      {
+          "name":"The Nilgiris",
+          "ownCount": 20,
+          "birth": 10,
+          "death": 10
+      },
+      {
+          "name":"Vellore",
+          "ownCount": 55,
+          "birth": 5,
+          "death": 30
+      },
+      {
+          "name":"Viluppuram",
+          "ownCount": 40,
+          "birth": 0,
+          "death": 10
+      },
+      {
+          "name":"Virudhunagar",
+          "ownCount": 24,
+          "birth": 12,
+          "death": 1
+      }
+      
+  ]
+}

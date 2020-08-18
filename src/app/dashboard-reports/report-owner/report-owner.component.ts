@@ -1,18 +1,37 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import { ReportService } from "src/app/services/report/report.service";
 import { Chart } from "chart.js";
 @Component({
-  selector: "app-tacking-dashboard",
-  templateUrl: "./tacking-dashboard.component.html",
-  styleUrls: ["./tacking-dashboard.component.scss"],
+  selector: 'app-report-owner',
+  templateUrl: './report-owner.component.html',
+  styleUrls: ['./report-owner.component.scss']
 })
-export class TackingDashboardComponent implements OnInit {
+export class ReportOwnerComponent implements OnInit {
   dataSource = [];
   lineChart = [];
   district: any;
   ownCount: any[];
 
-  constructor(private report: ReportService) {}
+  foods  = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
+  districtLists: any;
+  dataCount: any = 0;
+  birth: any;
+  death: any;
+  constructor(private report: ReportService) { 
+
+    this.districtLists = [
+      {
+        name: "",
+        ownCount: null,
+        birth: null,
+        death: null,
+      }
+    ]
+  }
 
   ngOnInit() {
     this.getData();
@@ -22,6 +41,7 @@ export class TackingDashboardComponent implements OnInit {
     this.report.getDistrict().subscribe(
       (res: any) => {
         this.dataSource = res.district;
+        this.districtLists = res.district;
         this.district = this.dataSource.map((x) => x.name);
         this.ownCount = this.dataSource.map((x) => x.ownCount);
         console.log(this.dataSource,this.district,this.ownCount);
@@ -81,4 +101,20 @@ export class TackingDashboardComponent implements OnInit {
 
    
   }
+
+  onChange(e){
+     this.dataCount = e.value
+     
+     console.log(this.dataCount)
+  }
+
+  birthChange(e){
+    this.birth = e.value
+  }
+
+  deathChange(e){
+    this.death = e.value
+  }
+
+
 }

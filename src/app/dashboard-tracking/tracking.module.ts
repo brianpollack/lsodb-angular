@@ -42,7 +42,7 @@ import { MapTabComponent } from './ownership-details/map-tab/map-tab.component';
 import { SearchPlaceComponent } from './birth-death-tacking/searchplace/search-place.component';
 import { FindOwnerComponent } from './birth-death-tacking/find-owner/find-owner.component';
 import { TrackingLsBirthDeathComponent } from './birth-death-tacking/tracking-ls-birth-death/tracking-ls-birth-death.component'
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   declarations: [
     routingComponents,
@@ -74,7 +74,8 @@ import { TrackingLsBirthDeathComponent } from './birth-death-tacking/tracking-ls
     AgGridModule.withComponents([ActionBtnComponent, GridButtonComponent, GridSelectComponentComponent, LivestockSelectComponent, BreedSelectComponent, DiplayImgComponent]),
     GraphqlModule,
     ToasterModule.forRoot(),
-    MasterModule
+    MasterModule,
+    NgCircleProgressModule.forRoot(),
     
   ]
 })
